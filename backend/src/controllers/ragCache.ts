@@ -27,7 +27,9 @@ function exactCacheKey(orgId: string, question: string): string {
 }
 
 export async function getCachedAnswer(orgId: string, question: string): Promise<string | null> {
-  return await redis.get(exactCacheKey(orgId, question));
+  const cached = await redis.get(exactCacheKey(orgId, question));
+  console.log(cached ? "[ragCache] hit" : "[ragCache] miss");
+  return cached;
 }
 
 export async function setCachedAnswer(orgId: string, question: string, answer: string): Promise<void> {

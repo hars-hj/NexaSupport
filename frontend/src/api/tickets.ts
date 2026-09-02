@@ -1,13 +1,16 @@
 import type { Ticket, TicketMessage } from '../types/ticket'
 import { apiFetch } from './client'
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'
+
 export function escalateTicket(sessionId: string, question: string) {
-  return fetch('/api/tickets/escalate', {
+  return fetch(`${BACKEND_URL}/api/tickets/escalate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ sessionId, question }),
   }).then(res => res.json())
 }
+
 
 export function getInbox() {
   return apiFetch<{ tickets: Ticket[] }>('/api/tickets/inbox')

@@ -1,5 +1,6 @@
 import type { JSX } from "react/jsx-runtime"
 
+// TODO: this hardcoded remote asset URL should be moved to config if it needs to change by environment.
 const VIDEO_URL =
   'https://res.cloudinary.com/dnc1cytc2/video/upload/v1781765865/Animate_this_image_into_an_ult_gwr_video_mvp_dhrk6l.mp4'
 

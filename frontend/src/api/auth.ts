@@ -77,17 +77,11 @@ export async function registerAdmin(
 }
 
 export async function createAgent(payload: { email: string; password: string }) {
-  const res = await fetch('/api/agents', {
+  return apiFetch<{ message?: string; [key: string]: unknown }>('/api/agents', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
     body: JSON.stringify(payload),
   })
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}))
-    throw new Error(data.message ?? 'Failed to create agent')
-  }
-  return res.json()
 }
 
 export async function fetchMe(): Promise<AuthUser> {

@@ -1,6 +1,11 @@
 const AUTH_STORAGE_KEY = 'nexasupport_auth'
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || ''
 
+// TODO: keep this direct fetch wrapper only for non-standard requests that still need a raw URL-based call.
+async function fetchWithBaseUrl(path: string, options: RequestInit = {}): Promise<Response> {
+  return fetch(`${BASE_URL}${path}`, options)
+}
+
 export interface StoredAuth {
   accessToken: string
   refreshToken: string
@@ -40,7 +45,7 @@ export async function refreshSession(): Promise<StoredAuth | null> {
     return null
   }
 
-  const res = await fetch(`${BASE_URL}/api/auth/refresh`, {
+  const res = await fetchWithBaseUrl('/api/auth/refresh', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ refreshToken: stored.refreshToken }),
@@ -84,14 +89,14 @@ export async function apiFetch<T>(
     headers.set('Authorization', `Bearer ${token}`)
   }
 
-  const res = await fetch(`${BASE_URL}${path}`, { ...options, headers })
+  const res = await fetchWithBaseUrl(path, { ...options, headers })
 
   if (res.status === 401) {
     const refreshed = await refreshSession()
     if (refreshed) {
       const retryHeaders = new Headers(options.headers)
       retryHeaders.set('Authorization', `Bearer ${refreshed.accessToken}`)
-      const retryRes = await fetch(`${BASE_URL}${path}`, {
+      const retryRes = await fetchWithBaseUrl(path, {
         ...options,
         headers: retryHeaders,
       })

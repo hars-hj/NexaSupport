@@ -4,6 +4,10 @@ import { GoogleGenAI } from "@google/genai/web";
 import { getTicketBySession } from './ticket.controller.js';
 import { handleCasualQuery } from './casualQueryHandler.js';
 import { getCachedAnswer, setCachedAnswer , getSemanticCachedAnswer, setSemanticCachedAnswer} from "./ragCache.js";
+import dotenv from "dotenv";
+dotenv.config();
+const InferenceModel = process.env.INFERENCE_MODEL;
+const EmbeddingsModel = process.env.EMBEDDINGS_MODEL;
 // --- Clients ---
 const embeddingsModel = new GoogleGenAI({
   apiKey: process.env.EMBEDING_API_KEY!,
@@ -45,7 +49,7 @@ export async function isSessionEscalated(orgId: string, sessionId: string): Prom
 export async function embedQuery(question: string): Promise<number[]> {
   console.log("[ragService] embedQuery started", { question });
   const result = await embeddingsModel.models.embedContent({
-    model: "gemini-embedding-001",
+    model: `${EmbeddingsModel}`,
     contents: question,
   });
 
@@ -72,7 +76,7 @@ async function rerankChunks(question: string, chunks: Chunk[]): Promise<Chunk[]>
   const scores = await Promise.all(
     chunks.map(async (chunk) => {
       const response = await groq.chat.completions.create({
-        model: "llama-3.3-70b-versatile",
+        model: `${InferenceModel}`,
         messages: [
           {
             role: "system",
@@ -214,7 +218,7 @@ ${context}`;
 
   console.log("[ragService] generateAnswer started", { question, chunkCount: chunks.length, historyLength: history.length });
   const response = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
+    model: `${InferenceModel}`,
     messages,
     max_tokens: 1024,
     temperature: 0.1,
@@ -329,6 +333,7 @@ export async function chat(orgId: string, sessionId: string, question: string): 
         latencyMs: Date.now() - start,
         escalated: false,
       });
+      console.log("[ragService] final response latency", { outcome: "cache hit", latencyMs: Date.now() - start });
       return { reply: cachedAnswer, escalated: false };
     }
 
@@ -361,6 +366,7 @@ export async function chat(orgId: string, sessionId: string, question: string): 
         latencyMs: Date.now() - start,
         escalated: false,
       });
+      console.log("[ragService] final response latency", { outcome: "semantic cache hit", latencyMs: Date.now() - start });
       return { reply: semanticHit.answer, escalated: false };
     }
 
@@ -427,7 +433,9 @@ export async function chat(orgId: string, sessionId: string, question: string): 
       escalated: false, 
     });
 
-    console.log("[ragService] chat completed", { latencyMs: Date.now() - start, escalated: false });
+    const finalLatencyMs = Date.now() - start;
+    console.log("[ragService] final response latency", { outcome: "cache miss", latencyMs: finalLatencyMs });
+    console.log("[ragService] chat completed", { latencyMs: finalLatencyMs, escalated: false });
     return { reply: answer, escalated: false };
   } catch (err) {
     console.error("[ragService] chat pipeline failed:", err);
