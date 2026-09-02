@@ -63,9 +63,9 @@ export function AdminPage() {
     <div className="flex min-h-full flex-col bg-background">
       <AdminHeader />
 
-      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8 md:px-6">
-        <div className="mb-8">
-          <h1 className="font-ui text-2xl font-medium text-text-primary">
+      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-6 sm:py-8 md:px-6">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="font-ui text-xl sm:text-2xl font-medium text-text-primary">
             Knowledge base
           </h1>
           <p className="mt-1 font-ui text-sm text-text-secondary">
@@ -84,9 +84,9 @@ export function AdminPage() {
           </p>
         )}
 
-        <section className="mb-8 rounded-xl border border-border bg-surface p-6">
+        <section className="mb-6 sm:mb-8 rounded-xl border border-border bg-surface p-4 sm:p-6">
           <div className="mb-4 flex items-center gap-2">
-            <Upload className="h-5 w-5 text-accent" strokeWidth={2} />
+            <Upload className="h-5 w-5 shrink-0 text-accent" strokeWidth={2} />
             <h2 className="font-ui text-base font-medium text-text-primary">
               Upload PDF
             </h2>
@@ -96,7 +96,7 @@ export function AdminPage() {
             and embedded for RAG search.
           </p>
           <label
-            className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-surface-muted px-6 py-10 transition-all duration-150 hover:border-accent hover:bg-accent-light/50 ${
+            className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-surface-muted px-4 py-8 sm:px-6 sm:py-10 text-center transition-all duration-150 hover:border-accent hover:bg-accent-light/50 ${
               isUploading ? 'pointer-events-none opacity-60' : ''
             }`}
           >
@@ -118,10 +118,10 @@ export function AdminPage() {
         </section>
 
         <section className="rounded-xl border border-border bg-surface">
-          <div className="flex items-center justify-between border-b border-border px-6 py-4">
-            <div className="flex items-center gap-2">
-              <FileText className="h-5 w-5 text-accent" strokeWidth={2} />
-              <h2 className="font-ui text-base font-medium text-text-primary">
+          <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-4 sm:px-6">
+            <div className="flex min-w-0 items-center gap-2">
+              <FileText className="h-5 w-5 shrink-0 text-accent" strokeWidth={2} />
+              <h2 className="truncate font-ui text-base font-medium text-text-primary">
                 Current files
               </h2>
             </div>
@@ -129,19 +129,19 @@ export function AdminPage() {
               type="button"
               onClick={loadFiles}
               disabled={isLoadingFiles}
-              className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 font-ui text-xs text-text-secondary transition-all duration-150 hover:bg-accent-light hover:text-accent disabled:opacity-50"
+              className="flex shrink-0 items-center gap-1.5 rounded-lg px-2 py-1.5 font-ui text-xs text-text-secondary transition-all duration-150 hover:bg-accent-light hover:text-accent disabled:opacity-50"
             >
               <RefreshCw className="h-3.5 w-3.5" strokeWidth={2} />
-              Refresh
+              <span className="hidden sm:inline">Refresh</span>
             </button>
           </div>
 
           {isLoadingFiles ? (
-            <div className="px-6 py-10 text-center font-ui text-sm text-text-hint">
+            <div className="px-4 py-10 text-center font-ui text-sm text-text-hint sm:px-6">
               Loading files…
             </div>
           ) : files.length === 0 ? (
-            <div className="px-6 py-10 text-center">
+            <div className="px-4 py-10 text-center sm:px-6">
               <FileText
                 className="mx-auto mb-3 h-10 w-10 text-text-hint"
                 strokeWidth={1.5}
@@ -158,16 +158,16 @@ export function AdminPage() {
               {files.map((file) => (
                 <li
                   key={file.documentId}
-                  className="flex items-center gap-4 px-6 py-4 transition-all duration-150 hover:bg-sidebar-hover"
+                  className="flex items-center gap-3 px-4 py-4 transition-all duration-150 hover:bg-sidebar-hover sm:gap-4 sm:px-6"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-light">
-                    <FileText className="h-5 w-5 text-accent" strokeWidth={2} />
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent-light sm:h-10 sm:w-10">
+                    <FileText className="h-4.5 w-4.5 text-accent sm:h-5 sm:w-5" strokeWidth={2} />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-ui text-sm font-medium text-text-primary">
                       {file.filename}
                     </p>
-                    <p className="font-ui text-xs text-text-hint">
+                    <p className="truncate font-ui text-xs text-text-hint">
                       {file.chunkCount} chunks · ID {file.documentId.slice(0, 8)}…
                     </p>
                   </div>
