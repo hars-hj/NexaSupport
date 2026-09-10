@@ -300,65 +300,92 @@ export function AnalyticsPage() {
               </div>
             </div>
 
-            {/* bottom row */}
-            <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
-
-              {/* top questions */}
-              <div className="rounded-xl border border-border bg-surface overflow-hidden">
-                <div className="flex items-center justify-between border-b border-border px-5 py-4">
+            {/* top questions (full width) */}
+            <div className="mb-6 rounded-xl border border-border bg-surface overflow-hidden">
+              <div className="flex items-center justify-between border-b border-border px-5 py-4">
+                <div className="flex items-center gap-2">
                   <p className="font-ui text-sm font-medium text-text-primary">Top questions</p>
-                  <span className="font-ui text-xs text-text-hint">Last 7 days</span>
+                  {data?.top_questions?.length ? (
+                    <span className="rounded-full bg-surface-muted px-2 py-0.5 font-ui text-xs text-text-hint">
+                      {data.top_questions.length} tracked
+                    </span>
+                  ) : null}
                 </div>
-                {data?.top_questions?.length ? (
+                <span className="font-ui text-xs text-text-hint">Last 7 days</span>
+              </div>
+
+              {data?.top_questions?.length ? (
+                <div
+                  className={`grid grid-cols-1 ${
+                    data.top_questions.length > 1
+                      ? 'lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-border'
+                      : ''
+                  }`}
+                >
                   <ul className="divide-y divide-border">
-                    {data.top_questions.map((q, i) => (
-                      <li key={i} className="flex items-center gap-3 px-5 py-3">
-                        <span className="font-ui text-xs text-text-hint w-4 shrink-0">{i + 1}</span>
-                        <span className="font-ui text-xs text-text-secondary flex-1 truncate">{q.question}</span>
-                        <div className="flex items-center gap-2 shrink-0">
-                          <div className="h-1.5 w-16 rounded-full bg-surface-muted overflow-hidden">
+                    {data.top_questions.slice(0, Math.ceil(data.top_questions.length / 2)).map((q, i) => (
+                      <li
+                        key={i}
+                        className="flex items-center gap-3 px-5 py-3 transition-colors hover:bg-surface-muted/40"
+                      >
+                        <span
+                          className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full font-ui text-xs ${
+                            i === 0
+                              ? 'bg-accent/15 font-semibold text-accent'
+                              : 'bg-surface-muted font-normal text-text-hint'
+                          }`}
+                        >
+                          {i + 1}
+                        </span>
+                        <span className="flex-1 truncate font-ui text-xs text-text-secondary" title={q.question}>
+                          {q.question}
+                        </span>
+                        <div className="flex shrink-0 items-center gap-2.5">
+                          <div className="h-1.5 w-20 sm:w-28 overflow-hidden rounded-full bg-surface-muted">
                             <div
-                              className="h-full rounded-full bg-accent"
+                              className="h-full rounded-full bg-accent transition-all duration-300"
                               style={{ width: `${Math.round((q.count / maxCount) * 100)}%` }}
                             />
                           </div>
-                          <span className="font-ui text-xs text-text-hint w-6 text-right">{q.count}</span>
+                          <span className="w-8 text-right font-mono font-ui text-xs text-text-hint">{q.count}</span>
                         </div>
                       </li>
                     ))}
                   </ul>
-                ) : (
-                  <p className="px-5 py-8 text-center font-ui text-xs text-text-hint">No data yet</p>
-                )}
-              </div>
 
-              {/* pipeline health */}
-              <div className="rounded-xl border border-border bg-surface overflow-hidden">
-                <div className="border-b border-border px-5 py-4">
-                  <p className="font-ui text-sm font-medium text-text-primary">Pipeline health</p>
+                  {data.top_questions.length > 1 ? (
+                    <ul className="divide-y divide-border">
+                      {data.top_questions.slice(Math.ceil(data.top_questions.length / 2)).map((q, i) => {
+                        const rank = Math.ceil(data.top_questions.length / 2) + i + 1
+                        return (
+                          <li
+                            key={rank}
+                            className="flex items-center gap-3 px-5 py-3 transition-colors hover:bg-surface-muted/40"
+                          >
+                            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-surface-muted font-ui text-xs font-normal text-text-hint">
+                              {rank}
+                            </span>
+                            <span className="flex-1 truncate font-ui text-xs text-text-secondary" title={q.question}>
+                              {q.question}
+                            </span>
+                            <div className="flex shrink-0 items-center gap-2.5">
+                              <div className="h-1.5 w-20 sm:w-28 overflow-hidden rounded-full bg-surface-muted">
+                                <div
+                                  className="h-full rounded-full bg-accent transition-all duration-300"
+                                  style={{ width: `${Math.round((q.count / maxCount) * 100)}%` }}
+                                />
+                              </div>
+                              <span className="w-8 text-right font-mono font-ui text-xs text-text-hint">{q.count}</span>
+                            </div>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  ) : null}
                 </div>
-                <ul className="divide-y divide-border">
-                  {[
-                    { label: 'Vector search', status: 'active', note: 'pgvector + cosine' },
-                    { label: 'BM25 keyword index', status: 'active', note: 'fts tsvector' },
-                    { label: 'Hybrid RRF fusion', status: 'active', note: 'k = 60' },
-                    { label: 'LLM re-ranking', status: 'active', note: 'llama-3.3-70b' },
-                    { label: 'Embedding model', status: 'active', note: 'gemini-embedding-001' },
-                    { label: 'Conversation memory', status: 'active', note: 'last 10 turns' },
-                  ].map(item => (
-                    <li key={item.label} className="flex items-center justify-between px-5 py-3">
-                      <div>
-                        <p className="font-ui text-xs text-text-primary">{item.label}</p>
-                        <p className="font-ui text-xs text-text-hint">{item.note}</p>
-                      </div>
-                      <span className="inline-flex items-center gap-1 rounded-full bg-green-50 dark:bg-green-950/30 px-2 py-0.5 font-ui text-xs text-green-600 dark:text-green-400">
-                        <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                        {item.status}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              ) : (
+                <p className="px-5 py-8 text-center font-ui text-xs text-text-hint">No data yet</p>
+              )}
             </div>
 
             {/* recent queries table */}

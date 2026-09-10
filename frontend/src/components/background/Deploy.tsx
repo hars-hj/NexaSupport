@@ -21,7 +21,7 @@ const steps: Step[] = [
   {
     label: 'Step 03',
     title: 'Embed',
-    desc: 'One line of JS, or use our pre-built widgets for Intercom, Slack, WhatsApp, and email.',
+    desc: 'Drop in a single line of JS to embed the chat widget anywhere on your site.',
   },
 ]
 

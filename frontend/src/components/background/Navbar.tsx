@@ -7,10 +7,8 @@ interface NavbarProps {
 }
 
 const NAV_LINKS: { href: string; label: string }[] = [
-  { href: "#why", label: "Why Nexa" },
-  { href: "#rag", label: "Our RAG" },
-  { href: "#deploy", label: "How it works" },
-  { href: "#", label: "Pricing" },
+  { href: "#why", label: "Features" },
+  { href: "#how", label: "How it works" },
 ]
 
 export default function Navbar({ onStartFree }: NavbarProps): JSX.Element {
@@ -31,7 +29,7 @@ export default function Navbar({ onStartFree }: NavbarProps): JSX.Element {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0f2830]/90 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none">
       <div className="h-[68px] flex items-center px-4 sm:px-6 lg:px-15 gap-4 lg:gap-9">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2.5 no-underline text-white font-semibold text-[15px] tracking-tight shrink-0">
+        <a href="/" className="flex items-center gap-2.5 no-underline text-white font-semibold text-[15px] tracking-tight shrink-0">
           <div className="w-[30px] h-[30px] bg-teal-dark rounded-lg flex items-center justify-center shrink-0">
             <svg
               className="w-[15px] h-[15px]"
@@ -72,7 +70,7 @@ export default function Navbar({ onStartFree }: NavbarProps): JSX.Element {
             onClick={handleStartFree}
             className="bg-white text-[#0f2830] border-none px-5 py-2 rounded-full text-[13px] font-semibold cursor-pointer transition-opacity hover:opacity-90 whitespace-nowrap"
           >
-            Start free ↗
+            Get Started ↗
           </button>
         </div>
 
@@ -128,7 +126,7 @@ export default function Navbar({ onStartFree }: NavbarProps): JSX.Element {
               onClick={handleStartFree}
               className="bg-white text-[#0f2830] border-none px-5 py-2.5 rounded-full text-[13px] font-semibold cursor-pointer transition-opacity hover:opacity-90 w-full"
             >
-              Start free ↗
+              Get Started ↗
             </button>
           </div>
         </div>
