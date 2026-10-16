@@ -93,7 +93,7 @@ export async function getAgents(req: AuthenticatedRequest, res: Response) {
   if (!orgId) {
     return res.status(403).json({ error: 'No organization found for this admin' });
   }
- console.log("Fetching agents for organization ID:", orgId);
+
   const { data, error } = await supabaseAdmin
     .from('organization_members')
     .select(`

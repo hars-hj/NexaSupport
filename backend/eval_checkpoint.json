@@ -1,0 +1,332 @@
+{
+  "q_01": {
+    "query_id": "q_01",
+    "query_type": "keyword_dense",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 2197,
+      "rerankMs": 1067,
+      "genMs": 819
+    },
+    "tokens": {
+      "jinaTokens": 1170,
+      "genTokens": 1131,
+      "judgeTokens": 1978
+    }
+  },
+  "q_06": {
+    "query_id": "q_06",
+    "query_type": "semantic_paraphrase",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1912,
+      "rerankMs": 550,
+      "genMs": 1525
+    },
+    "tokens": {
+      "jinaTokens": 1780,
+      "genTokens": 1393,
+      "judgeTokens": 2602
+    }
+  },
+  "q_11": {
+    "query_id": "q_11",
+    "query_type": "hard_negative_trap",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1597,
+      "rerankMs": 781,
+      "genMs": 2608
+    },
+    "tokens": {
+      "jinaTokens": 1462,
+      "genTokens": 1198,
+      "judgeTokens": 2250
+    }
+  },
+  "q_16": {
+    "query_id": "q_16",
+    "query_type": "multi_hop_synthesis",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1453,
+      "rerankMs": 526,
+      "genMs": 1476
+    },
+    "tokens": {
+      "jinaTokens": 1393,
+      "genTokens": 1395,
+      "judgeTokens": 2509
+    }
+  },
+  "q_21": {
+    "query_id": "q_21",
+    "query_type": "situational_applied",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1708,
+      "rerankMs": 556,
+      "genMs": 2561
+    },
+    "tokens": {
+      "jinaTokens": 1187,
+      "genTokens": 1162,
+      "judgeTokens": 2066
+    }
+  },
+  "q_26": {
+    "query_id": "q_26",
+    "query_type": "keyword_dense",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0,
+    "latency": {
+      "retrievalMs": 1331,
+      "rerankMs": 566,
+      "genMs": 1441
+    },
+    "tokens": {
+      "jinaTokens": 1412,
+      "genTokens": 1520,
+      "judgeTokens": 2402
+    }
+  },
+  "q_31": {
+    "query_id": "q_31",
+    "query_type": "semantic_paraphrase",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1683,
+      "rerankMs": 504,
+      "genMs": 1571
+    },
+    "tokens": {
+      "jinaTokens": 1621,
+      "genTokens": 1509,
+      "judgeTokens": 3037
+    }
+  },
+  "q_36": {
+    "query_id": "q_36",
+    "query_type": "hard_negative_trap",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0,
+    "latency": {
+      "retrievalMs": 1669,
+      "rerankMs": 644,
+      "genMs": 1506
+    },
+    "tokens": {
+      "jinaTokens": 1335,
+      "genTokens": 1487,
+      "judgeTokens": 2587
+    }
+  },
+  "q_41": {
+    "query_id": "q_41",
+    "query_type": "multi_hop_synthesis",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.5,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.85,
+    "latency": {
+      "retrievalMs": 1262,
+      "rerankMs": 563,
+      "genMs": 2156
+    },
+    "tokens": {
+      "jinaTokens": 1636,
+      "genTokens": 1897,
+      "judgeTokens": 2877
+    }
+  },
+  "q_46": {
+    "query_id": "q_46",
+    "query_type": "situational_applied",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1207,
+      "rerankMs": 612,
+      "genMs": 961
+    },
+    "tokens": {
+      "jinaTokens": 1409,
+      "genTokens": 1154,
+      "judgeTokens": 2211
+    }
+  }
+}

@@ -132,7 +132,7 @@ export function SettingsPage() {
     if (!org) return
 
 
-    const snippet = `<script src="${backendUrl}/widget.js" data-widget-key="${org.widget_key}"></script>`;
+    const snippet = `<script src="${backendUrl}/widget.js" data-org="${org.widget_key}"></script>`;
     await navigator.clipboard.writeText(snippet)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)

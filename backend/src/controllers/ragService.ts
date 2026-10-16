@@ -1,168 +1,75 @@
-import { Groq } from "groq-sdk";
-import { supabaseAdmin } from '../lib/supabaseClient.js';
-import { GoogleGenAI } from "@google/genai/web";
-import { getTicketBySession } from './ticket.controller.js';
-import { handleCasualQuery } from './casualQueryHandler.js';
-import { getCachedAnswer, setCachedAnswer , getSemanticCachedAnswer, setSemanticCachedAnswer} from "./ragCache.js";
-import dotenv from "dotenv";
-dotenv.config();
-const InferenceModel = process.env.INFERENCE_MODEL;
-const EmbeddingsModel = process.env.EMBEDDINGS_MODEL;
-// --- Clients ---
-const embeddingsModel = new GoogleGenAI({
-  apiKey: process.env.EMBEDING_API_KEY!,
-});
-
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY!,
-});
-
-// --- Types ---
-interface Message {
-  role: "user" | "assistant";
-  content: string;
-}
-
-interface Chunk {
-  id: string;
-  filename: string;
-  content: string;
-  page: number;
-  chunk_index: number;
-  similarity: number;
-}
-
-interface ChatResult {
-  reply: string;
-  escalated: boolean;
-}
+import { supabaseAdmin } from "../lib/supabaseClient.js";
+import { getTicketBySession } from "./ticket.controller.js";
+import { handleCasualQuery } from "./casualQueryHandler.js";
+import {
+  getCachedAnswer,
+  setCachedAnswer,
+  getSemanticCachedAnswer,
+  setSemanticCachedAnswer,
+} from "./ragCache.js";
+import { embedQuery, retrieveChunks, buildSearchKeywords } from "../services/retriever.js";
+import { rerankChunks } from "../services/reranker.js";
+import { generateAnswer } from "../services/generator.js";
+import { ChatResult, Message } from "../types/rag.types.js";
 
 const NO_CONTEXT_ANSWER = "I don't have that information, please contact our support team.";
-const FALLBACK_ANSWER = "Sorry, I'm having trouble answering right now — please try again later or contact our team";
+const FALLBACK_ANSWER =
+  "Sorry, I'm having trouble answering right now — please try again later or contact our team";
 
+// In-memory cache for org support email (10-minute TTL)
+const supportContactCache = new Map<string, { email: string; expiresAt: number }>();
+
+// ---------------------------------------------------------------------------
+// Follow-up detection
+// A question is "self-contained" if it can be understood without the chat history.
+// Self-contained questions are safe to cache and safe to embed as-is.
+// Follow-ups ("tell me more", "what about pricing?") are neither.
+// ---------------------------------------------------------------------------
+const FOLLOW_UP_PRONOUNS =
+  /\b(it|its|that|this|those|these|they|them|their|he|she|him|her|there|former|latter|same|more|else|also|another|above|previous)\b/i;
+const FOLLOW_UP_OPENERS = /^\s*(and|but|so|then|also|what about|how about|why not|ok|okay)\b/i;
+
+function isSelfContained(question: string): boolean {
+  const words = question.trim().split(/\s+/).filter(Boolean);
+  if (words.length < 3) return false;
+  if (FOLLOW_UP_OPENERS.test(question)) return false;
+  if (FOLLOW_UP_PRONOUNS.test(question)) return false;
+  return true;
+}
+
+// --- History selection: 1-2 turns for standalone, 3-4 for follow-ups ---
+const MAX_ASSISTANT_CHARS = 500;
+
+function trimMessage(m: Message): Message {
+  return m.role === "assistant" && m.content.length > MAX_ASSISTANT_CHARS
+    ? { ...m, content: m.content.slice(0, MAX_ASSISTANT_CHARS) + "…" }
+    : m;
+}
+
+function selectHistory(history: Message[], needsContext: boolean): Message[] {
+  const turns = needsContext ? 4 : 2; // 1 turn = user + assistant
+  return history.slice(-turns * 2).map(trimMessage);
+}
+
+// ---------------------------------------------------------------------------
+// Timing helper: starts the work immediately, records how long it took.
+// ---------------------------------------------------------------------------
+function timed<T>(timings: Record<string, number>, label: string, fn: () => Promise<T>): Promise<T> {
+  const t0 = Date.now();
+  return fn().finally(() => {
+    timings[label] = Date.now() - t0;
+  });
+}
+
+// ---------------------------------------------------------------------------
+// DB helpers
+// ---------------------------------------------------------------------------
 export async function isSessionEscalated(orgId: string, sessionId: string): Promise<boolean> {
   const ticket = await getTicketBySession(orgId, sessionId);
-  return !!ticket && ticket.status !== 'resolved';
+  return !!ticket && ticket.status !== "resolved";
 }
 
-// --- Embed the user's question ---
-export async function embedQuery(question: string): Promise<number[]> {
-  console.log("[ragService] embedQuery started", { question });
-  const result = await embeddingsModel.models.embedContent({
-    model: `${EmbeddingsModel}`,
-    contents: question,
-  });
-
-  if (
-    !result.embeddings ||
-    result.embeddings.length === 0 ||
-    !result.embeddings[0].values
-  ) {
-    console.log("[ragService] embedQuery failed: no embeddings returned");
-    throw new Error("Embedding generation failed.");
-  }
-
-  console.log("[ragService] embedQuery completed", { embeddingLength: result.embeddings[0].values.length });
-  return result.embeddings[0].values;
-}
-
-async function rerankChunks(question: string, chunks: Chunk[]): Promise<Chunk[]> {
-  console.log("[ragService] rerankChunks started", { question, chunkCount: chunks.length });
-  if (chunks.length < 2) {
-    console.log("[ragService] rerankChunks skipped because fewer than 2 chunks were retrieved");
-    return chunks;
-  }
-
-  const scores = await Promise.all(
-    chunks.map(async (chunk) => {
-      const response = await groq.chat.completions.create({
-        model: `${InferenceModel}`,
-        messages: [
-          {
-            role: "system",
-            content: "Score how relevant this document chunk is to the question on a scale of 0-10. Reply with ONLY a single number, nothing else.",
-          },
-          {
-            role: "user",
-            content: `Question: ${question}\n\nChunk: ${chunk.content.slice(0, 400)}`,
-          },
-        ],
-        max_tokens: 5,
-        temperature: 0,
-      });
-
-      const score = parseFloat(response.choices[0].message.content?.trim() ?? "5");
-      return { chunk, score: isNaN(score) ? 5 : score };
-    })
-  );
-
-  const reranked = scores.sort((a, b) => b.score - a.score).map((s) => s.chunk);
-  console.log("[ragService] rerankChunks completed", { rerankedCount: reranked.length, topChunk: reranked[0]?.filename });
-  return reranked;
-}
-
-// NOTE: match_chunks RPC must be updated in Postgres to accept and filter
-export async function retrieveChunks(
-  orgId: string,
-  queryEmbedding: number[],
-  keywords: string
-): Promise<Chunk[]> {
-  console.log("[ragService] retrieveChunks started", { orgId, keywords, embeddingLength: queryEmbedding.length });
-  const [vectorResults, keywordResults] = await Promise.all([
-    supabaseAdmin.rpc("match_chunks", {
-      query_embedding: queryEmbedding,
-      match_count: 8,
-      match_threshold: 0.5,
-      p_org_id: orgId,
-    }),
-    supabaseAdmin
-      .from("document_chunks")
-      .select("id, filename, content, page, chunk_index")
-      .eq("org_id", orgId)
-      .textSearch("fts", keywords, { type: "websearch" })
-      .limit(8),
-  ]);
-
-  if (vectorResults.error) throw new Error(`Vector search failed: ${vectorResults.error.message}`);
-  if (keywordResults.error) throw new Error(`Keyword search failed: ${keywordResults.error.message}`);
-
-  const RRF_K = 60;
-  const scores = new Map<string, { chunk: Chunk; score: number }>();
-  const seen = new Set<string>();
-
-  (vectorResults.data ?? []).forEach((chunk: Chunk, rank: number) => {
-    const key = `${chunk.filename}-${chunk.chunk_index}`;
-    const rrfScore = 1 / (RRF_K + rank + 1);
-    if (!seen.has(key)) {
-      seen.add(key);
-      scores.set(key, { chunk, score: rrfScore });
-    }
-  });
-
-  (keywordResults.data ?? []).forEach((chunk: any, rank: number) => {
-    const key = `${chunk.filename}-${chunk.chunk_index}`;
-    const rrfScore = 1 / (RRF_K + rank + 1);
-    const existing = scores.get(key);
-    if (existing) {
-      existing.score += rrfScore;
-    } else if (!seen.has(key)) {
-      seen.add(key);
-      scores.set(key, { chunk: { ...chunk, similarity: 0 }, score: rrfScore });
-    }
-  });
-
-  const mergedChunks = Array.from(scores.values()).sort((a, b) => b.score - a.score).slice(0, 5).map((s) => s.chunk);
-  console.log("[ragService] retrieveChunks completed", {
-    vectorResults: vectorResults.data?.length ?? 0,
-    keywordResults: keywordResults.data?.length ?? 0,
-    mergedCount: mergedChunks.length,
-  });
-  return mergedChunks;
-}
-
-// --- Fetch the last N messages for this session, scoped to org ---
-async function getConversationHistory(orgId: string, sessionId: string, limit = 10): Promise<Message[]> {
-  console.log("[ragService] getConversationHistory started", { orgId, sessionId, limit });
+async function getConversationHistory(orgId: string, sessionId: string, limit = 8): Promise<Message[]> {
   const { data, error } = await supabaseAdmin
     .from("conversations")
     .select("role, content")
@@ -172,61 +79,23 @@ async function getConversationHistory(orgId: string, sessionId: string, limit = 
     .limit(limit);
 
   if (error) throw new Error(`History fetch failed: ${error.message}`);
-
-  const history = (data as Message[]).reverse();
-  console.log("[ragService] getConversationHistory completed", { historyLength: history.length });
-  return history;
+  return (data as Message[]).reverse();
 }
 
-// --- Save a message to conversation history ---
 export async function saveMessage(orgId: string, sessionId: string, role: "user" | "assistant", content: string) {
-  console.log("[ragService] saveMessage", { orgId, sessionId, role, contentLength: content.length });
   await supabaseAdmin.from("conversations").insert({ org_id: orgId, session_id: sessionId, role, content });
 }
 
-// --- Build the prompt and call the LLM ---
-export async function generateAnswer(
-  question: string,
-  chunks: Chunk[],
-  history: Message[],
-  supportContact: string
-): Promise<string> {
-  const context = chunks
-    .map((c, i) => `[Source ${i + 1}: ${c.filename}, page ${c.page}]\n${c.content}`)
-    .join("\n\n---\n\n");
-
-  const systemPrompt = `You are a helpful sales support assistant for our company.
-
-STRICT RULES — follow these exactly, no exceptions:
-1. Answer ONLY using the COMPANY INFORMATION provided below. Never add information from outside it.
-2. If the context gives a clear condition (e.g. "within 14 days"), treat it as a hard cutoff. Do NOT speculate about what might happen outside that condition.
-3. If a situation falls outside what the context covers, say: "I don't have that detail — please contact our team at ${supportContact}"
-4. Never use phrases like "may be eligible", "might", "could potentially" unless those exact words appear in the source. Hedging language invents uncertainty that may not exist.
-5. If the answer is simply "no" — say no clearly and explain why, then stop.
-6. Never contradict yourself within a single answer.
-7. If the answer is not in the provided context, say "I don't have that information, please contact our sales team."
-Be concise, professional, and helpful.
-
-COMPANY INFORMATION:
-${context}`;
-
-  const messages: Groq.Chat.ChatCompletionMessageParam[] = [
-    { role: "system", content: systemPrompt },
-    ...history,
-    { role: "user", content: question },
-  ];
-
-  console.log("[ragService] generateAnswer started", { question, chunkCount: chunks.length, historyLength: history.length });
-  const response = await groq.chat.completions.create({
-    model: `${InferenceModel}`,
-    messages,
-    max_tokens: 1024,
-    temperature: 0.1,
-  });
-
-  const answer = response.choices[0].message.content ?? "Sorry, I could not generate a response.";
-  console.log("[ragService] generateAnswer completed", { answerLength: answer.length });
-  return answer;
+function saveTurnBackground(orgId: string, sessionId: string, userMsg: string, assistantMsg: string) {
+  supabaseAdmin
+    .from("conversations")
+    .insert([
+      { org_id: orgId, session_id: sessionId, role: "user", content: userMsg },
+      { org_id: orgId, session_id: sessionId, role: "assistant", content: assistantMsg },
+    ])
+    .then(({ error }) => {
+      if (error) console.error("[ragService] saveTurnBackground error:", error.message);
+    });
 }
 
 export async function logQuery(data: {
@@ -251,194 +120,173 @@ export async function logQuery(data: {
   });
 }
 
-// --- Fetch org-specific support contact for prompt + fallback messages ---
 async function getSupportContact(orgId: string): Promise<string> {
+  const now = Date.now();
+  const cached = supportContactCache.get(orgId);
+  if (cached && cached.expiresAt > now) {
+    return cached.email;
+  }
+
   const { data } = await supabaseAdmin
     .from("widget_configs")
     .select("support_email")
     .eq("org_id", orgId)
     .maybeSingle();
 
-  return data?.support_email ?? "our support team";
+  const email = data?.support_email ?? "our support team";
+  supportContactCache.set(orgId, { email, expiresAt: now + 10 * 60 * 1000 });
+  return email;
 }
 
-// --- Main exported function: the full RAG pipeline, org-scoped ---
+// ---------------------------------------------------------------------------
+// Main pipeline
+// ---------------------------------------------------------------------------
 export async function chat(orgId: string, sessionId: string, question: string): Promise<ChatResult> {
   const start = Date.now();
-  console.log("[ragService] chat started", { orgId, sessionId, question });
+  const timings: Record<string, number> = {};
+  console.log(`\n[RAG Pipeline] Starting pipeline for query: "${question}" (session: ${sessionId})`);
+
   try {
-    // --- 1. Escalation guard ---
-    // Measure the time taken for escalation checking.
-    const escalationStart = Date.now();
-    const escalated = await isSessionEscalated(orgId, sessionId);
-    const escalationMs = Date.now() - escalationStart;
-    console.log("[ragService] escalation guard completed", { escalationMs });
-
-    if (escalated) {
-      console.log("[ragService] session escalated, skipping RAG", { orgId, sessionId });
-      await saveMessage(orgId, sessionId, "user", question);
-      await logQuery({
-        orgId,
-        sessionId,
-        question,
-        chunksRetrieved: 0,
-        topChunkScore: 0,
-        finalAnswer: "",
-        latencyMs: Date.now() - start,
-        escalated: true,
-      });
-      return { reply: "", escalated: true };
-    }
-
-    // --- 2. Casual query shortcut ---
-    // Measure the time taken for the casual-query shortcut check.
-    const casualStart = Date.now();
+    // --- Casual check: synchronous, ~0ms ---
     const casual = handleCasualQuery(question);
-    const casualMs = Date.now() - casualStart;
-    console.log("[ragService] casual query check completed", { casualMs });
-
     if (casual.ok) {
-      console.log("[ragService] casual query matched, skipping RAG", { question });
-      await saveMessage(orgId, sessionId, "user", question);
-      await saveMessage(orgId, sessionId, "assistant", casual.message);
-      await logQuery({
-        orgId,
-        sessionId,
-        question,
-        chunksRetrieved: 0,
-        topChunkScore: 0,
-        finalAnswer: casual.message,
-        latencyMs: Date.now() - start,
-        escalated: false,
-      });
+      saveTurnBackground(orgId, sessionId, question, casual.message);
+      console.log(`[RAG Pipeline] Early exit (casual query): total ${Date.now() - start}ms`);
       return { reply: casual.message, escalated: false };
     }
 
-    // --- 2.5. Exact-match cache check ---
-    const cacheStart = Date.now();
-    const cachedAnswer = await getCachedAnswer(orgId, question);
-    const cacheMs = Date.now() - cacheStart;
-    console.log("[ragService] cache check completed", { cacheHit: !!cachedAnswer, cacheMs });
+    // --- t=0: fire every independent I/O call at once ---
+    const escalatedP = timed(timings, "escalation", () => isSessionEscalated(orgId, sessionId));
+    const historyP = timed(timings, "history", () => getConversationHistory(orgId, sessionId));
+    const embeddingP = timed(timings, "embedding", () => embedQuery(question));
+    const contactP = timed(timings, "contact", () => getSupportContact(orgId));
+    const exactCacheP = timed(timings, "exactCache", () => getCachedAnswer(orgId, question));
 
-    if (cachedAnswer) {
-      await saveMessage(orgId, sessionId, "user", question);
-      await saveMessage(orgId, sessionId, "assistant", cachedAnswer);
-      logQuery({
-        orgId,
-        sessionId,
-        question,
-        chunksRetrieved: 0,
-        topChunkScore: 0,
-        finalAnswer: cachedAnswer,
-        latencyMs: Date.now() - start,
-        escalated: false,
-      });
-      console.log("[ragService] final response latency", { outcome: "cache hit", latencyMs: Date.now() - start });
-      return { reply: cachedAnswer, escalated: false };
+    // If we exit early, un-awaited promises must not become unhandled rejections.
+    for (const p of [escalatedP, historyP, embeddingP, contactP, exactCacheP]) {
+      p.catch(() => {});
     }
 
-    // --- 3. Embedding and support lookup ---
-    // Measure the time taken for embedding generation and support-contact lookup.
-    const embeddingStart = Date.now();
-    const [queryEmbedding, supportContact] = await Promise.all([
-      embedQuery(question),
-      getSupportContact(orgId),
-    ]);
-    const embeddingMs = Date.now() - embeddingStart;
-      
+    // --- Guards: escalation + history + exact cache ---
+   
+    const [isEscalated, history, exactHit] = await Promise.all([escalatedP, historyP, exactCacheP]);
 
-    // --- 3.5. Semantic cache check ---
-    const semanticStart = Date.now();
-    const semanticHit = await getSemanticCachedAnswer(orgId, queryEmbedding);
-    const semanticMs = Date.now() - semanticStart;
-    console.log("[ragService] semantic cache check completed", { hit: !!semanticHit, score: semanticHit?.score, semanticMs });
+    console.log(
+      `[RAG Pipeline] Escalation: ${timings.escalation}ms | History: ${timings.history}ms | ` +
+        `Exact cache: ${timings.exactCache}ms (Hit: ${!!exactHit})`
+    );
+
+    if (isEscalated) {
+      saveMessage(orgId, sessionId, "user", question).catch(console.error);
+      console.log(`[RAG Pipeline] Early exit (escalated): total ${Date.now() - start}ms`);
+      return { reply: "", escalated: true };
+    }
+
+    // Follow-ups depend on conversation context, so they must never read from or write to the shared caches.
+    const selfContained = isSelfContained(question);
+    const needsContext = history.length > 0 && !selfContained;
+    const cacheable = !needsContext;
+
+    if (cacheable && exactHit) {
+      saveTurnBackground(orgId, sessionId, question, exactHit);
+      console.log(`[RAG Pipeline] Early exit (exact cache hit): total ${Date.now() - start}ms`);
+      return { reply: exactHit, escalated: false };
+    }
+
+    // --- Build the retrieval query ---
+    // For follow-ups, prepend the last user message so the embedding carries the topic.
+    // (Zero-latency heuristic; swap in an LLM rewrite later if you want better quality.)
+    let retrievalQuery = question;
+    let queryEmbedding: number[];
+
+    if (needsContext) {
+      const lastUserMsg = [...history].reverse().find((m) => m.role === "user")?.content ?? "";
+      retrievalQuery = lastUserMsg ? `${lastUserMsg}\n${question}` : question;
+      // The t=0 embedding was for the raw follow-up; embed the contextualized query instead.
+      queryEmbedding = await timed(timings, "embedding", () => embedQuery(retrievalQuery));
+    } else {
+      queryEmbedding = await embeddingP;
+    }
+
+    const keywords = buildSearchKeywords(retrievalQuery);
+
+    // --- Semantic cache (cacheable questions only) + hybrid retrieval in parallel ---
+    const [semanticHit, rawChunks] = await Promise.all([
+      cacheable
+        ? timed(timings, "semanticCache", () => getSemanticCachedAnswer(orgId, queryEmbedding))
+        : Promise.resolve(null),
+      timed(timings, "retrieval", () => retrieveChunks(orgId, queryEmbedding, keywords, 10)),
+    ]);
+
+    console.log(
+      `[RAG Pipeline] Embedding: ${timings.embedding}ms | Semantic cache: ${timings.semanticCache ?? "skipped"}ms ` +
+        `(Hit: ${!!semanticHit}) | Retrieval: ${timings.retrieval}ms (${rawChunks.length} chunks)`
+    );
 
     if (semanticHit) {
-      await saveMessage(orgId, sessionId, "user", question);
-      await saveMessage(orgId, sessionId, "assistant", semanticHit.answer);
-      logQuery({
-        orgId,
-        sessionId,
-        question,
-        chunksRetrieved: 0,
-        topChunkScore: semanticHit.score,
-        finalAnswer: semanticHit.answer,
-        latencyMs: Date.now() - start,
-        escalated: false,
-      });
-      console.log("[ragService] final response latency", { outcome: "semantic cache hit", latencyMs: Date.now() - start });
+      saveTurnBackground(orgId, sessionId, question, semanticHit.answer);
+      console.log(`[RAG Pipeline] Early exit (semantic cache hit): total ${Date.now() - start}ms`);
       return { reply: semanticHit.answer, escalated: false };
     }
 
+    if (!rawChunks.length) {
+      saveTurnBackground(orgId, sessionId, question, NO_CONTEXT_ANSWER);
+      console.log(`[RAG Pipeline] Early exit (no chunks retrieved): total ${Date.now() - start}ms`);
+      return { reply: NO_CONTEXT_ANSWER, escalated: false };
+    }
 
+    // --- Rerank (using the contextualized query for follow-ups) ---
+    const { chunks } = await timed(timings, "rerank", () => rerankChunks(retrievalQuery, rawChunks, 5));
+    console.log(`[RAG Pipeline] Reranking: ${timings.rerank}ms (${chunks.length} chunks)`);
 
-    console.log("[ragService] embedding and support contact resolved", { supportContact, embeddingMs });
-    const keywords = question.split(" ").slice(0, 6).join(" | ");
-     
-    // --- 4. Retrieval and history lookup ---
-    // Measure the time taken for chunk retrieval and conversation-history lookup.
-    const retrievalStart = Date.now();
-    const [rawChunks, history] = await Promise.all([
-      retrieveChunks(orgId, queryEmbedding, keywords),
-      getConversationHistory(orgId, sessionId),
-    ]);
-    const retrievalMs = Date.now() - retrievalStart;
-    console.log("[ragService] retrieved chunks and history", { rawChunkCount: rawChunks.length, historyLength: history.length, retrievalMs });
+    // --- Generate: support contact was fetched at t=0, so this await costs ~0ms ---
+    
+    const supportContact = await contactP;
+     const contextHistory = selectHistory(history, needsContext);
+    const { answer } = await timed(timings, "generation", () =>
+      generateAnswer(question, chunks, contextHistory, supportContact)
+    );
+    console.log(`[RAG Pipeline] Answer generation: ${timings.generation}ms`);
 
-    if (!rawChunks || rawChunks.length === 0) {
-      console.log("[ragService] no chunks found, returning no-context answer");
-      await saveMessage(orgId, sessionId, "user", question);
-      await saveMessage(orgId, sessionId, "assistant", NO_CONTEXT_ANSWER);
+    const totalLatency = Date.now() - start;
+
+    // --- Background post-processing (not on the user's critical path) ---
+    const tPostStart = Date.now();
+    Promise.allSettled([
+      // Only cache standalone questions: never cache context-dependent answers.
+      ...(cacheable
+        ? [
+            setCachedAnswer(orgId, question, answer),
+            setSemanticCachedAnswer(orgId, question, queryEmbedding, answer),
+          ]
+        : []),
+      supabaseAdmin.from("conversations").insert([
+        { org_id: orgId, session_id: sessionId, role: "user", content: question },
+        { org_id: orgId, session_id: sessionId, role: "assistant", content: answer },
+      ]),
       logQuery({
         orgId,
         sessionId,
         question,
-        chunksRetrieved: 0,
-        topChunkScore: 0,
-        finalAnswer: NO_CONTEXT_ANSWER,
-        latencyMs: Date.now() - start,
+        chunksRetrieved: rawChunks.length, // pre-rerank count
+        topChunkScore: rawChunks.reduce((max, c) => Math.max(max, c.similarity ?? 0), 0), // retrieval score, not rerank score
+        finalAnswer: answer,
+        latencyMs: totalLatency,
         escalated: false,
-      });
-      return { reply: NO_CONTEXT_ANSWER, escalated: false };
-    }
-
-    // --- 5. Reranking ---
-    // Measure the time taken to rerank retrieved chunks.
-    const rerankStart = Date.now();
-    const chunks = await rerankChunks(question, rawChunks);
-    const rerankMs = Date.now() - rerankStart;
-    console.log("[ragService] reranking completed", { rerankMs, chunkCount: chunks.length });
-
-    // --- 6. Answer generation ---
-    // Measure the time taken to generate the final response.
-    const answerStart = Date.now();
-    const answer = await generateAnswer(question, chunks, history, supportContact);
-    const answerMs = Date.now() - answerStart;
-    console.log("[ragService] answer generated", { answerLength: answer.length, answerMs });
-
-  // cache the answer in both exact-match and semantic caches for future queries
-    await setCachedAnswer(orgId, question, answer); // 
-     await setSemanticCachedAnswer(orgId, question, queryEmbedding, answer);
-
-    await saveMessage(orgId, sessionId, "user", question);
-    await saveMessage(orgId, sessionId, "assistant", answer);
-    logQuery({
-      orgId,
-      sessionId,
-      question,
-      chunksRetrieved: chunks.length,
-      topChunkScore: chunks[0]?.similarity ?? 0,
-      finalAnswer: answer,
-      latencyMs: Date.now() - start,
-      escalated: false, 
+      }),
+    ]).then((results) => {
+      const failed = results.filter((r) => r.status === "rejected");
+      if (failed.length > 0) {
+        console.error(`[ragService] ${failed.length} post-processing task(s) failed:`, failed);
+      } else {
+        console.log(`[ragService] background caching & logging finished in ${Date.now() - tPostStart}ms`);
+      }
     });
 
-    const finalLatencyMs = Date.now() - start;
-    console.log("[ragService] final response latency", { outcome: "cache miss", latencyMs: finalLatencyMs });
-    console.log("[ragService] chat completed", { latencyMs: finalLatencyMs, escalated: false });
+    console.log(`[RAG Pipeline] Total pipeline latency: ${totalLatency}ms\n`);
     return { reply: answer, escalated: false };
   } catch (err) {
-    console.error("[ragService] chat pipeline failed:", err);
+    console.error(`[RAG Pipeline] chat pipeline failed after ${Date.now() - start}ms:`, err);
     return { reply: FALLBACK_ANSWER, escalated: false };
   }
 }

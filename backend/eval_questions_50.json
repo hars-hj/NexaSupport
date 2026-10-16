@@ -1,0 +1,402 @@
+[
+  {
+    "query_id": "q_01",
+    "query_type": "keyword_dense",
+    "query": "What is the role of AWS App2Container (AWS A2C) when modernizing legacy applications?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Microservices implementations",
+    "ground_truth_answer": "App2Container (AWS A2C) is a command-line tool that analyzes and builds an inventory of Java and .NET web applications running on bare metal, virtual machines, Amazon EC2 instances, or in the cloud, and migrates and modernizes them into container format."
+  },
+  {
+    "query_id": "q_02",
+    "query_type": "keyword_dense",
+    "query": "How does DynamoDB Accelerator (DAX) improve Amazon DynamoDB response times?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Data store",
+    "ground_truth_answer": "While Amazon DynamoDB delivers single-digit millisecond performance, DynamoDB Accelerator (DAX) provides caching capabilities to deliver response times in microseconds."
+  },
+  {
+    "query_id": "q_03",
+    "query_type": "keyword_dense",
+    "query": "What capability was introduced for AWS Lambda on April 7, 2023, and how does it affect Time to First Byte (TTFB)?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Microservices on serverless technologies",
+    "ground_truth_answer": "As of April 7, 2023, AWS Lambda functions can progressively stream response payloads back to the client instead of buffering the entire generated response first, significantly improving time to first byte for web and mobile applications."
+  },
+  {
+    "query_id": "q_04",
+    "query_type": "keyword_dense",
+    "query": "How does Amazon Route 53 leverage the Auto Naming API in an Amazon ECS context?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Distributed systems components",
+    "ground_truth_answer": "In an Amazon ECS context, Amazon Route 53 uses the ECS Service Discovery feature, which leverages the Auto Naming API to automatically register and deregister services."
+  },
+  {
+    "query_id": "q_05",
+    "query_type": "keyword_dense",
+    "query": "How does the External Secrets Operator integrate with AWS Secrets Manager in Kubernetes workflows?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Secrets management",
+    "ground_truth_answer": "For Kubernetes workflows, the External Secrets Operator fetches secrets directly from services like AWS Secrets Manager and creates corresponding Kubernetes Secrets for seamless integration with Kubernetes-native configurations."
+  },
+  {
+    "query_id": "q_06",
+    "query_type": "semantic_paraphrase",
+    "query": "How can teams prevent internal service-to-service network traffic from traversing the public internet to satisfy strict healthcare or payment compliance mandates?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Private networking",
+    "ground_truth_answer": "Teams can use AWS PrivateLink to establish private connections between Virtual Private Clouds (VPCs) and supported AWS services, isolating microservices traffic so it never crosses the public internet to help comply with regulations like PCI or HIPAA."
+  },
+  {
+    "query_id": "q_07",
+    "query_type": "semantic_paraphrase",
+    "query": "When a multi-step distributed business transaction fails midway through execution, what architectural pattern undoes the previously completed operations?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Distributed data management",
+    "ground_truth_answer": "The Saga pattern manages failures across multiple collaborating microservices by coordinating a series of compensating actions (often orchestrated with AWS Step Functions and AWS Lambda) to undo completed tasks."
+  },
+  {
+    "query_id": "q_08",
+    "query_type": "semantic_paraphrase",
+    "query": "How can a service dynamically adopt updated runtime settings or toggle features without restarting its underlying process, and how is it rolled back if metrics degrade?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Configuration management",
+    "ground_truth_answer": "AWS AppConfig (a feature of AWS Systems Manager) allows teams to validate and deploy dynamic configurations and feature flags without restarting services, using a sidecar agent on ECS/EKS or a Lambda extension layer, and automatically rolls back changes if a configured alarm is triggered."
+  },
+  {
+    "query_id": "q_09",
+    "query_type": "semantic_paraphrase",
+    "query": "Why does high-throughput inter-service communication suffer from connection setup overhead with standard web APIs, and how does binary multiplexing solve it?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Managing chattiness in microservices communication",
+    "ground_truth_answer": "Standard REST over HTTP/1.1 requires a TCP handshake for every new request, creating latency overhead at high volumes. gRPC solves this by using HTTP/2 and binary-encoded Protocol Buffers (Protobuf), allowing multiple requests and bi-directional streaming over a single TCP connection."
+  },
+  {
+    "query_id": "q_10",
+    "query_type": "semantic_paraphrase",
+    "query": "How can an organization track the environmental footprint and carbon emissions associated with its cloud compute consumption?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Cost optimization and sustainability",
+    "ground_truth_answer": "Organizations can monitor their progress in reducing carbon emissions and gain insights into the environmental impact of their AWS usage using the AWS Customer Carbon Footprint Tool, alongside using cost- and energy-efficient compute like AWS Graviton and EC2 Spot Instances."
+  },
+  {
+    "query_id": "q_11",
+    "query_type": "hard_negative_trap",
+    "query": "When forwarding container logs from Amazon EKS to CloudWatch Logs for OpenSearch and Kibana reporting, why is one open-source log shipper explicitly recommended over the other?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Centralizing logs",
+    "ground_truth_answer": "While both Fluent Bit and Fluentd can forward logs from Amazon EKS to CloudWatch, Fluent Bit is explicitly recommended over Fluentd due to its smaller footprint and performance advantages."
+  },
+  {
+    "query_id": "q_12",
+    "query_type": "hard_negative_trap",
+    "query": "Why does the whitepaper warn against encapsulating business logic inside AWS Lambda Layers in a multi-tenant SaaS environment?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Abstracting multi-tenancy complexities",
+    "ground_truth_answer": "While AWS Lambda Layers are effective for cross-cutting concerns and managing tenant context, they should not encapsulate business logic because shared libraries introduce increased complexity and risk around updates, making them harder to manage than standard code duplication."
+  },
+  {
+    "query_id": "q_13",
+    "query_type": "hard_negative_trap",
+    "query": "Among the AWS asynchronous messaging and streaming services (SQS, SNS, EventBridge, Amazon MQ, MSK, and Kinesis), which specific service is recommended when messages must be stored and processed multiple times?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Asynchronous messaging and event passing",
+    "ground_truth_answer": "Amazon MSK (Managed Streaming for Apache Kafka) is specifically recommended as a messaging system for storing and reading messages in cases where messages must be processed multiple times, in addition to supporting real-time message streaming."
+  },
+  {
+    "query_id": "q_14",
+    "query_type": "hard_negative_trap",
+    "query": "When should an engineering team choose Amazon Managed Workflows for Apache Airflow (Amazon MWAA) instead of AWS Step Functions for microservices orchestration?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Orchestration and state management",
+    "ground_truth_answer": "Teams should choose Amazon MWAA as an alternative to AWS Step Functions when they prioritize open source and portability, leveraging Airflow's large open-source community and regular integration contributions."
+  },
+  {
+    "query_id": "q_15",
+    "query_type": "hard_negative_trap",
+    "query": "Why should disaster recovery (DR) strategies in a Twelve-Factor microservices architecture focus on downstream backing services rather than the microservice compute instances?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Disaster recovery (DR)",
+    "ground_truth_answer": "Because microservices following Twelve-Factor Application patterns run stateless processes that can be easily relaunched if a service fails, DR strategies (planning for RTO and RPO) must focus on downstream backing services that maintain application state, such as file systems, databases, or queues."
+  },
+  {
+    "query_id": "q_16",
+    "query_type": "multi_hop_synthesis",
+    "query": "Compare how AWS AppConfig and AWS Secrets Manager are integrated into Amazon ECS, Amazon EKS, and AWS Lambda workloads.",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Configuration management | Secrets management",
+    "ground_truth_answer": "AWS AppConfig integrates with Amazon ECS and Amazon EKS as a sidecar container (AWS AppConfig agent) and with AWS Lambda via the AWS AppConfig Lambda extension layer. In contrast, AWS Secrets Manager and Systems Manager Parameter Store pass secrets to Amazon EKS as volumes (or Kubernetes Secrets via External Secrets Operator), to Amazon ECS as environment variables, and to AWS Lambda via automatically available environment variables."
+  },
+  {
+    "query_id": "q_17",
+    "query_type": "multi_hop_synthesis",
+    "query": "How do Amazon Kinesis Data Streams, Amazon Data Firehose, Amazon S3, and Amazon Redshift work together across both Event Sourcing and Log Analysis pipelines?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Distributed data management | Other options for analysis",
+    "ground_truth_answer": "In the event sourcing pattern (Figure 7), Amazon Kinesis Data Streams acts as the central event store, routing persistent events through Amazon Kinesis Data Firehose into Amazon S3 for durable storage and into Amazon Redshift. Similarly, in log analysis (Figures 15 and 16), CloudWatch Logs streams log entries to Amazon Data Firehose, which delivers them to Amazon S3 and Amazon Redshift for visualization in Amazon QuickSight or processing in Amazon EMR/Athena."
+  },
+  {
+    "query_id": "q_18",
+    "query_type": "multi_hop_synthesis",
+    "query": "How can an architecture combine protocol selection and caching across API Gateway, ElastiCache, and DynamoDB to minimize end-to-end latency and inter-service chattiness?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Data store | Managing chattiness in microservices communication | Using protocols and caching",
+    "ground_truth_answer": "To minimize chattiness and latency, services can replace HTTP/1.1 REST with gRPC over HTTP/2 using Protocol Buffers to multiplex requests over a single TCP connection, apply caching at the API Gateway layer or via Amazon ElastiCache (Redis/Memcached) to reduce inter-service calls and database read load, and use DynamoDB Accelerator (DAX) to reduce DynamoDB read latency from single-digit milliseconds to microseconds."
+  },
+  {
+    "query_id": "q_19",
+    "query_type": "multi_hop_synthesis",
+    "query": "What are the distinct roles of Amazon CloudWatch, AWS X-Ray, AWS CloudTrail, and AWS Config in observing, tracing, and auditing a microservices architecture?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Observability | Distributed tracing | Auditing | Resource inventory and change management",
+    "ground_truth_answer": "Amazon CloudWatch collects resource/custom metrics and centralizes application logs; AWS X-Ray (and AWS Distro for OpenTelemetry) uses correlation IDs to trace requests across distributed services; AWS CloudTrail logs all AWS API calls made by users/services for auditing; and AWS Config Rules track infrastructure configuration changes and detect security policy violations."
+  },
+  {
+    "query_id": "q_20",
+    "query_type": "situational_applied",
+    "query": "A team is migrating an on-premises messaging workload that relies on JMS and AMQP protocols and wants a managed AWS replacement without rewriting their messaging client code. Which service should they select and why?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Asynchronous messaging and event passing",
+    "ground_truth_answer": "They should select Amazon MQ because it is a managed message broker service that supports standard protocols such as JMS and AMQP, providing a drop-in replacement for pre-existing messaging systems without disrupting operations."
+  },
+  {
+    "query_id": "q_21",
+    "query_type": "situational_applied",
+    "query": "An engineering team runs Java-based serverless microservices on AWS Lambda with complex shared dependencies, but they are experiencing high cold-start latencies and tedious manual console ZIP uploads. What combination of AWS features should they adopt?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Deploying Lambda-based applications",
+    "ground_truth_answer": "They should enable Lambda SnapStart for Java to enhance startup performance for latency-sensitive applications, use AWS Lambda Layers to manage shared libraries across functions and minimize function footprint, and automate deployments using AWS SAM, AWS CDK, or Terraform with SAM Local for local testing."
+  },
+  {
+    "query_id": "q_22",
+    "query_type": "situational_applied",
+    "query": "A large enterprise runs dozens of microservices across multiple VPCs and compute types (EC2 instances, containers, and serverless functions) and needs consistent network traffic management, access policies, and service discovery beyond simple DNS. Which AWS service fits this requirement?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Distributed systems components",
+    "ground_truth_answer": "They should use Amazon VPC Lattice, an application networking service and service mesh that consistently connects, monitors, and secures inter-service communication across instances, containers, and serverless applications using policies for traffic management and access."
+  },
+  {
+    "query_id": "q_23",
+    "query_type": "situational_applied",
+    "query": "A developer accidentally modifies a microservice's Amazon API Gateway endpoint to allow unencrypted inbound HTTP requests instead of HTTPS-only traffic. How can the platform automatically detect, audit, and remediate this misconfiguration?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "Resource inventory and change management",
+    "ground_truth_answer": "A predefined AWS Config rule can automatically detect the API Gateway configuration violation, log the change to Amazon S3 for auditing, trigger an Amazon SNS notification, and invoke automated remediation actions (such as via AWS Lambda) to restore the compliant HTTPS-only state."
+  },
+  {
+    "query_id": "q_24",
+    "query_type": "unanswerable_adversarial",
+    "query": "What is the exact maximum payload size limit in megabytes for synchronous AWS Lambda response streaming over Amazon API Gateway?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "NONE",
+    "ground_truth_answer": "The provided whitepaper does not specify the maximum payload size limit in megabytes for AWS Lambda response streaming or Amazon API Gateway."
+  },
+  {
+    "query_id": "q_25",
+    "query_type": "unanswerable_adversarial",
+    "query": "What step-by-step migration playbook does this whitepaper provide for hybrid on-premises-to-AWS container migrations?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_section": "NONE",
+    "ground_truth_answer": "The whitepaper explicitly states in the Introduction that it focuses on workloads running in the AWS Cloud and excludes hybrid scenarios and migration strategies, referring readers instead to the external 'Container Migration Methodology' whitepaper."
+  },
+  {
+    "query_id": "q_26",
+    "query_type": "keyword_dense",
+    "query": "What are the six core business objectives associated with adopting a SaaS delivery model?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "SaaS is a business model",
+    "ground_truth_answer": "The six key business objectives associated with adopting a SaaS delivery model are Agility, Operational efficiency, Frictionless onboarding, Innovation, Market response, and Growth."
+  },
+  {
+    "query_id": "q_27",
+    "query_type": "keyword_dense",
+    "query": "What are the six core services listed inside the SaaS control plane?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "Control plane vs. application plane | Core services",
+    "ground_truth_answer": "The six core services in the SaaS control plane are Onboarding, Tenant, Identity, Billing, Metrics, and Admin user management."
+  },
+  {
+    "query_id": "q_28",
+    "query_type": "keyword_dense",
+    "query": "How does the whitepaper define the terms 'silo' and 'pool' when characterizing resource usage in a SaaS environment?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "Introducing silo and pool",
+    "ground_truth_answer": "The term 'silo' describes scenarios where a resource is dedicated to a given tenant, whereas the 'pool' model describes scenarios where a resource is shared by multiple tenants."
+  },
+  {
+    "query_id": "q_29",
+    "query_type": "keyword_dense",
+    "query": "According to Table 1 (Technical first vs. business first migration), what are the six questions that characterize a 'business first mindset'?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "SaaS migration",
+    "ground_truth_answer": "The six business-first mindset questions in Table 1 are: (1) How can SaaS help us grow our business? (2) Which segments are we targeting? (3) What is the size and profile of these segments? (4) What tiers will we need to support? (5) What service experience are we targeting? and (6) What is our pricing and packaging strategy?"
+  },
+  {
+    "query_id": "q_30",
+    "query_type": "keyword_dense",
+    "query": "How are siloed and pooled data partitioning models implemented specifically in Amazon DynamoDB?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "Data partitioning",
+    "ground_truth_answer": "In Amazon DynamoDB, a siloed data partitioning model uses a separate DynamoDB table for each tenant, whereas a pooled model co-mingles tenant data in a single table and stores the tenant identifier in the partition key."
+  },
+  {
+    "query_id": "q_31",
+    "query_type": "semantic_paraphrase",
+    "query": "Why does allowing individual enterprise customers to dictate custom code branches and defer software upgrades eventually cripple a software vendor's ability to innovate?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "The initial motivation",
+    "ground_truth_answer": "Allowing one-off customizations and customer-controlled versions forces the provider to maintain separate operations teams, increases testing and migration overhead, erodes profit margins, and lengthens release cycles—causing engineering teams to focus on testing mechanics rather than delivering new features."
+  },
+  {
+    "query_id": "q_32",
+    "query_type": "semantic_paraphrase",
+    "query": "Why does the author compare running a SaaS platform to operating a restaurant or renting units in an apartment building?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "You’re a service, not a product | Moving to a unified experience",
+    "ground_truth_answer": "The restaurant analogy illustrates the service-centric mindset where customer experience (onboarding speed, responsiveness, time to value) is prioritized alongside product features. The apartment building analogy illustrates tenancy, where independent tenants rent space within a single collective structure and share global utilities (power, water) while paying for what they consume."
+  },
+  {
+    "query_id": "q_33",
+    "query_type": "semantic_paraphrase",
+    "query": "How should user login credentials be cryptographically or structurally linked to organization-level metadata so downstream services don't need a separate lookup table?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "SaaS identity",
+    "ground_truth_answer": "During authentication, the identity provider should issue a single token (SaaS identity) that binds both the user identity and the tenant identity/context together, allowing downstream microservices to directly consume the token for tenant-aware logging, metering, metrics, and isolation without relying on separate user-to-tenant mapping mechanisms."
+  },
+  {
+    "query_id": "q_34",
+    "query_type": "semantic_paraphrase",
+    "query": "What is the conceptual difference between tracking customer resource usage to generate invoices versus collecting telemetry to help product managers and architects analyze platform usage patterns?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "Metering, metrics, and billing",
+    "ground_truth_answer": "Metering fits in the billing domain and tracks tenant consumption (such as requests, active users, CPU, or memory) to emit billing events used to generate customer bills. Metrics capture broader operational, business, and feature-consumption trends across tenants to help internal personas like product owners, architects, and operations teams evaluate system health and tenant engagement."
+  },
+  {
+    "query_id": "q_35",
+    "query_type": "semantic_paraphrase",
+    "query": "Does serving business-to-business (B2B) enterprise clients rather than individual consumers (B2C) mean a SaaS provider can rely on slow, manual tenant onboarding processes?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "B2B and B2C SaaS",
+    "ground_truth_answer": "No. While B2C systems often emphasize self-service onboarding and B2B systems may sometimes use an internal onboarding process, the fundamental SaaS values remain identical: B2B onboarding must still be as frictionless and automated as possible to minimize time to value."
+  },
+  {
+    "query_id": "q_36",
+    "query_type": "hard_negative_trap",
+    "query": "Are the core services inside the SaaS control plane (such as Onboarding, Billing, and Identity) considered multi-tenant services? Explain why or why not.",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "Control plane vs. application plane",
+    "ground_truth_answer": "No. The whitepaper explicitly notes as an important caveat that the control plane and its core services are not actually multi-tenant; they are global services shared across all tenants and do not contain tenant isolation or the multi-tenant functional constructs found in the application plane."
+  },
+  {
+    "query_id": "q_37",
+    "query_type": "hard_negative_trap",
+    "query": "In the 'Control plane vs. application plane' architecture diagram, which plane is 'Tenant Provisioning' placed into, and what is the author's justification for that placement?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "Control plane vs. application plane",
+    "ground_truth_answer": "Tenant Provisioning is placed in the Application Plane (application domain) rather than the Control Plane because the resources it must provision and configure during onboarding are directly connected to the services created and configured inside the application plane."
+  },
+  {
+    "query_id": "q_38",
+    "query_type": "hard_negative_trap",
+    "query": "If a SaaS provider deploys every single tenant onto a completely dedicated infrastructure stack where zero compute or storage resources are shared, is it considered a 'single-tenant' or 'multi-tenant' SaaS environment?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "The extreme case | Removing the single-tenant term",
+    "ground_truth_answer": "It is still considered a multi-tenant SaaS environment (specifically, a full-stack silo model), and the term 'single-tenant' is avoided. Because all tenants share a unified control plane (onboarding, identity, metrics, billing, operations) and run the exact same software version without one-off customizations, the environment is operated and managed in a multi-tenant model."
+  },
+  {
+    "query_id": "q_39",
+    "query_type": "hard_negative_trap",
+    "query": "Why does authenticating a user with a valid role-based authorization token NOT guarantee tenant isolation in a SaaS application?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "Tenant isolation",
+    "ground_truth_answer": "Authentication and role-based authorization only verify identity and control access to specific application functionalities, providing general security rather than tenant isolation. Without separate tenant isolation constructs that evaluate the current tenant context, an authenticated and authorized user could still access resources belonging to another tenant."
+  },
+  {
+    "query_id": "q_40",
+    "query_type": "hard_negative_trap",
+    "query": "Why is 'data partitioning' not equivalent to 'tenant isolation' in a multi-tenant SaaS storage architecture?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "Data partitioning",
+    "ground_truth_answer": "Data partitioning only describes how tenant data is organized and stored (siloed or pooled with a tenant identifier), which does not by itself prevent cross-tenant access; tenant isolation must still be applied separately to enforce access policies so one tenant cannot access another tenant's partitioned data."
+  },
+  {
+    "query_id": "q_41",
+    "query_type": "multi_hop_synthesis",
+    "query": "Contrast the resource sharing patterns of the Product, Order, Catalog, Invoice, and Shipping microservices across the two multi-service tenancy diagrams in the whitepaper.",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "Re-defining multi-tenancy | Introducing silo and pool",
+    "ground_truth_answer": "In the 'SaaS and multi-tenancy' diagram, the Product service uses pooled compute and pooled storage, the Order service uses pooled compute and siloed storage, and the Catalog service uses siloed compute and pooled storage. In the 'Silo and pool models' diagram, the Order microservice uses siloed compute and pooled storage, the Product microservice uses pooled compute and pooled storage, the Invoice microservice uses pooled compute and siloed storage, the message queues are siloed per tenant, and the Shipping microservice uses pooled compute and pooled storage."
+  },
+  {
+    "query_id": "q_42",
+    "query_type": "multi_hop_synthesis",
+    "query": "How does a Full Stack Silo SaaS model differ from both a Traditional Installed Software model and a Managed Service Provider (MSP) model?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "The initial motivation | Full stack silo and pool | SaaS vs. Managed Service Provider (MSP)",
+    "ground_truth_answer": "Although a Full Stack Silo SaaS model provisions dedicated infrastructure stacks per tenant like Traditional Installed or MSP models, it prohibits one-off customizations, requires all tenants to run the exact same software version deployed simultaneously, and manages, onboards, bills, and monitors all tenants collectively through a single unified control plane—whereas traditional and MSP models typically allow separate versions and manage customer environments as operationally separate."
+  },
+  {
+    "query_id": "q_43",
+    "query_type": "multi_hop_synthesis",
+    "query": "How does the 'SaaS identity' token connect the Control Plane's Identity and Onboarding services to downstream Application Plane concerns like Tenant Isolation, Data Partitioning, and Metering?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "Core services | SaaS identity | Tenant isolation | Data partitioning | Metering, metrics, and billing",
+    "ground_truth_answer": "During authentication, the Identity service issues a token containing both user identity and tenant context (SaaS identity). This token flows into application plane microservices where the embedded tenant context is evaluated to enforce tenant isolation policies, scope access to siloed or pooled partitioned data (such as a DynamoDB partition key), emit tenant-attributed billing/metering events, and record tenant-aware logs and metrics."
+  },
+  {
+    "query_id": "q_44",
+    "query_type": "multi_hop_synthesis",
+    "query": "When migrating a legacy software product to SaaS, how do the business-first mindset questions (such as target segments and tiering) directly shape technical architecture choices around full-stack or granular silo vs. pool deployments?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "Introducing silo and pool | Full stack silo and pool | SaaS migration",
+    "ground_truth_answer": "Answering business-first questions about target market segments, pricing/packaging, and service tiers dictates how resources are shared: for example, basic-tier tenants paying a moderate price can be placed in a cost-efficient full-stack pool environment, while premium-tier tenants with strict SLAs, noisy-neighbor concerns, or compliance requirements can be offered dedicated full-stack silo or selectively siloed microservice resources—all while surrounded by the same foundational shared services introduced at the start of migration."
+  },
+  {
+    "query_id": "q_45",
+    "query_type": "situational_applied",
+    "query": "A legacy software vendor wants to transition to SaaS quickly. Their engineering team proposes spending the first six months refactoring their monolithic database into a multi-tenant pooled schema before building any shared onboarding or billing tools. Based on the whitepaper's SaaS migration guidance, why is this approach flawed and what should they do instead?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "SaaS migration",
+    "ground_truth_answer": "This reflects a 'tech first mindset' that chases multi-tenant infrastructure efficiency before establishing the SaaS business foundation. Instead, they should first align on business strategy and put foundational shared control-plane services (onboarding, SaaS identity, metrics, billing, and unified management) in place at the front of the migration, wrapping their existing application (even if initially deployed as a full-stack silo per tenant) so they can operate as a SaaS business and modernize the application incrementally based on customer feedback."
+  },
+  {
+    "query_id": "q_46",
+    "query_type": "situational_applied",
+    "query": "A SaaS company offers a Basic tier and a Premium Enterprise tier. Basic tenants share all compute and storage, while Premium tenants pay extra for dedicated infrastructure stacks to avoid noisy neighbor issues. However, a Premium tenant requests a custom feature branch exclusively for their stack. How should the SaaS architect respond?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "Full stack silo and pool",
+    "ground_truth_answer": "The architect must decline the request for a one-off custom branch. While mixing full-stack pooled basic tenants and full-stack siloed premium tenants in the same SaaS environment is a valid tiering pattern, every siloed stack must still run the exact same software version and configuration without one-off variations so that releases and operations remain unified."
+  },
+  {
+    "query_id": "q_47",
+    "query_type": "situational_applied",
+    "query": "In a multi-tenant e-commerce SaaS platform, the 'Invoice' microservice has low compute overhead so tenants can share compute instances, but regulatory compliance requires each tenant's invoice records and downstream shipping message queues to be strictly separated at the resource level. How should this be modeled using the whitepaper's terminology?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "Introducing silo and pool",
+    "ground_truth_answer": "Because silo and pool are granular rather than all-or-nothing concepts, the Invoice microservice should be deployed with pooled compute and siloed storage (a separate storage construct per tenant), publishing messages into siloed per-tenant queues that are then consumed by the downstream Shipping microservice."
+  },
+  {
+    "query_id": "q_48",
+    "query_type": "situational_applied",
+    "query": "A software company uses Terraform scripts to automatically spin up isolated AWS accounts and install their application for each new customer, while allowing Customer A to stay on v1.1 and Customer B to run v1.3 with dedicated ops engineers per customer. They claim their automation makes them a SaaS provider. How does the whitepaper evaluate this claim?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "SaaS vs. Managed Service Provider (MSP)",
+    "ground_truth_answer": "The whitepaper classifies this as a Managed Service Provider (MSP) or automated traditional software model, not a SaaS model. Automating environment installation does not equate to SaaS when customers run different product versions and are managed as operationally separate environments rather than running a single version managed, onboarded, and billed through one unified control plane."
+  },
+  {
+    "query_id": "q_49",
+    "query_type": "unanswerable_adversarial",
+    "query": "What specific AWS IAM policy JSON syntax or Amazon Cognito custom attribute configuration does this whitepaper provide to implement DynamoDB row-level tenant isolation?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "NONE",
+    "ground_truth_answer": "The whitepaper intentionally steps back from implementation-level code, IAM policy JSON syntax, or Amazon Cognito configuration details, focusing on foundational SaaS terminology and concepts and referring readers to the 'SaaS Tenant Isolation Strategies' and 'SaaS Storage Strategies' whitepapers for implementation details."
+  },
+  {
+    "query_id": "q_50",
+    "query_type": "unanswerable_adversarial",
+    "query": "What percentage gross margin improvement or exact infrastructure cost savings does the whitepaper report when migrating from a Full Stack Silo model to a Full Stack Pool model?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_section": "NONE",
+    "ground_truth_answer": "The whitepaper does not report specific percentage gross margin improvements or quantitative cost-savings benchmarks between Full Stack Silo and Full Stack Pool models."
+  }
+]
