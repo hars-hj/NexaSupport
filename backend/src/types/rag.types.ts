@@ -16,6 +16,7 @@ export interface Chunk {
 export interface ChatResult {
   reply: string;
   escalated: boolean;
+  cacheHit?: "exact" | "semantic" | "miss";
 }
 
 export interface EvalQuestion {

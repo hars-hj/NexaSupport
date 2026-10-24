@@ -1,8 +1,7 @@
 import express from 'express';
 import { AuthenticatedRequest, authenticateToken } from '../middleware/auth.middleware.js';
 //import { requireUser } from '../middleware/role.middleware.js';
-//import { chatHandler, getSessionsHandler, deleteSessionHandler } from '../controllers/chatbotController.js';
-import { embedQuery, retrieveChunks ,chat} from '../controllers/ragService.js';
+import { chat } from '../controllers/ragService.js';
 import { supabaseAdmin } from '../lib/supabaseClient.js';
 import { chatHandler } from '../controllers/chatController.widget.js';
 const router = express.Router();

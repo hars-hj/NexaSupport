@@ -1,0 +1,4188 @@
+{
+  "q_01": {
+    "query_id": "q_01",
+    "query_type": "keyword_dense",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "c2280be4-3ead-4fbd-8a49-d51541ae8256",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "93299639-0110-4fb5-b196-2f2323d33042",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "b0b32a63-5f28-4b4d-b531-d06884f82c0c",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "4d4d1846-a0c8-49b4-8f17-2d24bb1cc278",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "7e76806b-45d5-4fc0-97c2-0380adddf7c4",
+      "3d0eeda1-a4d3-45db-8453-244b837e8055"
+    ],
+    "postRerankIds": [
+      "c2280be4-3ead-4fbd-8a49-d51541ae8256",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "4d4d1846-a0c8-49b4-8f17-2d24bb1cc278",
+      "3d0eeda1-a4d3-45db-8453-244b837e8055",
+      "7e76806b-45d5-4fc0-97c2-0380adddf7c4"
+    ],
+    "judge": {
+      "relevantIds": [
+        "c2280be4-3ead-4fbd-8a49-d51541ae8256"
+      ],
+      "sectionMap": {
+        "c2280be4-3ead-4fbd-8a49-d51541ae8256": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 5063,
+      "rerankMs": 609,
+      "genMs": 1134
+    },
+    "tokens": {
+      "jinaTokens": 1193,
+      "genTokens": 1045,
+      "judgeTokens": 2005
+    }
+  },
+  "q_06": {
+    "query_id": "q_06",
+    "query_type": "semantic",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "7a397151-5e3e-4aab-ad03-fc7744e6bce6",
+      "a0fcaa74-feab-4eb1-aa84-f8be7034eb1e",
+      "30272b34-92f5-4859-9f0a-e98da665b711",
+      "0a3519a9-972f-437a-afe2-91feee4c94bf",
+      "fd814964-56c3-4d77-9fc8-c0f1819c871f",
+      "ed466e8d-89e5-4485-9050-ff2b772b696f",
+      "b6052ecf-b3e3-4e75-9b26-2317b6577a5b",
+      "7b1f4071-a124-4ff5-89a1-39e522fcbdba",
+      "6a56dc1c-2e59-448f-88a4-9936776cd8c0",
+      "316e8588-3e3d-4117-9032-46112e69369c"
+    ],
+    "postRerankIds": [
+      "a0fcaa74-feab-4eb1-aa84-f8be7034eb1e",
+      "30272b34-92f5-4859-9f0a-e98da665b711",
+      "fd814964-56c3-4d77-9fc8-c0f1819c871f",
+      "b6052ecf-b3e3-4e75-9b26-2317b6577a5b",
+      "6a56dc1c-2e59-448f-88a4-9936776cd8c0"
+    ],
+    "judge": {
+      "relevantIds": [
+        "a0fcaa74-feab-4eb1-aa84-f8be7034eb1e",
+        "30272b34-92f5-4859-9f0a-e98da665b711",
+        "fd814964-56c3-4d77-9fc8-c0f1819c871f"
+      ],
+      "sectionMap": {
+        "a0fcaa74-feab-4eb1-aa84-f8be7034eb1e": [
+          0
+        ],
+        "30272b34-92f5-4859-9f0a-e98da665b711": [
+          0
+        ],
+        "fd814964-56c3-4d77-9fc8-c0f1819c871f": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 0.5,
+      "mrrAt5": 0.5,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1241,
+      "rerankMs": 497,
+      "genMs": 1292
+    },
+    "tokens": {
+      "jinaTokens": 1606,
+      "genTokens": 1351,
+      "judgeTokens": 2730
+    }
+  },
+  "q_10": {
+    "query_id": "q_10",
+    "query_type": "hard_negative",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "e250cb37-4b83-4797-98fa-d3795c006629",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "5d13bc39-90c6-40dd-9618-ebe692dcb02d",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "9553b1bd-30f5-48ff-bd4d-b86323bc30af",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "7b1f4071-a124-4ff5-89a1-39e522fcbdba",
+      "7736b2f7-a5b0-467e-a0b4-a82e6faf5c96",
+      "da9291b2-4d84-4c34-b4d0-c5cd3565e54f",
+      "176b0904-d131-4948-9b00-4cbf7656a71c"
+    ],
+    "postRerankIds": [
+      "e250cb37-4b83-4797-98fa-d3795c006629",
+      "5d13bc39-90c6-40dd-9618-ebe692dcb02d",
+      "7b1f4071-a124-4ff5-89a1-39e522fcbdba",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "9553b1bd-30f5-48ff-bd4d-b86323bc30af"
+    ],
+    "judge": {
+      "relevantIds": [
+        "e250cb37-4b83-4797-98fa-d3795c006629"
+      ],
+      "sectionMap": {
+        "e250cb37-4b83-4797-98fa-d3795c006629": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 9593,
+      "rerankMs": 603,
+      "genMs": 1031
+    },
+    "tokens": {
+      "jinaTokens": 1393,
+      "genTokens": 1133,
+      "judgeTokens": 2196
+    }
+  },
+  "q_53": {
+    "query_id": "q_53",
+    "query_type": "multi_hop_intra_doc",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 4,
+    "preRerankIds": [
+      "d3b87dcc-b377-41f2-a157-072a1012d72c",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "3e9698aa-1274-48da-b00d-cd936faca62d",
+      "0ff8b82b-e7d5-4715-ab7b-0a8b12309ab4",
+      "a90c4010-34d8-47ee-8c2c-affcb3330a9f",
+      "13238216-372f-409c-a6b3-06ec66b8a0c8",
+      "3aaf5396-bc95-466b-9a15-96dfd17e66d6",
+      "855d8c7e-c152-4daa-b069-fb7f2c8e904e",
+      "0f53ea20-0567-481a-8ed2-7a1c996a71fc",
+      "b0d9c862-76b3-400d-b176-c084662ebb1e"
+    ],
+    "postRerankIds": [
+      "3e9698aa-1274-48da-b00d-cd936faca62d",
+      "a90c4010-34d8-47ee-8c2c-affcb3330a9f",
+      "d3b87dcc-b377-41f2-a157-072a1012d72c",
+      "0f53ea20-0567-481a-8ed2-7a1c996a71fc",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd"
+    ],
+    "judge": {
+      "relevantIds": [
+        "d3b87dcc-b377-41f2-a157-072a1012d72c",
+        "3e9698aa-1274-48da-b00d-cd936faca62d"
+      ],
+      "sectionMap": {
+        "d3b87dcc-b377-41f2-a157-072a1012d72c": [
+          0,
+          1,
+          2
+        ],
+        "3e9698aa-1274-48da-b00d-cd936faca62d": [
+          3
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.6,
+    "latency": {
+      "retrievalMs": 2528,
+      "rerankMs": 675,
+      "genMs": 2047
+    },
+    "tokens": {
+      "jinaTokens": 1487,
+      "genTokens": 1787,
+      "judgeTokens": 2768
+    }
+  },
+  "q_14": {
+    "query_id": "q_14",
+    "query_type": "keyword_dense",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 2,
+    "preRerankIds": [
+      "86ca6f17-10d1-468d-9458-cc77845843aa",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "2b63dfa9-bd0a-4ea8-b507-07b0f9a98d4d",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "2a915472-90cb-4c42-9b8b-e3633395a49a",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "316e8588-3e3d-4117-9032-46112e69369c",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4",
+      "b2d1f136-7272-4cd8-b5a2-1d782d885a2e",
+      "62f130db-27f0-4bf1-8260-51c311297b15"
+    ],
+    "postRerankIds": [
+      "86ca6f17-10d1-468d-9458-cc77845843aa",
+      "2b63dfa9-bd0a-4ea8-b507-07b0f9a98d4d",
+      "2a915472-90cb-4c42-9b8b-e3633395a49a",
+      "316e8588-3e3d-4117-9032-46112e69369c",
+      "b2d1f136-7272-4cd8-b5a2-1d782d885a2e"
+    ],
+    "judge": {
+      "relevantIds": [
+        "86ca6f17-10d1-468d-9458-cc77845843aa",
+        "2b63dfa9-bd0a-4ea8-b507-07b0f9a98d4d",
+        "2a915472-90cb-4c42-9b8b-e3633395a49a",
+        "316e8588-3e3d-4117-9032-46112e69369c"
+      ],
+      "sectionMap": {
+        "86ca6f17-10d1-468d-9458-cc77845843aa": [
+          1
+        ],
+        "2b63dfa9-bd0a-4ea8-b507-07b0f9a98d4d": [
+          0,
+          1
+        ],
+        "2a915472-90cb-4c42-9b8b-e3633395a49a": [
+          0
+        ],
+        "316e8588-3e3d-4117-9032-46112e69369c": [
+          1
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0,
+    "latency": {
+      "retrievalMs": 5327,
+      "rerankMs": 694,
+      "genMs": 957
+    },
+    "tokens": {
+      "jinaTokens": 1525,
+      "genTokens": 1286,
+      "judgeTokens": 2526
+    }
+  },
+  "q_19": {
+    "query_id": "q_19",
+    "query_type": "semantic",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "4c37144f-2727-45a4-bbde-d514c3f80e39",
+      "ec5fef33-4cf8-41d7-bd4e-a931f928015f",
+      "316e8588-3e3d-4117-9032-46112e69369c",
+      "f806195b-8f6e-4389-be6a-0f08058e8d17",
+      "acfbb6ee-eedd-435f-8d2d-221eb47e6ef0",
+      "2bb5ba04-1da1-4b8c-b85f-84a5177a1840",
+      "4ffd1f40-3da6-49a1-a8c8-45a754359ede",
+      "855d8c7e-c152-4daa-b069-fb7f2c8e904e",
+      "dcb52afe-5ed7-45cd-a8d9-3c1f29624db2",
+      "742f212d-7401-4879-b157-9870fdf4783e"
+    ],
+    "postRerankIds": [
+      "4c37144f-2727-45a4-bbde-d514c3f80e39",
+      "acfbb6ee-eedd-435f-8d2d-221eb47e6ef0",
+      "742f212d-7401-4879-b157-9870fdf4783e",
+      "dcb52afe-5ed7-45cd-a8d9-3c1f29624db2",
+      "316e8588-3e3d-4117-9032-46112e69369c"
+    ],
+    "judge": {
+      "relevantIds": [
+        "4c37144f-2727-45a4-bbde-d514c3f80e39",
+        "acfbb6ee-eedd-435f-8d2d-221eb47e6ef0",
+        "dcb52afe-5ed7-45cd-a8d9-3c1f29624db2"
+      ],
+      "sectionMap": {
+        "4c37144f-2727-45a4-bbde-d514c3f80e39": [
+          0
+        ],
+        "acfbb6ee-eedd-435f-8d2d-221eb47e6ef0": [
+          0
+        ],
+        "dcb52afe-5ed7-45cd-a8d9-3c1f29624db2": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 3879,
+      "rerankMs": 533,
+      "genMs": 970
+    },
+    "tokens": {
+      "jinaTokens": 1514,
+      "genTokens": 1233,
+      "judgeTokens": 2533
+    }
+  },
+  "q_23": {
+    "query_id": "q_23",
+    "query_type": "hard_negative",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "14d3cb5c-cfa3-4cbe-891c-33cf7037a89a",
+      "8250302f-1864-4d43-93e7-134441613037",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4",
+      "dcb26b1c-0ea4-460f-a340-65eb3eee2bb0",
+      "2bb5ba04-1da1-4b8c-b85f-84a5177a1840",
+      "96931eac-5a91-4214-bc07-ef5bf4aff410",
+      "855d8c7e-c152-4daa-b069-fb7f2c8e904e",
+      "2dfe740c-0f58-4356-b3af-22f9055f997c",
+      "742f212d-7401-4879-b157-9870fdf4783e",
+      "9b63d886-a393-41f0-b103-02b257c39520"
+    ],
+    "postRerankIds": [
+      "8250302f-1864-4d43-93e7-134441613037",
+      "dcb26b1c-0ea4-460f-a340-65eb3eee2bb0",
+      "96931eac-5a91-4214-bc07-ef5bf4aff410",
+      "9b63d886-a393-41f0-b103-02b257c39520",
+      "14d3cb5c-cfa3-4cbe-891c-33cf7037a89a"
+    ],
+    "judge": {
+      "relevantIds": [
+        "8250302f-1864-4d43-93e7-134441613037",
+        "96931eac-5a91-4214-bc07-ef5bf4aff410",
+        "9b63d886-a393-41f0-b103-02b257c39520",
+        "2dfe740c-0f58-4356-b3af-22f9055f997c"
+      ],
+      "sectionMap": {
+        "8250302f-1864-4d43-93e7-134441613037": [
+          0
+        ],
+        "96931eac-5a91-4214-bc07-ef5bf4aff410": [
+          0
+        ],
+        "9b63d886-a393-41f0-b103-02b257c39520": [
+          0
+        ],
+        "2dfe740c-0f58-4356-b3af-22f9055f997c": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 0.5,
+      "mrrAt5": 0.5,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1599,
+      "rerankMs": 631,
+      "genMs": 1141
+    },
+    "tokens": {
+      "jinaTokens": 1274,
+      "genTokens": 1257,
+      "judgeTokens": 2435
+    }
+  },
+  "q_51": {
+    "query_id": "q_51",
+    "query_type": "multi_hop_cross_doc",
+    "target_doc": "microservices-on-aws.pdf, wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 4,
+    "preRerankIds": [
+      "b0b32a63-5f28-4b4d-b531-d06884f82c0c",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "e250cb37-4b83-4797-98fa-d3795c006629",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "0628f7d1-eba5-4332-ae10-8d3e4acd21e9",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "9553b1bd-30f5-48ff-bd4d-b86323bc30af",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "38fad6ed-0b5f-49da-98b1-0ef12bd766c3",
+      "3d0eeda1-a4d3-45db-8453-244b837e8055"
+    ],
+    "postRerankIds": [
+      "b0b32a63-5f28-4b4d-b531-d06884f82c0c",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "0628f7d1-eba5-4332-ae10-8d3e4acd21e9",
+      "e250cb37-4b83-4797-98fa-d3795c006629",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd"
+    ],
+    "judge": {
+      "relevantIds": [
+        "e250cb37-4b83-4797-98fa-d3795c006629",
+        "b0b32a63-5f28-4b4d-b531-d06884f82c0c",
+        "0628f7d1-eba5-4332-ae10-8d3e4acd21e9"
+      ],
+      "sectionMap": {
+        "e250cb37-4b83-4797-98fa-d3795c006629": [
+          0
+        ],
+        "b0b32a63-5f28-4b4d-b531-d06884f82c0c": [
+          1
+        ],
+        "0628f7d1-eba5-4332-ae10-8d3e4acd21e9": [
+          2,
+          3
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.5,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.75,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.95,
+    "latency": {
+      "retrievalMs": 1293,
+      "rerankMs": 650,
+      "genMs": 2029
+    },
+    "tokens": {
+      "jinaTokens": 1514,
+      "genTokens": 1654,
+      "judgeTokens": 2838
+    }
+  },
+  "q_27": {
+    "query_id": "q_27",
+    "query_type": "keyword_dense",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "a096edd3-9ffe-401d-80d1-4735c254cd81",
+      "ec5fef33-4cf8-41d7-bd4e-a931f928015f",
+      "613712e3-a82e-4f92-a235-3a18eb828466",
+      "f806195b-8f6e-4389-be6a-0f08058e8d17",
+      "4ee626c4-f730-4109-9517-5dacddf9e5b3",
+      "b0d9c862-76b3-400d-b176-c084662ebb1e",
+      "cc1b1cb6-5011-4bfc-99a8-387d683f4e0c",
+      "cb0e4136-4295-4d04-8c16-40dba22f3f6b",
+      "8428b34a-d212-4652-969d-ce381ae1a75d",
+      "d3b3e1fa-025a-424f-8783-e1577add86b2"
+    ],
+    "postRerankIds": [
+      "613712e3-a82e-4f92-a235-3a18eb828466",
+      "a096edd3-9ffe-401d-80d1-4735c254cd81",
+      "4ee626c4-f730-4109-9517-5dacddf9e5b3",
+      "8428b34a-d212-4652-969d-ce381ae1a75d",
+      "cc1b1cb6-5011-4bfc-99a8-387d683f4e0c"
+    ],
+    "judge": {
+      "relevantIds": [
+        "613712e3-a82e-4f92-a235-3a18eb828466",
+        "4ee626c4-f730-4109-9517-5dacddf9e5b3",
+        "a096edd3-9ffe-401d-80d1-4735c254cd81"
+      ],
+      "sectionMap": {
+        "613712e3-a82e-4f92-a235-3a18eb828466": [
+          0
+        ],
+        "4ee626c4-f730-4109-9517-5dacddf9e5b3": [
+          0
+        ],
+        "a096edd3-9ffe-401d-80d1-4735c254cd81": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1894,
+      "rerankMs": 530,
+      "genMs": 1354
+    },
+    "tokens": {
+      "jinaTokens": 1722,
+      "genTokens": 1391,
+      "judgeTokens": 2760
+    }
+  },
+  "q_33": {
+    "query_id": "q_33",
+    "query_type": "semantic",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "da63f60b-f92a-4ac2-a087-cbf9b390ac3f",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "e630dc74-f6b7-4463-9317-95fac65bb0dc",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "e3820f34-a474-492c-bb04-7d761a62cebd",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4",
+      "e1c035dd-876c-42d9-a619-883a94888bb2",
+      "13238216-372f-409c-a6b3-06ec66b8a0c8",
+      "65d1b455-a796-4277-bfc1-cceb28ed3214",
+      "855d8c7e-c152-4daa-b069-fb7f2c8e904e"
+    ],
+    "postRerankIds": [
+      "da63f60b-f92a-4ac2-a087-cbf9b390ac3f",
+      "e3820f34-a474-492c-bb04-7d761a62cebd",
+      "65d1b455-a796-4277-bfc1-cceb28ed3214",
+      "e1c035dd-876c-42d9-a619-883a94888bb2",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9"
+    ],
+    "judge": {
+      "relevantIds": [
+        "da63f60b-f92a-4ac2-a087-cbf9b390ac3f",
+        "e3820f34-a474-492c-bb04-7d761a62cebd",
+        "e1c035dd-876c-42d9-a619-883a94888bb2",
+        "e630dc74-f6b7-4463-9317-95fac65bb0dc"
+      ],
+      "sectionMap": {
+        "da63f60b-f92a-4ac2-a087-cbf9b390ac3f": [
+          0
+        ],
+        "e3820f34-a474-492c-bb04-7d761a62cebd": [
+          0
+        ],
+        "e1c035dd-876c-42d9-a619-883a94888bb2": [
+          0
+        ],
+        "e630dc74-f6b7-4463-9317-95fac65bb0dc": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 932,
+      "rerankMs": 511,
+      "genMs": 1368
+    },
+    "tokens": {
+      "jinaTokens": 1578,
+      "genTokens": 1492,
+      "judgeTokens": 2872
+    }
+  },
+  "q_02": {
+    "query_id": "q_02",
+    "query_type": "keyword_dense",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 2,
+    "preRerankIds": [
+      "bcaa9a8a-dd86-4375-9995-4c7d2b31a6bd",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "9553b1bd-30f5-48ff-bd4d-b86323bc30af",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "8eeaefcf-6a59-452b-8535-9f7d39ba5bfa",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "18814ede-a7f0-4881-a8f6-87d81efa5ab4",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "5d13bc39-90c6-40dd-9618-ebe692dcb02d",
+      "3d0eeda1-a4d3-45db-8453-244b837e8055"
+    ],
+    "postRerankIds": [
+      "9553b1bd-30f5-48ff-bd4d-b86323bc30af",
+      "bcaa9a8a-dd86-4375-9995-4c7d2b31a6bd",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "8eeaefcf-6a59-452b-8535-9f7d39ba5bfa",
+      "3d0eeda1-a4d3-45db-8453-244b837e8055"
+    ],
+    "judge": {
+      "relevantIds": [
+        "bcaa9a8a-dd86-4375-9995-4c7d2b31a6bd",
+        "9553b1bd-30f5-48ff-bd4d-b86323bc30af"
+      ],
+      "sectionMap": {
+        "bcaa9a8a-dd86-4375-9995-4c7d2b31a6bd": [
+          1
+        ],
+        "9553b1bd-30f5-48ff-bd4d-b86323bc30af": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1328,
+      "rerankMs": 665,
+      "genMs": 1004
+    },
+    "tokens": {
+      "jinaTokens": 1368,
+      "genTokens": 1037,
+      "judgeTokens": 2258
+    }
+  },
+  "q_07": {
+    "query_id": "q_07",
+    "query_type": "semantic",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "64c1e410-a0d1-49bf-8403-e8301cbd2a1b",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "50c697b6-c68c-42aa-809a-d03e84539086",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "594fd264-fbb4-468b-9b7b-6791242e77e5",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4",
+      "1cfd175e-9811-4747-a4b1-2acf29ffb442",
+      "62f130db-27f0-4bf1-8260-51c311297b15",
+      "43b14ef8-f373-4b4f-9a9d-dfc1ac280207",
+      "ec5fef33-4cf8-41d7-bd4e-a931f928015f"
+    ],
+    "postRerankIds": [
+      "64c1e410-a0d1-49bf-8403-e8301cbd2a1b",
+      "594fd264-fbb4-468b-9b7b-6791242e77e5",
+      "50c697b6-c68c-42aa-809a-d03e84539086",
+      "62f130db-27f0-4bf1-8260-51c311297b15",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9"
+    ],
+    "judge": {
+      "relevantIds": [
+        "64c1e410-a0d1-49bf-8403-e8301cbd2a1b",
+        "594fd264-fbb4-468b-9b7b-6791242e77e5"
+      ],
+      "sectionMap": {
+        "64c1e410-a0d1-49bf-8403-e8301cbd2a1b": [
+          0
+        ],
+        "594fd264-fbb4-468b-9b7b-6791242e77e5": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1676,
+      "rerankMs": 686,
+      "genMs": 1054
+    },
+    "tokens": {
+      "jinaTokens": 1816,
+      "genTokens": 1410,
+      "judgeTokens": 2683
+    }
+  },
+  "q_11": {
+    "query_id": "q_11",
+    "query_type": "hard_negative",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "c5849f88-014b-4779-8c8c-09d3de89b990",
+      "d3b3e1fa-025a-424f-8783-e1577add86b2",
+      "b76bd5e8-0220-4e35-a968-9338c5538702",
+      "30267a0b-8795-4f1b-add3-47f06d98a08e",
+      "073970a9-6b77-482e-af74-3f3dd3fafd4a",
+      "08f8eb64-5f3e-4d05-8db8-6c983b7a6ac8",
+      "6a6ff17d-71d0-48e4-8544-5d625cf96458",
+      "2b63dfa9-bd0a-4ea8-b507-07b0f9a98d4d",
+      "536aaee8-4682-49d3-be1c-432525c44eb4",
+      "9ece10bf-88cf-42e0-8754-bbd37cfa5740"
+    ],
+    "postRerankIds": [
+      "b76bd5e8-0220-4e35-a968-9338c5538702",
+      "c5849f88-014b-4779-8c8c-09d3de89b990",
+      "073970a9-6b77-482e-af74-3f3dd3fafd4a",
+      "536aaee8-4682-49d3-be1c-432525c44eb4",
+      "9ece10bf-88cf-42e0-8754-bbd37cfa5740"
+    ],
+    "judge": {
+      "relevantIds": [
+        "b76bd5e8-0220-4e35-a968-9338c5538702",
+        "c5849f88-014b-4779-8c8c-09d3de89b990"
+      ],
+      "sectionMap": {
+        "b76bd5e8-0220-4e35-a968-9338c5538702": [
+          0
+        ],
+        "c5849f88-014b-4779-8c8c-09d3de89b990": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1144,
+      "rerankMs": 512,
+      "genMs": 1275
+    },
+    "tokens": {
+      "jinaTokens": 1494,
+      "genTokens": 1095,
+      "judgeTokens": 2513
+    }
+  },
+  "q_54": {
+    "query_id": "q_54",
+    "query_type": "multi_hop_cross_doc",
+    "target_doc": "microservices-on-aws.pdf, wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 4,
+    "preRerankIds": [
+      "1cfd175e-9811-4747-a4b1-2acf29ffb442",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "a0fcaa74-feab-4eb1-aa84-f8be7034eb1e",
+      "b581014c-566c-48da-a196-e2acb2282a3c",
+      "fd814964-56c3-4d77-9fc8-c0f1819c871f",
+      "7a397151-5e3e-4aab-ad03-fc7744e6bce6",
+      "6a56dc1c-2e59-448f-88a4-9936776cd8c0",
+      "1650749e-ff3d-4f47-9e64-b3f69524025b",
+      "425fa44b-aa6c-4f6f-bbee-6fbafc84199a",
+      "0a3519a9-972f-437a-afe2-91feee4c94bf"
+    ],
+    "postRerankIds": [
+      "425fa44b-aa6c-4f6f-bbee-6fbafc84199a",
+      "a0fcaa74-feab-4eb1-aa84-f8be7034eb1e",
+      "1cfd175e-9811-4747-a4b1-2acf29ffb442",
+      "6a56dc1c-2e59-448f-88a4-9936776cd8c0",
+      "fd814964-56c3-4d77-9fc8-c0f1819c871f"
+    ],
+    "judge": {
+      "relevantIds": [
+        "a0fcaa74-feab-4eb1-aa84-f8be7034eb1e",
+        "fd814964-56c3-4d77-9fc8-c0f1819c871f",
+        "6a56dc1c-2e59-448f-88a4-9936776cd8c0",
+        "1cfd175e-9811-4747-a4b1-2acf29ffb442",
+        "425fa44b-aa6c-4f6f-bbee-6fbafc84199a"
+      ],
+      "sectionMap": {
+        "a0fcaa74-feab-4eb1-aa84-f8be7034eb1e": [
+          2
+        ],
+        "fd814964-56c3-4d77-9fc8-c0f1819c871f": [
+          2
+        ],
+        "6a56dc1c-2e59-448f-88a4-9936776cd8c0": [
+          1
+        ],
+        "1cfd175e-9811-4747-a4b1-2acf29ffb442": [
+          3
+        ],
+        "425fa44b-aa6c-4f6f-bbee-6fbafc84199a": [
+          3
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.5,
+      "recallAt5": 0.5
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.5,
+      "recallAt5": 0.75
+    },
+    "answerCorrectness": 0.6,
+    "latency": {
+      "retrievalMs": 1145,
+      "rerankMs": 482,
+      "genMs": 2762
+    },
+    "tokens": {
+      "jinaTokens": 1798,
+      "genTokens": 1850,
+      "judgeTokens": 3286
+    }
+  },
+  "q_15": {
+    "query_id": "q_15",
+    "query_type": "keyword_dense",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "db0eecf1-8300-49b6-8184-77e700a8ed17",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "21204aa1-ea93-4fe2-a4c5-d28f7aa40b9d",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "6ef6c702-fb54-4cbb-b1f8-1db0cce240d5",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4",
+      "53969f46-7874-4086-bd87-3e9b1491d9d8",
+      "ba3b95f6-aef8-4076-b694-ebb22772887c",
+      "98897766-6eac-4638-a7a6-8ef11f35eac8",
+      "62f130db-27f0-4bf1-8260-51c311297b15"
+    ],
+    "postRerankIds": [
+      "db0eecf1-8300-49b6-8184-77e700a8ed17",
+      "6ef6c702-fb54-4cbb-b1f8-1db0cce240d5",
+      "21204aa1-ea93-4fe2-a4c5-d28f7aa40b9d",
+      "98897766-6eac-4638-a7a6-8ef11f35eac8",
+      "53969f46-7874-4086-bd87-3e9b1491d9d8"
+    ],
+    "judge": {
+      "relevantIds": [
+        "db0eecf1-8300-49b6-8184-77e700a8ed17",
+        "6ef6c702-fb54-4cbb-b1f8-1db0cce240d5"
+      ],
+      "sectionMap": {
+        "db0eecf1-8300-49b6-8184-77e700a8ed17": [
+          0
+        ],
+        "6ef6c702-fb54-4cbb-b1f8-1db0cce240d5": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1323,
+      "rerankMs": 631,
+      "genMs": 1765
+    },
+    "tokens": {
+      "jinaTokens": 1672,
+      "genTokens": 1595,
+      "judgeTokens": 2682
+    }
+  },
+  "q_28": {
+    "query_id": "q_28",
+    "query_type": "semantic",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "f6a9e66d-c11a-45cd-acb1-25bd510ee918",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "1d051315-5428-4b94-9277-df5bc1a9274c",
+      "312032ff-70b9-40f8-a3ac-67956062350d",
+      "54538b7d-88ad-4382-bd02-fa717224672e",
+      "9fb792b8-3d94-4013-ba97-440a7d99d3f5",
+      "ab04a9b6-6256-425c-91ea-4184254e6fad",
+      "4c6126e5-18c0-45ed-848d-2ea50085d244",
+      "e538be5f-44a4-4af4-807d-f47c69e8e6ee",
+      "cb0e4136-4295-4d04-8c16-40dba22f3f6b"
+    ],
+    "postRerankIds": [
+      "1d051315-5428-4b94-9277-df5bc1a9274c",
+      "f6a9e66d-c11a-45cd-acb1-25bd510ee918",
+      "ab04a9b6-6256-425c-91ea-4184254e6fad",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "54538b7d-88ad-4382-bd02-fa717224672e"
+    ],
+    "judge": {
+      "relevantIds": [
+        "1d051315-5428-4b94-9277-df5bc1a9274c",
+        "ab04a9b6-6256-425c-91ea-4184254e6fad"
+      ],
+      "sectionMap": {
+        "1d051315-5428-4b94-9277-df5bc1a9274c": [
+          0
+        ],
+        "ab04a9b6-6256-425c-91ea-4184254e6fad": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 0.3333333333333333,
+      "mrrAt5": 0.3333333333333333,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.5,
+    "latency": {
+      "retrievalMs": 2133,
+      "rerankMs": 523,
+      "genMs": 1480
+    },
+    "tokens": {
+      "jinaTokens": 1472,
+      "genTokens": 1242,
+      "judgeTokens": 2348
+    }
+  },
+  "q_34": {
+    "query_id": "q_34",
+    "query_type": "hard_negative",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 2,
+    "preRerankIds": [
+      "982cc0c3-4e50-478f-ad6d-8e47dee49732",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "eb3f1eb4-92fc-4eb9-b4da-82a76840c259",
+      "312032ff-70b9-40f8-a3ac-67956062350d",
+      "5afac3e1-b8bf-4dec-b4f4-427d3eedc71f",
+      "cb0e4136-4295-4d04-8c16-40dba22f3f6b",
+      "3b50b2a6-15c7-4236-9995-db689770e35c",
+      "b6773912-7bf3-45fc-b2b8-484499e8e12a",
+      "7c96db15-557f-46db-acda-078253b0dc11",
+      "d5446574-2f6d-4ddc-8349-536da0511e83"
+    ],
+    "postRerankIds": [
+      "982cc0c3-4e50-478f-ad6d-8e47dee49732",
+      "eb3f1eb4-92fc-4eb9-b4da-82a76840c259",
+      "5afac3e1-b8bf-4dec-b4f4-427d3eedc71f",
+      "3b50b2a6-15c7-4236-9995-db689770e35c",
+      "7c96db15-557f-46db-acda-078253b0dc11"
+    ],
+    "judge": {
+      "relevantIds": [
+        "eb3f1eb4-92fc-4eb9-b4da-82a76840c259",
+        "982cc0c3-4e50-478f-ad6d-8e47dee49732",
+        "5afac3e1-b8bf-4dec-b4f4-427d3eedc71f"
+      ],
+      "sectionMap": {
+        "eb3f1eb4-92fc-4eb9-b4da-82a76840c259": [
+          0
+        ],
+        "982cc0c3-4e50-478f-ad6d-8e47dee49732": [
+          1
+        ],
+        "5afac3e1-b8bf-4dec-b4f4-427d3eedc71f": [
+          1
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.85,
+    "latency": {
+      "retrievalMs": 1361,
+      "rerankMs": 516,
+      "genMs": 1541
+    },
+    "tokens": {
+      "jinaTokens": 1419,
+      "genTokens": 1425,
+      "judgeTokens": 2568
+    }
+  },
+  "q_59": {
+    "query_id": "q_59",
+    "query_type": "multi_hop_cross_doc",
+    "target_doc": "microservices-on-aws.pdf, wellarchitected-security-pillar.pdf, wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 6,
+    "preRerankIds": [
+      "751f4d31-53d6-43df-bc54-221ccd010ea1",
+      "62f130db-27f0-4bf1-8260-51c311297b15",
+      "5b53377f-855c-4505-a0cb-5c1357e8a3f8",
+      "9fb792b8-3d94-4013-ba97-440a7d99d3f5",
+      "8eeaefcf-6a59-452b-8535-9f7d39ba5bfa",
+      "d5446574-2f6d-4ddc-8349-536da0511e83",
+      "d85c6306-aad1-44e5-a212-4eb302d6a303",
+      "ba44bd07-b4d9-4c69-bdd7-d5e144d5b3fc",
+      "112e5ac7-b405-4e6b-9e96-8bbfa00fa5f2",
+      "39ba4038-07f5-4266-a653-a4f1282c3402"
+    ],
+    "postRerankIds": [
+      "751f4d31-53d6-43df-bc54-221ccd010ea1",
+      "5b53377f-855c-4505-a0cb-5c1357e8a3f8",
+      "112e5ac7-b405-4e6b-9e96-8bbfa00fa5f2",
+      "8eeaefcf-6a59-452b-8535-9f7d39ba5bfa",
+      "9fb792b8-3d94-4013-ba97-440a7d99d3f5"
+    ],
+    "judge": {
+      "relevantIds": [
+        "751f4d31-53d6-43df-bc54-221ccd010ea1",
+        "5b53377f-855c-4505-a0cb-5c1357e8a3f8"
+      ],
+      "sectionMap": {
+        "751f4d31-53d6-43df-bc54-221ccd010ea1": [
+          0,
+          1
+        ],
+        "5b53377f-855c-4505-a0cb-5c1357e8a3f8": [
+          4
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.5,
+      "recallAt5": 0.5
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.5,
+      "recallAt5": 0.5
+    },
+    "answerCorrectness": 0.4,
+    "latency": {
+      "retrievalMs": 1526,
+      "rerankMs": 518,
+      "genMs": 1948
+    },
+    "tokens": {
+      "jinaTokens": 1445,
+      "genTokens": 1678,
+      "judgeTokens": 2757
+    }
+  },
+  "q_38": {
+    "query_id": "q_38",
+    "query_type": "keyword_dense",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "3b2d11cb-fe1f-4a04-8f65-b0fa41f1e110",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "b6573bdb-6098-4a44-8a30-d547da24c538",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "722c1ae2-2fb3-4e6c-8f1f-7b2ca8aed2c3",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "3c83f169-91f3-473f-87e6-6f9b42f2414f",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "c7672342-1dc4-4e46-9eb8-95b3f4ee1e35",
+      "3d0eeda1-a4d3-45db-8453-244b837e8055"
+    ],
+    "postRerankIds": [
+      "3b2d11cb-fe1f-4a04-8f65-b0fa41f1e110",
+      "b6573bdb-6098-4a44-8a30-d547da24c538",
+      "722c1ae2-2fb3-4e6c-8f1f-7b2ca8aed2c3",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "3c83f169-91f3-473f-87e6-6f9b42f2414f"
+    ],
+    "judge": {
+      "relevantIds": [
+        "3b2d11cb-fe1f-4a04-8f65-b0fa41f1e110",
+        "b6573bdb-6098-4a44-8a30-d547da24c538",
+        "722c1ae2-2fb3-4e6c-8f1f-7b2ca8aed2c3"
+      ],
+      "sectionMap": {
+        "3b2d11cb-fe1f-4a04-8f65-b0fa41f1e110": [
+          0
+        ],
+        "b6573bdb-6098-4a44-8a30-d547da24c538": [
+          0
+        ],
+        "722c1ae2-2fb3-4e6c-8f1f-7b2ca8aed2c3": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1037,
+      "rerankMs": 609,
+      "genMs": 1118
+    },
+    "tokens": {
+      "jinaTokens": 1390,
+      "genTokens": 1309,
+      "judgeTokens": 2347
+    }
+  },
+  "q_42": {
+    "query_id": "q_42",
+    "query_type": "hard_negative",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "cccc5eb6-4059-4cd5-b138-5f645feb5e7e",
+      "2bb5ba04-1da1-4b8c-b85f-84a5177a1840",
+      "20aaecb3-878f-4b6b-a176-dd1cb49fb1a8",
+      "855d8c7e-c152-4daa-b069-fb7f2c8e904e",
+      "c2532f4d-4151-4c22-8c4d-62b0401f1a95",
+      "742f212d-7401-4879-b157-9870fdf4783e",
+      "b059f275-7370-46df-83bb-b15e80e926ab",
+      "b7054964-06c0-49d4-a2ac-4ef85ed68047",
+      "cb97abfc-24f1-4826-bc47-678682dd67a9",
+      "877c3475-0a90-4da5-ad4d-847594671bef"
+    ],
+    "postRerankIds": [
+      "cccc5eb6-4059-4cd5-b138-5f645feb5e7e",
+      "b059f275-7370-46df-83bb-b15e80e926ab",
+      "20aaecb3-878f-4b6b-a176-dd1cb49fb1a8",
+      "cb97abfc-24f1-4826-bc47-678682dd67a9",
+      "c2532f4d-4151-4c22-8c4d-62b0401f1a95"
+    ],
+    "judge": {
+      "relevantIds": [
+        "cccc5eb6-4059-4cd5-b138-5f645feb5e7e",
+        "20aaecb3-878f-4b6b-a176-dd1cb49fb1a8",
+        "b059f275-7370-46df-83bb-b15e80e926ab",
+        "cb97abfc-24f1-4826-bc47-678682dd67a9"
+      ],
+      "sectionMap": {
+        "cccc5eb6-4059-4cd5-b138-5f645feb5e7e": [
+          0
+        ],
+        "20aaecb3-878f-4b6b-a176-dd1cb49fb1a8": [
+          0
+        ],
+        "b059f275-7370-46df-83bb-b15e80e926ab": [
+          0
+        ],
+        "cb97abfc-24f1-4826-bc47-678682dd67a9": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 951,
+      "rerankMs": 481,
+      "genMs": 1075
+    },
+    "tokens": {
+      "jinaTokens": 1404,
+      "genTokens": 1401,
+      "judgeTokens": 2485
+    }
+  },
+  "q_03": {
+    "query_id": "q_03",
+    "query_type": "keyword_dense",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "a1147bce-eae8-4e04-8ee2-8b493011c3b9",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "1ef3c283-3247-4d71-a93d-b6ba8f3668b2",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "e1412c28-52bb-4735-a91b-f133941f8e14",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "f2dc7913-073c-474d-bd0c-5e17a409fe6d",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "5825e923-0412-4f5f-9f7b-e7ddc0c6ec25",
+      "b581014c-566c-48da-a196-e2acb2282a3c"
+    ],
+    "postRerankIds": [
+      "a1147bce-eae8-4e04-8ee2-8b493011c3b9",
+      "1ef3c283-3247-4d71-a93d-b6ba8f3668b2",
+      "e1412c28-52bb-4735-a91b-f133941f8e14",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9"
+    ],
+    "judge": {
+      "relevantIds": [
+        "a1147bce-eae8-4e04-8ee2-8b493011c3b9",
+        "1ef3c283-3247-4d71-a93d-b6ba8f3668b2"
+      ],
+      "sectionMap": {
+        "a1147bce-eae8-4e04-8ee2-8b493011c3b9": [
+          0
+        ],
+        "1ef3c283-3247-4d71-a93d-b6ba8f3668b2": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1416,
+      "rerankMs": 510,
+      "genMs": 866
+    },
+    "tokens": {
+      "jinaTokens": 1561,
+      "genTokens": 1157,
+      "judgeTokens": 2420
+    }
+  },
+  "q_08": {
+    "query_id": "q_08",
+    "query_type": "semantic",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "be0950f1-d9c1-4c8b-8208-2ef533d66915",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "c0622183-c0ae-4822-88af-68d2e92d4e5b",
+      "b581014c-566c-48da-a196-e2acb2282a3c",
+      "751f4d31-53d6-43df-bc54-221ccd010ea1",
+      "855d8c7e-c152-4daa-b069-fb7f2c8e904e",
+      "536aaee8-4682-49d3-be1c-432525c44eb4",
+      "3940e1d2-7b7f-4f5e-9db0-95fa8560db28",
+      "15d0afee-3b9f-48d0-b75d-d4bd16550558",
+      "d3b3e1fa-025a-424f-8783-e1577add86b2"
+    ],
+    "postRerankIds": [
+      "be0950f1-d9c1-4c8b-8208-2ef533d66915",
+      "536aaee8-4682-49d3-be1c-432525c44eb4",
+      "15d0afee-3b9f-48d0-b75d-d4bd16550558",
+      "751f4d31-53d6-43df-bc54-221ccd010ea1",
+      "855d8c7e-c152-4daa-b069-fb7f2c8e904e"
+    ],
+    "judge": {
+      "relevantIds": [
+        "be0950f1-d9c1-4c8b-8208-2ef533d66915",
+        "536aaee8-4682-49d3-be1c-432525c44eb4"
+      ],
+      "sectionMap": {
+        "be0950f1-d9c1-4c8b-8208-2ef533d66915": [
+          0
+        ],
+        "536aaee8-4682-49d3-be1c-432525c44eb4": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.9,
+    "latency": {
+      "retrievalMs": 1180,
+      "rerankMs": 574,
+      "genMs": 1614
+    },
+    "tokens": {
+      "jinaTokens": 1710,
+      "genTokens": 1362,
+      "judgeTokens": 2738
+    }
+  },
+  "q_12": {
+    "query_id": "q_12",
+    "query_type": "hard_negative",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "de28058f-4ed2-4380-920f-d82c9eedccdd",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "5825e923-0412-4f5f-9f7b-e7ddc0c6ec25",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "f2dc7913-073c-474d-bd0c-5e17a409fe6d",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "1650749e-ff3d-4f47-9e64-b3f69524025b",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "730dd92e-626c-4d62-a5fa-4b8e5c956c8e",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9"
+    ],
+    "postRerankIds": [
+      "de28058f-4ed2-4380-920f-d82c9eedccdd",
+      "f2dc7913-073c-474d-bd0c-5e17a409fe6d",
+      "5825e923-0412-4f5f-9f7b-e7ddc0c6ec25",
+      "1650749e-ff3d-4f47-9e64-b3f69524025b",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d"
+    ],
+    "judge": {
+      "relevantIds": [
+        "de28058f-4ed2-4380-920f-d82c9eedccdd",
+        "5825e923-0412-4f5f-9f7b-e7ddc0c6ec25"
+      ],
+      "sectionMap": {
+        "de28058f-4ed2-4380-920f-d82c9eedccdd": [
+          0
+        ],
+        "5825e923-0412-4f5f-9f7b-e7ddc0c6ec25": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1339,
+      "rerankMs": 564,
+      "genMs": 1075
+    },
+    "tokens": {
+      "jinaTokens": 1374,
+      "genTokens": 1315,
+      "judgeTokens": 2442
+    }
+  },
+  "q_55": {
+    "query_id": "q_55",
+    "query_type": "multi_hop_intra_doc",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 3,
+    "preRerankIds": [
+      "5afac3e1-b8bf-4dec-b4f4-427d3eedc71f",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "982cc0c3-4e50-478f-ad6d-8e47dee49732",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "dee0dbf0-f07f-45c8-af35-7c8bf7db3072",
+      "0ff8b82b-e7d5-4715-ab7b-0a8b12309ab4",
+      "eb3f1eb4-92fc-4eb9-b4da-82a76840c259",
+      "312032ff-70b9-40f8-a3ac-67956062350d",
+      "7c96db15-557f-46db-acda-078253b0dc11",
+      "b7054964-06c0-49d4-a2ac-4ef85ed68047"
+    ],
+    "postRerankIds": [
+      "dee0dbf0-f07f-45c8-af35-7c8bf7db3072",
+      "5afac3e1-b8bf-4dec-b4f4-427d3eedc71f",
+      "982cc0c3-4e50-478f-ad6d-8e47dee49732",
+      "eb3f1eb4-92fc-4eb9-b4da-82a76840c259",
+      "7c96db15-557f-46db-acda-078253b0dc11"
+    ],
+    "judge": {
+      "relevantIds": [
+        "5afac3e1-b8bf-4dec-b4f4-427d3eedc71f",
+        "dee0dbf0-f07f-45c8-af35-7c8bf7db3072"
+      ],
+      "sectionMap": {
+        "5afac3e1-b8bf-4dec-b4f4-427d3eedc71f": [
+          1
+        ],
+        "dee0dbf0-f07f-45c8-af35-7c8bf7db3072": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.3333333333333333,
+      "recallAt5": 0.6666666666666666
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.6666666666666666,
+      "recallAt5": 0.6666666666666666
+    },
+    "answerCorrectness": 0.5,
+    "latency": {
+      "retrievalMs": 1244,
+      "rerankMs": 544,
+      "genMs": 1772
+    },
+    "tokens": {
+      "jinaTokens": 1437,
+      "genTokens": 1608,
+      "judgeTokens": 2565
+    }
+  },
+  "q_16": {
+    "query_id": "q_16",
+    "query_type": "keyword_dense",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "02856b78-2e41-468b-8ae7-ee5dfac581ca",
+      "4192c919-3e8c-4242-81be-991aa9926cea",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "e6b9d198-2654-4192-8988-ae986bcdb267",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "316e8588-3e3d-4117-9032-46112e69369c",
+      "2bb5ba04-1da1-4b8c-b85f-84a5177a1840",
+      "4ffd1f40-3da6-49a1-a8c8-45a754359ede",
+      "855d8c7e-c152-4daa-b069-fb7f2c8e904e",
+      "4c37144f-2727-45a4-bbde-d514c3f80e39"
+    ],
+    "postRerankIds": [
+      "4192c919-3e8c-4242-81be-991aa9926cea",
+      "e6b9d198-2654-4192-8988-ae986bcdb267",
+      "02856b78-2e41-468b-8ae7-ee5dfac581ca",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9"
+    ],
+    "judge": {
+      "relevantIds": [
+        "4192c919-3e8c-4242-81be-991aa9926cea"
+      ],
+      "sectionMap": {
+        "4192c919-3e8c-4242-81be-991aa9926cea": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 0.5,
+      "mrrAt5": 0.5,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 779,
+      "rerankMs": 507,
+      "genMs": 1246
+    },
+    "tokens": {
+      "jinaTokens": 1502,
+      "genTokens": 1286,
+      "judgeTokens": 2444
+    }
+  },
+  "q_29": {
+    "query_id": "q_29",
+    "query_type": "semantic",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "c9ef6479-2da8-4770-ba63-b0715f398709",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4",
+      "4d4761a6-0352-456b-81e4-81414a617587",
+      "b05c2156-af95-463d-b6c3-15856838c2dc",
+      "cb9dad31-f38b-47c8-9c3c-9d2c1a75c42f",
+      "d5446574-2f6d-4ddc-8349-536da0511e83",
+      "09070b6b-301f-4cbc-ae17-8a9a1a596056",
+      "39ba4038-07f5-4266-a653-a4f1282c3402",
+      "baf8b481-7736-4e10-9c4a-bf506796cb52",
+      "7a397151-5e3e-4aab-ad03-fc7744e6bce6"
+    ],
+    "postRerankIds": [
+      "c9ef6479-2da8-4770-ba63-b0715f398709",
+      "cb9dad31-f38b-47c8-9c3c-9d2c1a75c42f",
+      "baf8b481-7736-4e10-9c4a-bf506796cb52",
+      "4d4761a6-0352-456b-81e4-81414a617587",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4"
+    ],
+    "judge": {
+      "relevantIds": [
+        "c9ef6479-2da8-4770-ba63-b0715f398709",
+        "cb9dad31-f38b-47c8-9c3c-9d2c1a75c42f"
+      ],
+      "sectionMap": {
+        "c9ef6479-2da8-4770-ba63-b0715f398709": [
+          0
+        ],
+        "cb9dad31-f38b-47c8-9c3c-9d2c1a75c42f": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 2804,
+      "rerankMs": 641,
+      "genMs": 1376
+    },
+    "tokens": {
+      "jinaTokens": 1535,
+      "genTokens": 1362,
+      "judgeTokens": 2659
+    }
+  },
+  "q_35": {
+    "query_id": "q_35",
+    "query_type": "hard_negative",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 2,
+    "preRerankIds": [
+      "51f9d836-d091-42c1-aadb-c83b7ef03699",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "3077f9fb-3dab-4602-9fd6-1d7e24b930d0",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "42a3c797-29d6-4d72-af9a-473169752856",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "03e8c747-2b4e-4282-bf13-1b9b659a9695",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "52b070b5-1e0d-4989-928e-391523e3014f",
+      "13238216-372f-409c-a6b3-06ec66b8a0c8"
+    ],
+    "postRerankIds": [
+      "42a3c797-29d6-4d72-af9a-473169752856",
+      "51f9d836-d091-42c1-aadb-c83b7ef03699",
+      "3077f9fb-3dab-4602-9fd6-1d7e24b930d0",
+      "03e8c747-2b4e-4282-bf13-1b9b659a9695",
+      "52b070b5-1e0d-4989-928e-391523e3014f"
+    ],
+    "judge": {
+      "relevantIds": [
+        "03e8c747-2b4e-4282-bf13-1b9b659a9695",
+        "42a3c797-29d6-4d72-af9a-473169752856",
+        "51f9d836-d091-42c1-aadb-c83b7ef03699"
+      ],
+      "sectionMap": {
+        "03e8c747-2b4e-4282-bf13-1b9b659a9695": [
+          1
+        ],
+        "42a3c797-29d6-4d72-af9a-473169752856": [
+          0,
+          1
+        ],
+        "51f9d836-d091-42c1-aadb-c83b7ef03699": [
+          0,
+          1
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.9,
+    "latency": {
+      "retrievalMs": 1318,
+      "rerankMs": 600,
+      "genMs": 1348
+    },
+    "tokens": {
+      "jinaTokens": 1610,
+      "genTokens": 1449,
+      "judgeTokens": 2761
+    }
+  },
+  "q_56": {
+    "query_id": "q_56",
+    "query_type": "multi_hop_cross_doc",
+    "target_doc": "saas-architecture-fundamentals.pdf, microservices-on-aws.pdf, wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 3,
+    "preRerankIds": [
+      "24c94251-0e0f-4abf-a1e4-043184129922",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "8ca28b69-2974-44a2-9cd3-d768ea73f1b1",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "86be6efd-6203-4f0c-8043-a5fb2245610a",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "51bd1264-4e10-4151-b7e1-adc5c85dd6dc",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "f2dc7913-073c-474d-bd0c-5e17a409fe6d",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4"
+    ],
+    "postRerankIds": [
+      "24c94251-0e0f-4abf-a1e4-043184129922",
+      "51bd1264-4e10-4151-b7e1-adc5c85dd6dc",
+      "8ca28b69-2974-44a2-9cd3-d768ea73f1b1",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "f2dc7913-073c-474d-bd0c-5e17a409fe6d"
+    ],
+    "judge": {
+      "relevantIds": [
+        "24c94251-0e0f-4abf-a1e4-043184129922",
+        "8ca28b69-2974-44a2-9cd3-d768ea73f1b1",
+        "51bd1264-4e10-4151-b7e1-adc5c85dd6dc"
+      ],
+      "sectionMap": {
+        "24c94251-0e0f-4abf-a1e4-043184129922": [
+          0
+        ],
+        "8ca28b69-2974-44a2-9cd3-d768ea73f1b1": [
+          0
+        ],
+        "51bd1264-4e10-4151-b7e1-adc5c85dd6dc": [
+          1
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.3333333333333333,
+      "recallAt5": 0.3333333333333333
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.6666666666666666,
+      "recallAt5": 0.6666666666666666
+    },
+    "answerCorrectness": 0.4,
+    "latency": {
+      "retrievalMs": 1385,
+      "rerankMs": 610,
+      "genMs": 2601
+    },
+    "tokens": {
+      "jinaTokens": 1819,
+      "genTokens": 1779,
+      "judgeTokens": 3105
+    }
+  },
+  "q_40": {
+    "query_id": "q_40",
+    "query_type": "semantic",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 2,
+    "preRerankIds": [
+      "38fad6ed-0b5f-49da-98b1-0ef12bd766c3",
+      "f806195b-8f6e-4389-be6a-0f08058e8d17",
+      "b2f6d1e8-c951-4bf6-b4cc-44ec85d7a683",
+      "bdf476f6-541d-4b6d-b7c8-c1c2aacab51e",
+      "b966df17-768e-41a5-953c-d8c635a4c023",
+      "13238216-372f-409c-a6b3-06ec66b8a0c8",
+      "dabc4587-e0bf-48fc-8758-a54af568ffc8",
+      "312032ff-70b9-40f8-a3ac-67956062350d",
+      "a9770c29-6ad6-4305-a10b-631cade10a6a",
+      "14d3cb5c-cfa3-4cbe-891c-33cf7037a89a"
+    ],
+    "postRerankIds": [
+      "b2f6d1e8-c951-4bf6-b4cc-44ec85d7a683",
+      "38fad6ed-0b5f-49da-98b1-0ef12bd766c3",
+      "13238216-372f-409c-a6b3-06ec66b8a0c8",
+      "dabc4587-e0bf-48fc-8758-a54af568ffc8",
+      "bdf476f6-541d-4b6d-b7c8-c1c2aacab51e"
+    ],
+    "judge": {
+      "relevantIds": [
+        "b2f6d1e8-c951-4bf6-b4cc-44ec85d7a683",
+        "dabc4587-e0bf-48fc-8758-a54af568ffc8",
+        "a9770c29-6ad6-4305-a10b-631cade10a6a"
+      ],
+      "sectionMap": {
+        "b2f6d1e8-c951-4bf6-b4cc-44ec85d7a683": [
+          0,
+          1
+        ],
+        "dabc4587-e0bf-48fc-8758-a54af568ffc8": [
+          0
+        ],
+        "a9770c29-6ad6-4305-a10b-631cade10a6a": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 0.3333333333333333,
+      "mrrAt5": 0.3333333333333333,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.85,
+    "latency": {
+      "retrievalMs": 1126,
+      "rerankMs": 577,
+      "genMs": 1339
+    },
+    "tokens": {
+      "jinaTokens": 1602,
+      "genTokens": 1353,
+      "judgeTokens": 2652
+    }
+  },
+  "q_45": {
+    "query_id": "q_45",
+    "query_type": "hard_negative",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 2,
+    "preRerankIds": [
+      "707e0c2c-9df9-4501-b33a-5391f29c96fe",
+      "0ff8b82b-e7d5-4715-ab7b-0a8b12309ab4",
+      "31db51e1-c6af-4528-86d4-c3ea7d88c979",
+      "b2d1f136-7272-4cd8-b5a2-1d782d885a2e",
+      "5c88abdb-520c-4527-a436-a87ed2079cf2",
+      "86ca6f17-10d1-468d-9458-cc77845843aa",
+      "6796f1a9-4e31-441e-aefd-a7bef4d6f1f3",
+      "316e8588-3e3d-4117-9032-46112e69369c",
+      "792a135c-332f-4880-a798-df94c0486d8c",
+      "cb843a26-ed87-4623-9cb8-d2c8f175aa62"
+    ],
+    "postRerankIds": [
+      "31db51e1-c6af-4528-86d4-c3ea7d88c979",
+      "707e0c2c-9df9-4501-b33a-5391f29c96fe",
+      "cb843a26-ed87-4623-9cb8-d2c8f175aa62",
+      "6796f1a9-4e31-441e-aefd-a7bef4d6f1f3",
+      "792a135c-332f-4880-a798-df94c0486d8c"
+    ],
+    "judge": {
+      "relevantIds": [
+        "31db51e1-c6af-4528-86d4-c3ea7d88c979",
+        "707e0c2c-9df9-4501-b33a-5391f29c96fe"
+      ],
+      "sectionMap": {
+        "31db51e1-c6af-4528-86d4-c3ea7d88c979": [
+          1
+        ],
+        "707e0c2c-9df9-4501-b33a-5391f29c96fe": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1020,
+      "rerankMs": 561,
+      "genMs": 1804
+    },
+    "tokens": {
+      "jinaTokens": 1654,
+      "genTokens": 1576,
+      "judgeTokens": 2697
+    }
+  },
+  "q_04": {
+    "query_id": "q_04",
+    "query_type": "keyword_dense",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "b0b32a63-5f28-4b4d-b531-d06884f82c0c",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "6a6ff17d-71d0-48e4-8544-5d625cf96458",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "4d4d1846-a0c8-49b4-8f17-2d24bb1cc278",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "9553b1bd-30f5-48ff-bd4d-b86323bc30af",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "c259a189-b753-4e14-916f-fc476fe833ef",
+      "3d0eeda1-a4d3-45db-8453-244b837e8055"
+    ],
+    "postRerankIds": [
+      "b0b32a63-5f28-4b4d-b531-d06884f82c0c",
+      "c259a189-b753-4e14-916f-fc476fe833ef",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "6a6ff17d-71d0-48e4-8544-5d625cf96458",
+      "3d0eeda1-a4d3-45db-8453-244b837e8055"
+    ],
+    "judge": {
+      "relevantIds": [
+        "b0b32a63-5f28-4b4d-b531-d06884f82c0c"
+      ],
+      "sectionMap": {
+        "b0b32a63-5f28-4b4d-b531-d06884f82c0c": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1132,
+      "rerankMs": 529,
+      "genMs": 1387
+    },
+    "tokens": {
+      "jinaTokens": 1454,
+      "genTokens": 1306,
+      "judgeTokens": 2433
+    }
+  },
+  "q_09": {
+    "query_id": "q_09",
+    "query_type": "semantic",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "cc108b7f-1263-4421-843a-38c27adabaf9",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "7a397151-5e3e-4aab-ad03-fc7744e6bce6",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "9bf95557-0336-4ccc-a924-9d77f4ca4e1a",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "6a6ff17d-71d0-48e4-8544-5d625cf96458",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4",
+      "18814ede-a7f0-4881-a8f6-87d81efa5ab4",
+      "ec5fef33-4cf8-41d7-bd4e-a931f928015f"
+    ],
+    "postRerankIds": [
+      "cc108b7f-1263-4421-843a-38c27adabaf9",
+      "7a397151-5e3e-4aab-ad03-fc7744e6bce6",
+      "18814ede-a7f0-4881-a8f6-87d81efa5ab4",
+      "ec5fef33-4cf8-41d7-bd4e-a931f928015f",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4"
+    ],
+    "judge": {
+      "relevantIds": [
+        "7a397151-5e3e-4aab-ad03-fc7744e6bce6",
+        "cc108b7f-1263-4421-843a-38c27adabaf9"
+      ],
+      "sectionMap": {
+        "7a397151-5e3e-4aab-ad03-fc7744e6bce6": [
+          0
+        ],
+        "cc108b7f-1263-4421-843a-38c27adabaf9": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 10197,
+      "rerankMs": 2009,
+      "genMs": 1028
+    },
+    "tokens": {
+      "jinaTokens": 1848,
+      "genTokens": 1368,
+      "judgeTokens": 2781
+    }
+  },
+  "q_20": {
+    "query_id": "q_20",
+    "query_type": "hard_negative",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "2a915472-90cb-4c42-9b8b-e3633395a49a",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "2b63dfa9-bd0a-4ea8-b507-07b0f9a98d4d",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "b2d1f136-7272-4cd8-b5a2-1d782d885a2e",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4",
+      "f50d7c6b-2f13-4212-9127-b463864a5d8f",
+      "62f130db-27f0-4bf1-8260-51c311297b15",
+      "7b1f4071-a124-4ff5-89a1-39e522fcbdba",
+      "ec5fef33-4cf8-41d7-bd4e-a931f928015f"
+    ],
+    "postRerankIds": [
+      "2b63dfa9-bd0a-4ea8-b507-07b0f9a98d4d",
+      "f50d7c6b-2f13-4212-9127-b463864a5d8f",
+      "b2d1f136-7272-4cd8-b5a2-1d782d885a2e",
+      "2a915472-90cb-4c42-9b8b-e3633395a49a",
+      "7b1f4071-a124-4ff5-89a1-39e522fcbdba"
+    ],
+    "judge": {
+      "relevantIds": [
+        "f50d7c6b-2f13-4212-9127-b463864a5d8f",
+        "b2d1f136-7272-4cd8-b5a2-1d782d885a2e"
+      ],
+      "sectionMap": {
+        "f50d7c6b-2f13-4212-9127-b463864a5d8f": [
+          0
+        ],
+        "b2d1f136-7272-4cd8-b5a2-1d782d885a2e": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 0,
+      "hitAt5": 1,
+      "mrrAt3": 0,
+      "mrrAt5": 0.2,
+      "recallAt3": 0,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 0.5,
+      "mrrAt5": 0.5,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1340,
+      "rerankMs": 598,
+      "genMs": 1313
+    },
+    "tokens": {
+      "jinaTokens": 1634,
+      "genTokens": 1456,
+      "judgeTokens": 2555
+    }
+  },
+  "q_60": {
+    "query_id": "q_60",
+    "query_type": "multi_hop_cross_doc",
+    "target_doc": "saas-architecture-fundamentals.pdf, wellarchitected-operational-excellence-pillar.pdf, wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 3,
+    "preRerankIds": [
+      "877c3475-0a90-4da5-ad4d-847594671bef",
+      "999f4d17-19a9-45c2-a592-98b44f0e91da",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "a9130c28-0c7f-49d6-850d-59e36bb35f80",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "eed64fc2-e292-4bfd-96bf-a946357c2082",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "6d2d4cc3-8fd5-49fa-bb78-7ab2f85203dc",
+      "b581014c-566c-48da-a196-e2acb2282a3c",
+      "7c96db15-557f-46db-acda-078253b0dc11"
+    ],
+    "postRerankIds": [
+      "999f4d17-19a9-45c2-a592-98b44f0e91da",
+      "6d2d4cc3-8fd5-49fa-bb78-7ab2f85203dc",
+      "a9130c28-0c7f-49d6-850d-59e36bb35f80",
+      "877c3475-0a90-4da5-ad4d-847594671bef",
+      "7c96db15-557f-46db-acda-078253b0dc11"
+    ],
+    "judge": {
+      "relevantIds": [
+        "a9130c28-0c7f-49d6-850d-59e36bb35f80",
+        "eed64fc2-e292-4bfd-96bf-a946357c2082",
+        "6d2d4cc3-8fd5-49fa-bb78-7ab2f85203dc"
+      ],
+      "sectionMap": {
+        "a9130c28-0c7f-49d6-850d-59e36bb35f80": [
+          0
+        ],
+        "eed64fc2-e292-4bfd-96bf-a946357c2082": [
+          0
+        ],
+        "6d2d4cc3-8fd5-49fa-bb78-7ab2f85203dc": [
+          1
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 0,
+      "hitAt5": 1,
+      "mrrAt3": 0,
+      "mrrAt5": 0.25,
+      "recallAt3": 0,
+      "recallAt5": 0.3333333333333333
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 0.5,
+      "mrrAt5": 0.5,
+      "recallAt3": 0.6666666666666666,
+      "recallAt5": 0.6666666666666666
+    },
+    "answerCorrectness": 0.5,
+    "latency": {
+      "retrievalMs": 1348,
+      "rerankMs": 556,
+      "genMs": 2415
+    },
+    "tokens": {
+      "jinaTokens": 1887,
+      "genTokens": 1955,
+      "judgeTokens": 3323
+    }
+  },
+  "q_24": {
+    "query_id": "q_24",
+    "query_type": "keyword_dense",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "0a13049e-b778-4c1e-8932-94ac854decac",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "e0989b7e-4297-4f9f-9629-1c47c17abc4c",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "2da99a26-2fca-4132-8fe0-6dbe5d987b30",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "06a96876-d7ca-46fe-a453-fbe6e91d193a",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "829a299b-1793-48bc-8d1b-9ee1f3454623",
+      "3d0eeda1-a4d3-45db-8453-244b837e8055"
+    ],
+    "postRerankIds": [
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "e0989b7e-4297-4f9f-9629-1c47c17abc4c",
+      "2da99a26-2fca-4132-8fe0-6dbe5d987b30",
+      "06a96876-d7ca-46fe-a453-fbe6e91d193a",
+      "829a299b-1793-48bc-8d1b-9ee1f3454623"
+    ],
+    "judge": {
+      "relevantIds": [],
+      "sectionMap": {}
+    },
+    "preRerank": {
+      "hitAt3": 0,
+      "hitAt5": 0,
+      "mrrAt3": 0,
+      "mrrAt5": 0,
+      "recallAt3": 0,
+      "recallAt5": 0
+    },
+    "postRerank": {
+      "hitAt3": 0,
+      "hitAt5": 0,
+      "mrrAt3": 0,
+      "mrrAt5": 0,
+      "recallAt3": 0,
+      "recallAt5": 0
+    },
+    "answerCorrectness": 0,
+    "latency": {
+      "retrievalMs": 1011,
+      "rerankMs": 504,
+      "genMs": 1284
+    },
+    "tokens": {
+      "jinaTokens": 670,
+      "genTokens": 806,
+      "judgeTokens": 1279
+    }
+  },
+  "q_30": {
+    "query_id": "q_30",
+    "query_type": "semantic",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "6e594118-ccd0-41c5-aae9-ef7fddf8a462",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4",
+      "ff30613b-419a-4dd4-aec6-3cc35753d1b6",
+      "b05c2156-af95-463d-b6c3-15856838c2dc",
+      "d7245fc0-9dc1-49da-8d8f-8d761cfff12f",
+      "877c3475-0a90-4da5-ad4d-847594671bef",
+      "fa8408bc-632a-466e-9039-c20ba4da93a3",
+      "4c6126e5-18c0-45ed-848d-2ea50085d244",
+      "bc4992de-8549-4d43-9d9f-03bc1a72e7f2",
+      "cb0e4136-4295-4d04-8c16-40dba22f3f6b"
+    ],
+    "postRerankIds": [
+      "6e594118-ccd0-41c5-aae9-ef7fddf8a462",
+      "fa8408bc-632a-466e-9039-c20ba4da93a3",
+      "ff30613b-419a-4dd4-aec6-3cc35753d1b6",
+      "d7245fc0-9dc1-49da-8d8f-8d761cfff12f",
+      "bc4992de-8549-4d43-9d9f-03bc1a72e7f2"
+    ],
+    "judge": {
+      "relevantIds": [
+        "6e594118-ccd0-41c5-aae9-ef7fddf8a462",
+        "ff30613b-419a-4dd4-aec6-3cc35753d1b6",
+        "d7245fc0-9dc1-49da-8d8f-8d761cfff12f",
+        "fa8408bc-632a-466e-9039-c20ba4da93a3"
+      ],
+      "sectionMap": {
+        "6e594118-ccd0-41c5-aae9-ef7fddf8a462": [
+          0
+        ],
+        "ff30613b-419a-4dd4-aec6-3cc35753d1b6": [
+          0
+        ],
+        "d7245fc0-9dc1-49da-8d8f-8d761cfff12f": [
+          0
+        ],
+        "fa8408bc-632a-466e-9039-c20ba4da93a3": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1549,
+      "rerankMs": 590,
+      "genMs": 1869
+    },
+    "tokens": {
+      "jinaTokens": 1551,
+      "genTokens": 1463,
+      "judgeTokens": 2811
+    }
+  },
+  "q_36": {
+    "query_id": "q_36",
+    "query_type": "hard_negative",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "92b01eb5-3609-48f3-9554-2b3be16c94ec",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "327fc2aa-88e0-47cb-9548-dd7b5145c4a0",
+      "312032ff-70b9-40f8-a3ac-67956062350d",
+      "293929e1-125f-46b9-9fa1-44f69469c8df",
+      "cb0e4136-4295-4d04-8c16-40dba22f3f6b",
+      "ddfb1a30-c2be-4c62-9f58-4a76f4d62fad",
+      "b6773912-7bf3-45fc-b2b8-484499e8e12a",
+      "78cb9e60-b340-477f-bffc-c76eec11b45e",
+      "d5446574-2f6d-4ddc-8349-536da0511e83"
+    ],
+    "postRerankIds": [
+      "92b01eb5-3609-48f3-9554-2b3be16c94ec",
+      "327fc2aa-88e0-47cb-9548-dd7b5145c4a0",
+      "293929e1-125f-46b9-9fa1-44f69469c8df",
+      "78cb9e60-b340-477f-bffc-c76eec11b45e",
+      "176b0904-d131-4948-9b00-4cbf7656a71c"
+    ],
+    "judge": {
+      "relevantIds": [
+        "92b01eb5-3609-48f3-9554-2b3be16c94ec"
+      ],
+      "sectionMap": {
+        "92b01eb5-3609-48f3-9554-2b3be16c94ec": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1189,
+      "rerankMs": 606,
+      "genMs": 925
+    },
+    "tokens": {
+      "jinaTokens": 1551,
+      "genTokens": 1274,
+      "judgeTokens": 2478
+    }
+  },
+  "q_52": {
+    "query_id": "q_52",
+    "query_type": "multi_hop_cross_doc",
+    "target_doc": "saas-architecture-fundamentals.pdf, wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 5,
+    "preRerankIds": [
+      "98897766-6eac-4638-a7a6-8ef11f35eac8",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "5ce6be2a-877a-48e8-87f4-00e0503d04b1",
+      "2bb5ba04-1da1-4b8c-b85f-84a5177a1840",
+      "48088120-ee7a-420d-ba78-bae89bbca303",
+      "855d8c7e-c152-4daa-b069-fb7f2c8e904e",
+      "db0eecf1-8300-49b6-8184-77e700a8ed17",
+      "742f212d-7401-4879-b157-9870fdf4783e",
+      "e6b9d198-2654-4192-8988-ae986bcdb267",
+      "b7054964-06c0-49d4-a2ac-4ef85ed68047"
+    ],
+    "postRerankIds": [
+      "98897766-6eac-4638-a7a6-8ef11f35eac8",
+      "e6b9d198-2654-4192-8988-ae986bcdb267",
+      "742f212d-7401-4879-b157-9870fdf4783e",
+      "5ce6be2a-877a-48e8-87f4-00e0503d04b1",
+      "48088120-ee7a-420d-ba78-bae89bbca303"
+    ],
+    "judge": {
+      "relevantIds": [
+        "98897766-6eac-4638-a7a6-8ef11f35eac8",
+        "5ce6be2a-877a-48e8-87f4-00e0503d04b1",
+        "48088120-ee7a-420d-ba78-bae89bbca303",
+        "db0eecf1-8300-49b6-8184-77e700a8ed17",
+        "e6b9d198-2654-4192-8988-ae986bcdb267"
+      ],
+      "sectionMap": {
+        "98897766-6eac-4638-a7a6-8ef11f35eac8": [
+          1,
+          2
+        ],
+        "5ce6be2a-877a-48e8-87f4-00e0503d04b1": [
+          3
+        ],
+        "48088120-ee7a-420d-ba78-bae89bbca303": [
+          4
+        ],
+        "db0eecf1-8300-49b6-8184-77e700a8ed17": [
+          2
+        ],
+        "e6b9d198-2654-4192-8988-ae986bcdb267": [
+          0,
+          1
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.6,
+      "recallAt5": 0.8
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.6,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.95,
+    "latency": {
+      "retrievalMs": 1458,
+      "rerankMs": 793,
+      "genMs": 1935
+    },
+    "tokens": {
+      "jinaTokens": 1545,
+      "genTokens": 1580,
+      "judgeTokens": 3030
+    }
+  },
+  "q_39": {
+    "query_id": "q_39",
+    "query_type": "keyword_dense",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "507fe87f-e840-4267-ac73-e0288f978678",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "67b29fb4-3600-4668-8c9f-fb8bb7f13b60",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "c6327bd8-2b9a-4916-8113-1b03d361d944",
+      "b7054964-06c0-49d4-a2ac-4ef85ed68047",
+      "5b0e52ac-7574-4ca3-91aa-b4f81f690238",
+      "3940e1d2-7b7f-4f5e-9db0-95fa8560db28",
+      "ff5db566-d014-49da-b841-1fb47868c656",
+      "4c6126e5-18c0-45ed-848d-2ea50085d244"
+    ],
+    "postRerankIds": [
+      "c6327bd8-2b9a-4916-8113-1b03d361d944",
+      "67b29fb4-3600-4668-8c9f-fb8bb7f13b60",
+      "507fe87f-e840-4267-ac73-e0288f978678",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "5b0e52ac-7574-4ca3-91aa-b4f81f690238"
+    ],
+    "judge": {
+      "relevantIds": [
+        "5b0e52ac-7574-4ca3-91aa-b4f81f690238",
+        "c6327bd8-2b9a-4916-8113-1b03d361d944"
+      ],
+      "sectionMap": {
+        "5b0e52ac-7574-4ca3-91aa-b4f81f690238": [
+          0
+        ],
+        "c6327bd8-2b9a-4916-8113-1b03d361d944": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 0,
+      "hitAt5": 1,
+      "mrrAt3": 0,
+      "mrrAt5": 0.2,
+      "recallAt3": 0,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0,
+    "latency": {
+      "retrievalMs": 1297,
+      "rerankMs": 666,
+      "genMs": 1596
+    },
+    "tokens": {
+      "jinaTokens": 1799,
+      "genTokens": 1533,
+      "judgeTokens": 4081
+    }
+  },
+  "q_46": {
+    "query_id": "q_46",
+    "query_type": "semantic",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "6d3d082a-9dce-44c6-bacc-a58465420f96",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "bcea7233-25fe-4e00-a010-aaba4d497b93",
+      "c254000d-9c54-4071-816c-77c4dd420126",
+      "2749882f-5935-4d29-a4e2-cc14d45bd267",
+      "877c3475-0a90-4da5-ad4d-847594671bef",
+      "47982688-4cd3-4cb0-a845-1e057e7d79d7",
+      "3940e1d2-7b7f-4f5e-9db0-95fa8560db28",
+      "b944a259-8f61-4a4d-91ab-6f2d978863a1",
+      "b0d9c862-76b3-400d-b176-c084662ebb1e"
+    ],
+    "postRerankIds": [
+      "6d3d082a-9dce-44c6-bacc-a58465420f96",
+      "b944a259-8f61-4a4d-91ab-6f2d978863a1",
+      "47982688-4cd3-4cb0-a845-1e057e7d79d7",
+      "bcea7233-25fe-4e00-a010-aaba4d497b93",
+      "2749882f-5935-4d29-a4e2-cc14d45bd267"
+    ],
+    "judge": {
+      "relevantIds": [
+        "6d3d082a-9dce-44c6-bacc-a58465420f96",
+        "47982688-4cd3-4cb0-a845-1e057e7d79d7",
+        "b944a259-8f61-4a4d-91ab-6f2d978863a1"
+      ],
+      "sectionMap": {
+        "6d3d082a-9dce-44c6-bacc-a58465420f96": [
+          0
+        ],
+        "47982688-4cd3-4cb0-a845-1e057e7d79d7": [
+          0
+        ],
+        "b944a259-8f61-4a4d-91ab-6f2d978863a1": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.85,
+    "latency": {
+      "retrievalMs": 1208,
+      "rerankMs": 876,
+      "genMs": 1903
+    },
+    "tokens": {
+      "jinaTokens": 1566,
+      "genTokens": 1593,
+      "judgeTokens": 2819
+    }
+  },
+  "q_05": {
+    "query_id": "q_05",
+    "query_type": "keyword_dense",
+    "target_doc": "microservices-on-aws.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "d3b87dcc-b377-41f2-a157-072a1012d72c",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "fecba253-dbfa-417a-a189-4561cda1e8b7",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "15815832-d218-4129-abb1-09084f9487d3",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "b8b1a561-27d2-4ebb-8669-63ced84f66a8",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "ff4514a9-b9f4-4de6-be4e-90f4705cb5cf",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4"
+    ],
+    "postRerankIds": [
+      "d3b87dcc-b377-41f2-a157-072a1012d72c",
+      "b8b1a561-27d2-4ebb-8669-63ced84f66a8",
+      "15815832-d218-4129-abb1-09084f9487d3",
+      "fecba253-dbfa-417a-a189-4561cda1e8b7",
+      "ff4514a9-b9f4-4de6-be4e-90f4705cb5cf"
+    ],
+    "judge": {
+      "relevantIds": [
+        "d3b87dcc-b377-41f2-a157-072a1012d72c"
+      ],
+      "sectionMap": {
+        "d3b87dcc-b377-41f2-a157-072a1012d72c": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 6975,
+      "rerankMs": 2405,
+      "genMs": 2799
+    },
+    "tokens": {
+      "jinaTokens": 1646,
+      "genTokens": 1410,
+      "judgeTokens": 2430
+    }
+  },
+  "q_17": {
+    "query_id": "q_17",
+    "query_type": "semantic",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 2,
+    "preRerankIds": [
+      "2186846c-33d6-4eb2-b512-02ac4a87a181",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "f44137c9-67a7-49dd-a697-6a52e0206648",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "c5183cef-3364-40a6-98c0-948ee38039ad",
+      "0ff8b82b-e7d5-4715-ab7b-0a8b12309ab4",
+      "bcc7b2f2-b202-486c-85ba-36d664721896",
+      "855d8c7e-c152-4daa-b069-fb7f2c8e904e",
+      "278cd957-3d11-4f48-96c6-d9e2901ec88b",
+      "3940e1d2-7b7f-4f5e-9db0-95fa8560db28"
+    ],
+    "postRerankIds": [
+      "c5183cef-3364-40a6-98c0-948ee38039ad",
+      "2186846c-33d6-4eb2-b512-02ac4a87a181",
+      "f44137c9-67a7-49dd-a697-6a52e0206648",
+      "bcc7b2f2-b202-486c-85ba-36d664721896",
+      "278cd957-3d11-4f48-96c6-d9e2901ec88b"
+    ],
+    "judge": {
+      "relevantIds": [
+        "2186846c-33d6-4eb2-b512-02ac4a87a181",
+        "f44137c9-67a7-49dd-a697-6a52e0206648",
+        "c5183cef-3364-40a6-98c0-948ee38039ad",
+        "bcc7b2f2-b202-486c-85ba-36d664721896"
+      ],
+      "sectionMap": {
+        "2186846c-33d6-4eb2-b512-02ac4a87a181": [
+          0
+        ],
+        "f44137c9-67a7-49dd-a697-6a52e0206648": [
+          1
+        ],
+        "c5183cef-3364-40a6-98c0-948ee38039ad": [
+          0
+        ],
+        "bcc7b2f2-b202-486c-85ba-36d664721896": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 2370,
+      "rerankMs": 586,
+      "genMs": 1696
+    },
+    "tokens": {
+      "jinaTokens": 1601,
+      "genTokens": 1461,
+      "judgeTokens": 2747
+    }
+  },
+  "q_21": {
+    "query_id": "q_21",
+    "query_type": "hard_negative",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 2,
+    "preRerankIds": [
+      "e6b9d198-2654-4192-8988-ae986bcdb267",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "6ef6c702-fb54-4cbb-b1f8-1db0cce240d5",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "db0eecf1-8300-49b6-8184-77e700a8ed17",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "98897766-6eac-4638-a7a6-8ef11f35eac8",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4",
+      "278cd957-3d11-4f48-96c6-d9e2901ec88b",
+      "c254000d-9c54-4071-816c-77c4dd420126"
+    ],
+    "postRerankIds": [
+      "e6b9d198-2654-4192-8988-ae986bcdb267",
+      "278cd957-3d11-4f48-96c6-d9e2901ec88b",
+      "98897766-6eac-4638-a7a6-8ef11f35eac8",
+      "6ef6c702-fb54-4cbb-b1f8-1db0cce240d5",
+      "19f6636b-80ef-452d-a616-b2da251ca62a"
+    ],
+    "judge": {
+      "relevantIds": [
+        "e6b9d198-2654-4192-8988-ae986bcdb267",
+        "6ef6c702-fb54-4cbb-b1f8-1db0cce240d5",
+        "278cd957-3d11-4f48-96c6-d9e2901ec88b"
+      ],
+      "sectionMap": {
+        "e6b9d198-2654-4192-8988-ae986bcdb267": [
+          0
+        ],
+        "6ef6c702-fb54-4cbb-b1f8-1db0cce240d5": [
+          1
+        ],
+        "278cd957-3d11-4f48-96c6-d9e2901ec88b": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.5,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 2278,
+      "rerankMs": 944,
+      "genMs": 1611
+    },
+    "tokens": {
+      "jinaTokens": 1670,
+      "genTokens": 1452,
+      "judgeTokens": 2732
+    }
+  },
+  "q_57": {
+    "query_id": "q_57",
+    "query_type": "multi_hop_intra_doc",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 4,
+    "preRerankIds": [
+      "5bd3d63b-ef1f-4f0c-9f06-f99ac2a566f8",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "625da598-24ca-498f-8237-ed39f4c41c0d",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "7a4a10ec-7431-4946-a26e-01b2617a7328",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "f8249efd-4ee4-45a6-9e86-85b1fa133e1b",
+      "7736b2f7-a5b0-467e-a0b4-a82e6faf5c96",
+      "f9fb1e57-a80c-48f0-b500-f196420b0f3f",
+      "176b0904-d131-4948-9b00-4cbf7656a71c"
+    ],
+    "postRerankIds": [
+      "5bd3d63b-ef1f-4f0c-9f06-f99ac2a566f8",
+      "7a4a10ec-7431-4946-a26e-01b2617a7328",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "625da598-24ca-498f-8237-ed39f4c41c0d"
+    ],
+    "judge": {
+      "relevantIds": [
+        "5bd3d63b-ef1f-4f0c-9f06-f99ac2a566f8",
+        "7a4a10ec-7431-4946-a26e-01b2617a7328",
+        "f8249efd-4ee4-45a6-9e86-85b1fa133e1b"
+      ],
+      "sectionMap": {
+        "5bd3d63b-ef1f-4f0c-9f06-f99ac2a566f8": [
+          3
+        ],
+        "7a4a10ec-7431-4946-a26e-01b2617a7328": [
+          1
+        ],
+        "f8249efd-4ee4-45a6-9e86-85b1fa133e1b": [
+          1
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.25,
+      "recallAt5": 0.5
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.5,
+      "recallAt5": 0.5
+    },
+    "answerCorrectness": 0.6,
+    "latency": {
+      "retrievalMs": 1273,
+      "rerankMs": 576,
+      "genMs": 2941
+    },
+    "tokens": {
+      "jinaTokens": 1407,
+      "genTokens": 1929,
+      "judgeTokens": 2766
+    }
+  },
+  "q_25": {
+    "query_id": "q_25",
+    "query_type": "keyword_dense",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "851692a4-21b2-4c5b-9231-97502ffbbbc7",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "1b26f4a2-cac6-412b-82d5-70d6784b3bc5",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "bd9c740b-2ca7-435a-baa2-2274da86c6b6",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "96623097-72b6-4441-bda1-db740b850c17",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "8af776b4-90fe-4783-ae52-bd7e701ac02a"
+    ],
+    "postRerankIds": [
+      "1b26f4a2-cac6-412b-82d5-70d6784b3bc5",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "851692a4-21b2-4c5b-9231-97502ffbbbc7",
+      "bd9c740b-2ca7-435a-baa2-2274da86c6b6",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d"
+    ],
+    "judge": {
+      "relevantIds": [
+        "1b26f4a2-cac6-412b-82d5-70d6784b3bc5"
+      ],
+      "sectionMap": {
+        "1b26f4a2-cac6-412b-82d5-70d6784b3bc5": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 0,
+      "hitAt5": 1,
+      "mrrAt3": 0,
+      "mrrAt5": 0.25,
+      "recallAt3": 0,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.8,
+    "latency": {
+      "retrievalMs": 1046,
+      "rerankMs": 540,
+      "genMs": 1779
+    },
+    "tokens": {
+      "jinaTokens": 1475,
+      "genTokens": 1653,
+      "judgeTokens": 4210
+    }
+  },
+  "q_31": {
+    "query_id": "q_31",
+    "query_type": "semantic",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "04778f1f-c540-43c7-9bff-fa41c32ce63d",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "6c7313f7-8ef6-48a0-81e7-30dd5697e854",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "094394b5-1f64-4d78-87a6-c4fc71580ed5",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "b50ff8d8-319b-4b3a-b7e9-898de3f8c870",
+      "7736b2f7-a5b0-467e-a0b4-a82e6faf5c96",
+      "c8b0dc3f-c242-48d7-b056-2372cd663fc6",
+      "176b0904-d131-4948-9b00-4cbf7656a71c"
+    ],
+    "postRerankIds": [
+      "04778f1f-c540-43c7-9bff-fa41c32ce63d",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "094394b5-1f64-4d78-87a6-c4fc71580ed5",
+      "c8b0dc3f-c242-48d7-b056-2372cd663fc6"
+    ],
+    "judge": {
+      "relevantIds": [
+        "04778f1f-c540-43c7-9bff-fa41c32ce63d",
+        "6c7313f7-8ef6-48a0-81e7-30dd5697e854",
+        "094394b5-1f64-4d78-87a6-c4fc71580ed5",
+        "c8b0dc3f-c242-48d7-b056-2372cd663fc6"
+      ],
+      "sectionMap": {
+        "04778f1f-c540-43c7-9bff-fa41c32ce63d": [
+          0
+        ],
+        "6c7313f7-8ef6-48a0-81e7-30dd5697e854": [
+          0
+        ],
+        "094394b5-1f64-4d78-87a6-c4fc71580ed5": [
+          0
+        ],
+        "c8b0dc3f-c242-48d7-b056-2372cd663fc6": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.9,
+    "latency": {
+      "retrievalMs": 1431,
+      "rerankMs": 517,
+      "genMs": 1642
+    },
+    "tokens": {
+      "jinaTokens": 1270,
+      "genTokens": 1086,
+      "judgeTokens": 2435
+    }
+  },
+  "q_37": {
+    "query_id": "q_37",
+    "query_type": "hard_negative",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "ddfb1a30-c2be-4c62-9f58-4a76f4d62fad",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "28778cc3-7c04-4c9c-a4bd-ba18ea48ec62",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "76c7e2ef-a4d6-4cbc-b244-2d3686404131",
+      "312032ff-70b9-40f8-a3ac-67956062350d",
+      "8aa8b86b-9303-42fe-8ce1-056528266fc0",
+      "cb0e4136-4295-4d04-8c16-40dba22f3f6b",
+      "96d78c2c-74e0-44db-8c73-f937816c0116",
+      "b6773912-7bf3-45fc-b2b8-484499e8e12a"
+    ],
+    "postRerankIds": [
+      "28778cc3-7c04-4c9c-a4bd-ba18ea48ec62",
+      "ddfb1a30-c2be-4c62-9f58-4a76f4d62fad",
+      "96d78c2c-74e0-44db-8c73-f937816c0116",
+      "8aa8b86b-9303-42fe-8ce1-056528266fc0",
+      "76c7e2ef-a4d6-4cbc-b244-2d3686404131"
+    ],
+    "judge": {
+      "relevantIds": [
+        "28778cc3-7c04-4c9c-a4bd-ba18ea48ec62"
+      ],
+      "sectionMap": {
+        "28778cc3-7c04-4c9c-a4bd-ba18ea48ec62": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 0.3333333333333333,
+      "mrrAt5": 0.3333333333333333,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 890,
+      "rerankMs": 526,
+      "genMs": 802
+    },
+    "tokens": {
+      "jinaTokens": 1663,
+      "genTokens": 1316,
+      "judgeTokens": 2470
+    }
+  },
+  "q_43": {
+    "query_id": "q_43",
+    "query_type": "keyword_dense",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 2,
+    "preRerankIds": [
+      "ae031934-bfc6-4aac-9afa-ff3ef9d86322",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4",
+      "82b90788-89c5-4860-9dce-31942692809c",
+      "0ff8b82b-e7d5-4715-ab7b-0a8b12309ab4",
+      "92c89636-01b5-4dc1-827e-b43fa576f93a",
+      "312032ff-70b9-40f8-a3ac-67956062350d",
+      "56e63f25-5ce5-423f-8085-c022f06fee1b",
+      "f875e787-07ce-4b41-aa20-55a238eceb75",
+      "72234e83-387d-4bc0-8a29-7f2eeb105f86",
+      "30267a0b-8795-4f1b-add3-47f06d98a08e"
+    ],
+    "postRerankIds": [
+      "82b90788-89c5-4860-9dce-31942692809c",
+      "a24dc62f-3fb4-4932-ae33-796cda6bb5e4",
+      "ae031934-bfc6-4aac-9afa-ff3ef9d86322",
+      "56e63f25-5ce5-423f-8085-c022f06fee1b",
+      "92c89636-01b5-4dc1-827e-b43fa576f93a"
+    ],
+    "judge": {
+      "relevantIds": [
+        "82b90788-89c5-4860-9dce-31942692809c",
+        "92c89636-01b5-4dc1-827e-b43fa576f93a",
+        "ae031934-bfc6-4aac-9afa-ff3ef9d86322"
+      ],
+      "sectionMap": {
+        "82b90788-89c5-4860-9dce-31942692809c": [
+          0
+        ],
+        "92c89636-01b5-4dc1-827e-b43fa576f93a": [
+          0,
+          1
+        ],
+        "ae031934-bfc6-4aac-9afa-ff3ef9d86322": [
+          1
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 871,
+      "rerankMs": 490,
+      "genMs": 1390
+    },
+    "tokens": {
+      "jinaTokens": 1471,
+      "genTokens": 1357,
+      "judgeTokens": 2448
+    }
+  },
+  "q_47": {
+    "query_id": "q_47",
+    "query_type": "semantic",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "f272d214-df5d-40bf-83f8-337979a4e56d",
+      "b581014c-566c-48da-a196-e2acb2282a3c",
+      "270bf883-6151-422e-bbf7-a5e3b57715f6",
+      "f1fcfe63-5aca-40f6-880f-7d3cdf774456",
+      "6dfa986c-90a8-4ae3-8310-807e9ec7296b",
+      "0ff8b82b-e7d5-4715-ab7b-0a8b12309ab4",
+      "0dbacf16-e98b-42f7-a37e-2a96bc34b52d",
+      "9fb792b8-3d94-4013-ba97-440a7d99d3f5",
+      "ce11783e-fe09-4f3b-8024-73e895e2cc8a",
+      "4c6126e5-18c0-45ed-848d-2ea50085d244"
+    ],
+    "postRerankIds": [
+      "270bf883-6151-422e-bbf7-a5e3b57715f6",
+      "f272d214-df5d-40bf-83f8-337979a4e56d",
+      "6dfa986c-90a8-4ae3-8310-807e9ec7296b",
+      "f1fcfe63-5aca-40f6-880f-7d3cdf774456",
+      "b581014c-566c-48da-a196-e2acb2282a3c"
+    ],
+    "judge": {
+      "relevantIds": [
+        "f272d214-df5d-40bf-83f8-337979a4e56d",
+        "270bf883-6151-422e-bbf7-a5e3b57715f6"
+      ],
+      "sectionMap": {
+        "f272d214-df5d-40bf-83f8-337979a4e56d": [
+          0
+        ],
+        "270bf883-6151-422e-bbf7-a5e3b57715f6": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1104,
+      "rerankMs": 471,
+      "genMs": 2094
+    },
+    "tokens": {
+      "jinaTokens": 1593,
+      "genTokens": 1839,
+      "judgeTokens": 2971
+    }
+  },
+  "q_49": {
+    "query_id": "q_49",
+    "query_type": "hard_negative",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "a184c30c-5f45-4d8a-9c7b-40d6ca8405b7",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "fd18357d-6a29-49ad-808f-ee80e92a94d9",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "644eb186-7319-4ea8-8752-4c65b920002a",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "f6a9e66d-c11a-45cd-acb1-25bd510ee918",
+      "7736b2f7-a5b0-467e-a0b4-a82e6faf5c96",
+      "914413eb-ec93-4ca8-ada0-35065f4cf4be",
+      "176b0904-d131-4948-9b00-4cbf7656a71c"
+    ],
+    "postRerankIds": [
+      "a184c30c-5f45-4d8a-9c7b-40d6ca8405b7",
+      "fd18357d-6a29-49ad-808f-ee80e92a94d9",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "644eb186-7319-4ea8-8752-4c65b920002a",
+      "7736b2f7-a5b0-467e-a0b4-a82e6faf5c96"
+    ],
+    "judge": {
+      "relevantIds": [
+        "fd18357d-6a29-49ad-808f-ee80e92a94d9",
+        "a184c30c-5f45-4d8a-9c7b-40d6ca8405b7"
+      ],
+      "sectionMap": {
+        "fd18357d-6a29-49ad-808f-ee80e92a94d9": [
+          0
+        ],
+        "a184c30c-5f45-4d8a-9c7b-40d6ca8405b7": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.95,
+    "latency": {
+      "retrievalMs": 901,
+      "rerankMs": 473,
+      "genMs": 1432
+    },
+    "tokens": {
+      "jinaTokens": 1363,
+      "genTokens": 1431,
+      "judgeTokens": 2363
+    }
+  },
+  "q_13": {
+    "query_id": "q_13",
+    "query_type": "keyword_dense",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "742f212d-7401-4879-b157-9870fdf4783e",
+      "d3b3e1fa-025a-424f-8783-e1577add86b2",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "cce52fc8-408f-46d2-9d22-1da70548338f",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "3bf1f465-15e8-41e5-af63-dcce07acf825",
+      "c254000d-9c54-4071-816c-77c4dd420126",
+      "247e8c25-a1da-42f4-88d1-2f65625521a9",
+      "2bb5ba04-1da1-4b8c-b85f-84a5177a1840",
+      "02856b78-2e41-468b-8ae7-ee5dfac581ca"
+    ],
+    "postRerankIds": [
+      "d3b3e1fa-025a-424f-8783-e1577add86b2",
+      "742f212d-7401-4879-b157-9870fdf4783e",
+      "cce52fc8-408f-46d2-9d22-1da70548338f",
+      "3bf1f465-15e8-41e5-af63-dcce07acf825",
+      "02856b78-2e41-468b-8ae7-ee5dfac581ca"
+    ],
+    "judge": {
+      "relevantIds": [
+        "d3b3e1fa-025a-424f-8783-e1577add86b2",
+        "cce52fc8-408f-46d2-9d22-1da70548338f"
+      ],
+      "sectionMap": {
+        "d3b3e1fa-025a-424f-8783-e1577add86b2": [
+          0
+        ],
+        "cce52fc8-408f-46d2-9d22-1da70548338f": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 0.5,
+      "mrrAt5": 0.5,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0,
+    "latency": {
+      "retrievalMs": 1476,
+      "rerankMs": 591,
+      "genMs": 962
+    },
+    "tokens": {
+      "jinaTokens": 1057,
+      "genTokens": 1018,
+      "judgeTokens": 1878
+    }
+  },
+  "q_18": {
+    "query_id": "q_18",
+    "query_type": "semantic",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "9f887479-7abd-493d-b003-9543488e09fb",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "30267a0b-8795-4f1b-add3-47f06d98a08e",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "9f0ac5f4-96c9-481c-a8d5-1b6116ea8a0d",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "353fbede-c316-4ac4-81e0-42fa12cc0c0f",
+      "ec5fef33-4cf8-41d7-bd4e-a931f928015f",
+      "128c0770-1e35-4874-8a58-ceef72f50510",
+      "f806195b-8f6e-4389-be6a-0f08058e8d17"
+    ],
+    "postRerankIds": [
+      "30267a0b-8795-4f1b-add3-47f06d98a08e",
+      "9f887479-7abd-493d-b003-9543488e09fb",
+      "128c0770-1e35-4874-8a58-ceef72f50510",
+      "9f0ac5f4-96c9-481c-a8d5-1b6116ea8a0d",
+      "353fbede-c316-4ac4-81e0-42fa12cc0c0f"
+    ],
+    "judge": {
+      "relevantIds": [
+        "9f887479-7abd-493d-b003-9543488e09fb",
+        "30267a0b-8795-4f1b-add3-47f06d98a08e",
+        "9f0ac5f4-96c9-481c-a8d5-1b6116ea8a0d",
+        "353fbede-c316-4ac4-81e0-42fa12cc0c0f",
+        "128c0770-1e35-4874-8a58-ceef72f50510"
+      ],
+      "sectionMap": {
+        "9f887479-7abd-493d-b003-9543488e09fb": [
+          0
+        ],
+        "30267a0b-8795-4f1b-add3-47f06d98a08e": [
+          0
+        ],
+        "9f0ac5f4-96c9-481c-a8d5-1b6116ea8a0d": [
+          0
+        ],
+        "353fbede-c316-4ac4-81e0-42fa12cc0c0f": [
+          0
+        ],
+        "128c0770-1e35-4874-8a58-ceef72f50510": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 908,
+      "rerankMs": 513,
+      "genMs": 1700
+    },
+    "tokens": {
+      "jinaTokens": 1554,
+      "genTokens": 1599,
+      "judgeTokens": 2901
+    }
+  },
+  "q_22": {
+    "query_id": "q_22",
+    "query_type": "hard_negative",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "a9130c28-0c7f-49d6-850d-59e36bb35f80",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "eed64fc2-e292-4bfd-96bf-a946357c2082",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "999f4d17-19a9-45c2-a592-98b44f0e91da",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "ca0b6f1d-6f53-4d22-ae76-a4b57beac0d1",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "877c3475-0a90-4da5-ad4d-847594671bef",
+      "b581014c-566c-48da-a196-e2acb2282a3c"
+    ],
+    "postRerankIds": [
+      "a9130c28-0c7f-49d6-850d-59e36bb35f80",
+      "eed64fc2-e292-4bfd-96bf-a946357c2082",
+      "999f4d17-19a9-45c2-a592-98b44f0e91da",
+      "ca0b6f1d-6f53-4d22-ae76-a4b57beac0d1",
+      "877c3475-0a90-4da5-ad4d-847594671bef"
+    ],
+    "judge": {
+      "relevantIds": [
+        "a9130c28-0c7f-49d6-850d-59e36bb35f80",
+        "eed64fc2-e292-4bfd-96bf-a946357c2082",
+        "999f4d17-19a9-45c2-a592-98b44f0e91da",
+        "ca0b6f1d-6f53-4d22-ae76-a4b57beac0d1"
+      ],
+      "sectionMap": {
+        "a9130c28-0c7f-49d6-850d-59e36bb35f80": [
+          0
+        ],
+        "eed64fc2-e292-4bfd-96bf-a946357c2082": [
+          0
+        ],
+        "999f4d17-19a9-45c2-a592-98b44f0e91da": [
+          0
+        ],
+        "ca0b6f1d-6f53-4d22-ae76-a4b57beac0d1": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 1023,
+      "rerankMs": 511,
+      "genMs": 1197
+    },
+    "tokens": {
+      "jinaTokens": 1653,
+      "genTokens": 1418,
+      "judgeTokens": 2771
+    }
+  },
+  "q_58": {
+    "query_id": "q_58",
+    "query_type": "multi_hop_cross_doc",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf, wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 7,
+    "preRerankIds": [
+      "37695687-d76e-4504-910c-24bdfa7309f2",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "384db4cd-af38-488f-9e8d-ea42c5b5c850",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "f3128e91-e14b-4063-9572-cca622bcc0b9",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "bc2c0bb9-db6c-4a6b-8e56-50287e5fab2a",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "3590b2f0-2712-4732-be66-ef45ed92ee17",
+      "3d0eeda1-a4d3-45db-8453-244b837e8055"
+    ],
+    "postRerankIds": [
+      "bc2c0bb9-db6c-4a6b-8e56-50287e5fab2a",
+      "384db4cd-af38-488f-9e8d-ea42c5b5c850",
+      "37695687-d76e-4504-910c-24bdfa7309f2",
+      "f3128e91-e14b-4063-9572-cca622bcc0b9",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d"
+    ],
+    "judge": {
+      "relevantIds": [
+        "37695687-d76e-4504-910c-24bdfa7309f2",
+        "384db4cd-af38-488f-9e8d-ea42c5b5c850",
+        "f3128e91-e14b-4063-9572-cca622bcc0b9",
+        "bc2c0bb9-db6c-4a6b-8e56-50287e5fab2a",
+        "3590b2f0-2712-4732-be66-ef45ed92ee17"
+      ],
+      "sectionMap": {
+        "37695687-d76e-4504-910c-24bdfa7309f2": [
+          0,
+          1,
+          2
+        ],
+        "384db4cd-af38-488f-9e8d-ea42c5b5c850": [
+          0,
+          1,
+          2
+        ],
+        "f3128e91-e14b-4063-9572-cca622bcc0b9": [
+          0,
+          1,
+          2
+        ],
+        "bc2c0bb9-db6c-4a6b-8e56-50287e5fab2a": [
+          0,
+          1,
+          2
+        ],
+        "3590b2f0-2712-4732-be66-ef45ed92ee17": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.42857142857142855,
+      "recallAt5": 0.42857142857142855
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 0.42857142857142855,
+      "recallAt5": 0.42857142857142855
+    },
+    "answerCorrectness": 0,
+    "latency": {
+      "retrievalMs": 879,
+      "rerankMs": 465,
+      "genMs": 2458
+    },
+    "tokens": {
+      "jinaTokens": 1299,
+      "genTokens": 1658,
+      "judgeTokens": 2625
+    }
+  },
+  "q_26": {
+    "query_id": "q_26",
+    "query_type": "keyword_dense",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 2,
+    "preRerankIds": [
+      "b916629a-0daa-4ff1-8465-35f3df58d4d9",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "c0580c01-258a-4523-ad37-b8c4bb9703d4",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "fec9d277-5b1c-4181-abe4-131e0ab866a6",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9",
+      "ac6a3de2-d74a-4d55-9c1a-63ddbd1886e7",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "fe675d2a-8935-4e1c-8285-a1053b266fac",
+      "c254000d-9c54-4071-816c-77c4dd420126"
+    ],
+    "postRerankIds": [
+      "fec9d277-5b1c-4181-abe4-131e0ab866a6",
+      "ac6a3de2-d74a-4d55-9c1a-63ddbd1886e7",
+      "b916629a-0daa-4ff1-8465-35f3df58d4d9",
+      "c0580c01-258a-4523-ad37-b8c4bb9703d4",
+      "fe675d2a-8935-4e1c-8285-a1053b266fac"
+    ],
+    "judge": {
+      "relevantIds": [
+        "b916629a-0daa-4ff1-8465-35f3df58d4d9",
+        "c0580c01-258a-4523-ad37-b8c4bb9703d4",
+        "fec9d277-5b1c-4181-abe4-131e0ab866a6",
+        "ac6a3de2-d74a-4d55-9c1a-63ddbd1886e7"
+      ],
+      "sectionMap": {
+        "b916629a-0daa-4ff1-8465-35f3df58d4d9": [
+          0,
+          1
+        ],
+        "c0580c01-258a-4523-ad37-b8c4bb9703d4": [
+          0
+        ],
+        "fec9d277-5b1c-4181-abe4-131e0ab866a6": [
+          0,
+          1
+        ],
+        "ac6a3de2-d74a-4d55-9c1a-63ddbd1886e7": [
+          0,
+          1
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.95,
+    "latency": {
+      "retrievalMs": 984,
+      "rerankMs": 585,
+      "genMs": 1628
+    },
+    "tokens": {
+      "jinaTokens": 1682,
+      "genTokens": 1735,
+      "judgeTokens": 3110
+    }
+  },
+  "q_32": {
+    "query_id": "q_32",
+    "query_type": "semantic",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "dc78a594-bd31-46c7-aa10-9d076ff872d3",
+      "f875e787-07ce-4b41-aa20-55a238eceb75",
+      "6403b265-19a3-4761-9a4e-bc3ef1e54842",
+      "7a397151-5e3e-4aab-ad03-fc7744e6bce6",
+      "b00ad49d-0f46-4c30-8064-850e8dba7df6",
+      "a2e750a0-d3db-408c-aed6-94ef20e48155",
+      "96768395-612f-4ac9-9890-002dbe15377c",
+      "0a3519a9-972f-437a-afe2-91feee4c94bf",
+      "d170f81b-1a7d-4917-8146-942a529ad226",
+      "640bd525-6e3a-4d56-bdcf-d82274308a36"
+    ],
+    "postRerankIds": [
+      "6403b265-19a3-4761-9a4e-bc3ef1e54842",
+      "d170f81b-1a7d-4917-8146-942a529ad226",
+      "0a3519a9-972f-437a-afe2-91feee4c94bf",
+      "b00ad49d-0f46-4c30-8064-850e8dba7df6",
+      "96768395-612f-4ac9-9890-002dbe15377c"
+    ],
+    "judge": {
+      "relevantIds": [
+        "6403b265-19a3-4761-9a4e-bc3ef1e54842",
+        "d170f81b-1a7d-4917-8146-942a529ad226"
+      ],
+      "sectionMap": {
+        "6403b265-19a3-4761-9a4e-bc3ef1e54842": [
+          0
+        ],
+        "d170f81b-1a7d-4917-8146-942a529ad226": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 0.3333333333333333,
+      "mrrAt5": 0.3333333333333333,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.9,
+    "latency": {
+      "retrievalMs": 1042,
+      "rerankMs": 461,
+      "genMs": 1413
+    },
+    "tokens": {
+      "jinaTokens": 1628,
+      "genTokens": 1429,
+      "judgeTokens": 2659
+    }
+  },
+  "q_41": {
+    "query_id": "q_41",
+    "query_type": "hard_negative",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "5ce6be2a-877a-48e8-87f4-00e0503d04b1",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "5c614f57-8007-4f31-8db6-33336415d580",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "7cde3f70-34b6-46df-b971-a567a80591e7",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "0c143550-5911-4d1f-bdee-6ec7997fcc1a",
+      "176b0904-d131-4948-9b00-4cbf7656a71c",
+      "f525abce-67c7-438a-9692-ab28e638baa2",
+      "5cd10c54-8e9f-4c7b-81c4-5d72a8abd5f9"
+    ],
+    "postRerankIds": [
+      "5ce6be2a-877a-48e8-87f4-00e0503d04b1",
+      "f525abce-67c7-438a-9692-ab28e638baa2",
+      "0c143550-5911-4d1f-bdee-6ec7997fcc1a",
+      "7cde3f70-34b6-46df-b971-a567a80591e7",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d"
+    ],
+    "judge": {
+      "relevantIds": [
+        "5ce6be2a-877a-48e8-87f4-00e0503d04b1",
+        "f525abce-67c7-438a-9692-ab28e638baa2"
+      ],
+      "sectionMap": {
+        "5ce6be2a-877a-48e8-87f4-00e0503d04b1": [
+          0
+        ],
+        "f525abce-67c7-438a-9692-ab28e638baa2": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 892,
+      "rerankMs": 488,
+      "genMs": 2475
+    },
+    "tokens": {
+      "jinaTokens": 1490,
+      "genTokens": 1238,
+      "judgeTokens": 2381
+    }
+  },
+  "q_44": {
+    "query_id": "q_44",
+    "query_type": "keyword_dense",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "9c12e168-f72e-4bc9-9cb4-f8f34bc747df",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "3ba444c6-177e-4ae0-97e5-28977a6e8b68",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "707e0c2c-9df9-4501-b33a-5391f29c96fe",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "fd52acf6-0d19-4f2f-914b-05c9216f8a25",
+      "7736b2f7-a5b0-467e-a0b4-a82e6faf5c96",
+      "6295307a-f0b5-4917-84dd-6a53b4f6c1b7",
+      "176b0904-d131-4948-9b00-4cbf7656a71c"
+    ],
+    "postRerankIds": [
+      "9c12e168-f72e-4bc9-9cb4-f8f34bc747df",
+      "707e0c2c-9df9-4501-b33a-5391f29c96fe",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "176b0904-d131-4948-9b00-4cbf7656a71c"
+    ],
+    "judge": {
+      "relevantIds": [
+        "9c12e168-f72e-4bc9-9cb4-f8f34bc747df"
+      ],
+      "sectionMap": {
+        "9c12e168-f72e-4bc9-9cb4-f8f34bc747df": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 1,
+    "latency": {
+      "retrievalMs": 2868,
+      "rerankMs": 481,
+      "genMs": 1291
+    },
+    "tokens": {
+      "jinaTokens": 1377,
+      "genTokens": 1279,
+      "judgeTokens": 2258
+    }
+  },
+  "q_48": {
+    "query_id": "q_48",
+    "query_type": "semantic",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "752be9be-930a-4e99-a6e9-a6377ebbe51c",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "ec0bc4b7-e5d8-40c4-aa2b-baac2b4892ce",
+      "19f6636b-80ef-452d-a616-b2da251ca62a",
+      "bda08d0a-46ef-4c49-8771-9df61e7149fb",
+      "855d8c7e-c152-4daa-b069-fb7f2c8e904e",
+      "d24921c0-7620-4237-be19-ec0a995ba895",
+      "f8487ae9-7439-4926-afba-0c9a4776981b",
+      "17fe761d-9335-462d-8fdc-b190e187c52e",
+      "3940e1d2-7b7f-4f5e-9db0-95fa8560db28"
+    ],
+    "postRerankIds": [
+      "ec0bc4b7-e5d8-40c4-aa2b-baac2b4892ce",
+      "d24921c0-7620-4237-be19-ec0a995ba895",
+      "bda08d0a-46ef-4c49-8771-9df61e7149fb",
+      "17fe761d-9335-462d-8fdc-b190e187c52e",
+      "752be9be-930a-4e99-a6e9-a6377ebbe51c"
+    ],
+    "judge": {
+      "relevantIds": [
+        "752be9be-930a-4e99-a6e9-a6377ebbe51c",
+        "bda08d0a-46ef-4c49-8771-9df61e7149fb",
+        "d24921c0-7620-4237-be19-ec0a995ba895"
+      ],
+      "sectionMap": {
+        "752be9be-930a-4e99-a6e9-a6377ebbe51c": [
+          0
+        ],
+        "bda08d0a-46ef-4c49-8771-9df61e7149fb": [
+          0
+        ],
+        "d24921c0-7620-4237-be19-ec0a995ba895": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 0.5,
+      "mrrAt5": 0.5,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.95,
+    "latency": {
+      "retrievalMs": 1333,
+      "rerankMs": 490,
+      "genMs": 1762
+    },
+    "tokens": {
+      "jinaTokens": 1567,
+      "genTokens": 1605,
+      "judgeTokens": 2817
+    }
+  },
+  "q_50": {
+    "query_id": "q_50",
+    "query_type": "hard_negative",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "is_unanswerable": false,
+    "requiredSectionCount": 1,
+    "preRerankIds": [
+      "c97ad769-c365-4d08-b986-8887b075fa31",
+      "53113006-8079-4c4a-86cd-692508b90800",
+      "48088120-ee7a-420d-ba78-bae89bbca303",
+      "eaed9bfc-de70-4a04-ab14-1649441e1abd",
+      "425fa44b-aa6c-4f6f-bbee-6fbafc84199a",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "1cfd175e-9811-4747-a4b1-2acf29ffb442",
+      "7736b2f7-a5b0-467e-a0b4-a82e6faf5c96",
+      "41708679-ba73-4c3e-b3b8-e96fb3edbba9",
+      "176b0904-d131-4948-9b00-4cbf7656a71c"
+    ],
+    "postRerankIds": [
+      "c97ad769-c365-4d08-b986-8887b075fa31",
+      "425fa44b-aa6c-4f6f-bbee-6fbafc84199a",
+      "0d227b9a-0e5f-468a-b069-8ab6a234289d",
+      "1cfd175e-9811-4747-a4b1-2acf29ffb442",
+      "41708679-ba73-4c3e-b3b8-e96fb3edbba9"
+    ],
+    "judge": {
+      "relevantIds": [
+        "425fa44b-aa6c-4f6f-bbee-6fbafc84199a",
+        "48088120-ee7a-420d-ba78-bae89bbca303",
+        "c97ad769-c365-4d08-b986-8887b075fa31",
+        "1cfd175e-9811-4747-a4b1-2acf29ffb442"
+      ],
+      "sectionMap": {
+        "425fa44b-aa6c-4f6f-bbee-6fbafc84199a": [
+          0
+        ],
+        "48088120-ee7a-420d-ba78-bae89bbca303": [
+          0
+        ],
+        "c97ad769-c365-4d08-b986-8887b075fa31": [
+          0
+        ],
+        "1cfd175e-9811-4747-a4b1-2acf29ffb442": [
+          0
+        ]
+      }
+    },
+    "preRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "postRerank": {
+      "hitAt3": 1,
+      "hitAt5": 1,
+      "mrrAt3": 1,
+      "mrrAt5": 1,
+      "recallAt3": 1,
+      "recallAt5": 1
+    },
+    "answerCorrectness": 0.6,
+    "latency": {
+      "retrievalMs": 918,
+      "rerankMs": 579,
+      "genMs": 2228
+    },
+    "tokens": {
+      "jinaTokens": 1291,
+      "genTokens": 1399,
+      "judgeTokens": 2549
+    }
+  }
+}

@@ -7,7 +7,11 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eval:quality": "tsx src/test/runLangSmithEval.ts",
+    "eval:quality:report": "tsx src/test/runLangSmithEval.ts --report",
+    "eval:caching": "tsx src/test/cachingTest.ts",
+    "eval:retrieval": "tsx src/test/runEval.ts"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +32,7 @@
     "groq-sdk": "^1.2.1",
     "jsonwebtoken": "^9.0.3",
     "jwks-rsa": "^4.0.1",
+    "langsmith": "^0.11.0",
     "multer": "^2.1.1",
     "node": "^24.16.0",
     "openai": "^6.42.0",
@@ -42,6 +47,7 @@
     "@types/multer": "^2.1.0",
     "@types/node": "^20.19.43",
     "nodemon": "^3.1.14",
+    "supabase": "^2.121.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.22.4",
     "typescript": "^5.9.3"

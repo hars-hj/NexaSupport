@@ -1,33 +1,44 @@
 import fs from "fs";
-import { Groq } from "groq-sdk";
 import { judgeClient, JUDGE_MODEL } from "../config/llmClients.js";
 import { embedQuery, retrieveChunks, buildSearchKeywords } from "../services/retriever.js";
 import { rerankChunks } from "../services/reranker.js";
 import { generateAnswer } from "../services/generator.js";
 import { Chunk, EvalQuestion } from "../types/rag.types.js";
+import {
+  RankingMetrics,
+  JudgeRelevance,
+  computeRankingMetrics,
+  parseRequiredSections,
+  isUnanswerableSection,
+  stripCitations,
+  mean,
+  bootstrapCI,
+} from "./evalMetrics.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-const DATASET_PATH = "./eval_questions_50.json";
-const CHECKPOINT_PATH = "./eval_checkpoint.json";
+const DATASET_PATH = "./eval_questions_60.json";
+// New file name on purpose: the old checkpoint holds the inflated (always 1.0) results
+// and the runner skips anything already checkpointed.
+const CHECKPOINT_PATH = "./eval_checkpoint_v2.json";
+const PAGE_SIZE = 10;
+const EXCERPT_CHARS = 1200; // was 900; longer excerpts reduce false "irrelevant" calls on late evidence
+// Make sure this matches what services/reranker.ts really calls (code comments say Jina).
+const RERANKER_LABEL = "Jina";
 
-interface RankingMetrics {
-  hitAt3: number;
-  hitAt5: number;
-  mrrAt3: number;
-  mrrAt5: number;
-  recallAt3: number;
-  recallAt5: number;
-}
 interface StoredEvalRecord {
   query_id: string;
   query_type: string;
   target_doc: string;
   is_unanswerable: boolean;
+  requiredSectionCount: number;
+  // Raw material, so metrics can be recomputed offline with --recompute (no API calls)
+  preRerankIds: string[];
+  postRerankIds: string[];
+  judge: JudgeRelevance;
   preRerank: RankingMetrics;
   postRerank: RankingMetrics;
   answerCorrectness: number;
-  abstainedCorrectly?: boolean;
   latency: { retrievalMs: number; rerankMs: number; genMs: number };
   tokens: { jinaTokens: number; genTokens: number; judgeTokens: number };
 }
@@ -54,23 +65,21 @@ async function withRateLimitRetry<T>(fn: () => Promise<T>, label: string): Promi
 }
 
 /**
- * Grades candidate chunks and generated answer using the isolated Judge model
+ * Asks the Judge model which candidates are relevant and how correct the answer is.
+ * Ranking metrics are computed separately (evalMetrics.ts) from this stored output.
  */
 async function evaluateWithJudge(
   q: EvalQuestion,
   candidatePool: Chunk[],
-  generatedAnswer: string
-) {
-  const isUnanswerable = q.ground_truth_section === "NONE";
-  const requiredSections = isUnanswerable
-    ? []
-    : q.ground_truth_section.split("|").map((s) => s.trim()).filter(Boolean);
-
+  generatedAnswer: string,
+  requiredSections: string[],
+  isUnanswerable: boolean
+): Promise<{ judge: JudgeRelevance; answerCorrectness: number; judgeTokens: number }> {
   const formattedCandidates = candidatePool.map((c) => ({
     id: c.id,
     filename: c.filename,
     page: c.page,
-    excerpt: c.content.slice(0, 900),
+    excerpt: c.content.slice(0, EXCERPT_CHARS),
   }));
 
   const response = await withRateLimitRetry(
@@ -82,7 +91,7 @@ async function evaluateWithJudge(
             role: "system",
             content:
               "You are an exact RAG evaluation judge. Analyze the candidate chunks and generated answer against the ground truth.\n" +
-             "1. `relevant_chunk_ids`: Array of candidate chunk `id`s that contain factual evidence needed to answer the query according to `ground_truth_section` and `ground_truth_answer`.\n" +
+              "1. `relevant_chunk_ids`: Array of candidate chunk `id`s whose excerpt ITSELF contains factual evidence needed to answer the query according to `required_sections` and `ground_truth_answer`. Being from the right document is NOT enough; the excerpt must contain the evidence.\n" +
               "2. `chunk_section_map`: Object mapping each relevant chunk `id` to an array of 0-based indices from `required_sections` that the chunk covers.\n" +
               "3. `answer_correctness`: Float from 0.0 to 1.0 grading how accurately `generated_answer` matches `ground_truth_answer` (or 1.0 if `is_unanswerable` is true and the assistant properly declined to answer).\n" +
               'Respond ONLY with valid JSON: {"relevant_chunk_ids": ["..."], "chunk_section_map": {"id": [0]}, "answer_correctness": 0.85}',
@@ -94,7 +103,7 @@ async function evaluateWithJudge(
               target_doc: q.target_doc,
               is_unanswerable: isUnanswerable,
               required_sections: requiredSections,
-              ground_truth_answer: q.ground_truth_answer,
+              ground_truth_answer: stripCitations(q.ground_truth_answer),
               generated_answer: generatedAnswer,
               candidates: formattedCandidates,
             }),
@@ -102,61 +111,37 @@ async function evaluateWithJudge(
         ],
         response_format: { type: "json_object" },
         temperature: 0,
+        max_tokens: 1000,
       }),
     "JudgeLLM"
   );
 
   const parsed = JSON.parse(response.choices[0]?.message?.content ?? "{}");
 
-//   // DEBUG STATEMENT.......................................................................
-//   console.log("[DEBUG JUDGE]", {
-//   target_doc: q.target_doc,
-//   sampleChunkFilename: candidatePool[0]?.filename,
-//   sampleChunkId: candidatePool[0]?.id,
-//   judgeRelevantIds: parsed.relevant_chunk_ids,
-// });
+  // Normalise: ids as strings, only ids that were actually in the candidate pool, numeric indices.
+  const poolIds = new Set(candidatePool.map((c) => String(c.id)));
+  const relevantIds: string[] = (Array.isArray(parsed.relevant_chunk_ids) ? parsed.relevant_chunk_ids : [])
+    .map(String)
+    .filter((id: string) => poolIds.has(id));
 
-  const relevantSet = new Set<string>(parsed.relevant_chunk_ids ?? []);
-  const sectionMap: Record<string, number[]> = parsed.chunk_section_map ?? {};
+  const sectionMap: Record<string, number[]> = {};
+  for (const [id, idxs] of Object.entries(parsed.chunk_section_map ?? {})) {
+    sectionMap[String(id)] = Array.isArray(idxs) ? (idxs as unknown[]).map(Number) : [];
+  }
 
-  const calcAtK = (chunks: Chunk[], k: number): { hit: number; mrr: number; recall: number } => {
-    if (isUnanswerable) return { hit: 0, mrr: 0, recall: 0 };
-    const slice = chunks.slice(0, k);
-    let firstRank = 0;
-    const coveredSections = new Set<number>();
-
-    slice.forEach((c, idx) => {
-      
-        if (firstRank === 0) firstRank = idx + 1;
-        const indices = sectionMap[c.id] ?? [0];
-        indices.forEach((i) => coveredSections.add(i));
-      
-    });
-
-    const hit = firstRank > 0 ? 1 : 0;
-    const mrr = firstRank > 0 ? 1 / firstRank : 0;
-    const recall = Math.min(coveredSections.size / Math.max(requiredSections.length, 1), 1);
-    return { hit, mrr, recall };
-  };
-
-  const computeMetrics = (chunks: Chunk[]): RankingMetrics => {
-    const k3 = calcAtK(chunks, 3);
-    const k5 = calcAtK(chunks, 5);
-    return {
-      hitAt3: k3.hit,
-      hitAt5: k5.hit,
-      mrrAt3: k3.mrr,
-      mrrAt5: k5.mrr,
-      recallAt3: k3.recall,
-      recallAt5: k5.recall,
-    };
-  };
+  const rawCorrectness = Number(parsed.answer_correctness ?? 0);
+  const answerCorrectness = Number.isFinite(rawCorrectness) ? Math.min(Math.max(rawCorrectness, 0), 1) : 0;
 
   return {
-    computeMetrics,
-    answerCorrectness: Number(parsed.answer_correctness ?? 0),
+    judge: { relevantIds, sectionMap },
+    answerCorrectness,
     judgeTokens: response.usage?.total_tokens ?? 0,
   };
+}
+
+function fmtDelta(delta: number, digits: number, pct: boolean): string {
+  const v = pct ? delta * 100 : delta;
+  return (v >= 0 ? "+" : "") + v.toFixed(digits) + (pct ? "%" : "");
 }
 
 /**
@@ -171,33 +156,49 @@ export function printEvaluationReport() {
   const records = Object.values(
     JSON.parse(fs.readFileSync(CHECKPOINT_PATH, "utf-8")) as Record<string, StoredEvalRecord>
   );
+  const totalQuestions = fs.existsSync(DATASET_PATH)
+    ? (JSON.parse(fs.readFileSync(DATASET_PATH, "utf-8")) as unknown[]).length
+    : records.length;
+
   const answerable = records.filter((r) => !r.is_unanswerable);
   const unanswerable = records.filter((r) => r.is_unanswerable);
 
-  const avg = (arr: number[]) => (arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0);
-
   console.log(`\n=============================================================`);
-  console.log(` RAG EVALUATION REPORT (${records.length}/50 Queries Completed)`);
+  console.log(` RAG EVALUATION REPORT (${records.length}/${totalQuestions} Queries Completed)`);
   console.log(`=============================================================\n`);
 
   if (answerable.length > 0) {
-    const preHit5 = avg(answerable.map((r) => r.preRerank.hitAt5));
-    const postHit5 = avg(answerable.map((r) => r.postRerank.hitAt5));
-    const preMrr5 = avg(answerable.map((r) => r.preRerank.mrrAt5));
-    const postMrr5 = avg(answerable.map((r) => r.postRerank.mrrAt5));
-    const preRec5 = avg(answerable.map((r) => r.preRerank.recallAt5));
-    const postRec5 = avg(answerable.map((r) => r.postRerank.recallAt5));
-    const postMrr3 = avg(answerable.map((r) => r.postRerank.mrrAt3));
-    const ansCorr = avg(answerable.map((r) => r.answerCorrectness));
+    const col = (pick: (r: StoredEvalRecord) => number) => answerable.map(pick);
+    const preHit3 = mean(col((r) => r.preRerank.hitAt3));
+    const postHit3 = mean(col((r) => r.postRerank.hitAt3));
+    const preHit5 = mean(col((r) => r.preRerank.hitAt5));
+    const postHit5 = mean(col((r) => r.postRerank.hitAt5));
+    const preRec3 = mean(col((r) => r.preRerank.recallAt3));
+    const postRec3 = mean(col((r) => r.postRerank.recallAt3));
+    const preRec5 = mean(col((r) => r.preRerank.recallAt5));
+    const postRec5 = mean(col((r) => r.postRerank.recallAt5));
+    const preMrr3 = mean(col((r) => r.preRerank.mrrAt3));
+    const postMrr3 = mean(col((r) => r.postRerank.mrrAt3));
+    const preMrr5 = mean(col((r) => r.preRerank.mrrAt5));
+    const postMrr5 = mean(col((r) => r.postRerank.mrrAt5));
+    const ansCorr = mean(col((r) => r.answerCorrectness));
 
+    const pct = (x: number) => `${(x * 100).toFixed(1)}%`;
     console.log(`### Overall Retrieval & Reranking Metrics (N=${answerable.length} Answerable Queries)`);
-    console.log(`| Metric | Pre-Rerank (Hybrid RRF) | Post-Rerank (Voyage AI) | Lift (Delta) |`);
+    console.log(`| Metric | Pre-Rerank (Hybrid RRF) | Post-Rerank (${RERANKER_LABEL}) | Lift (Delta) |`);
     console.log(`| :--- | :---: | :---: | :---: |`);
-    console.log(`| **Hit Rate@5** | ${(preHit5 * 100).toFixed(1)}% | ${(postHit5 * 100).toFixed(1)}% | ${((postHit5 - preHit5) * 100 >= 0 ? "+" : "") + ((postHit5 - preHit5) * 100).toFixed(1)}% |`);
-    console.log(`| **Recall@5** | ${(preRec5 * 100).toFixed(1)}% | ${(postRec5 * 100).toFixed(1)}% | ${((postRec5 - preRec5) * 100 >= 0 ? "+" : "") + ((postRec5 - preRec5) * 100).toFixed(1)}% |`);
-    console.log(`| **MRR@5** | ${preMrr5.toFixed(3)} | **${postMrr5.toFixed(3)}** | **${(postMrr5 - preMrr5 >= 0 ? "+" : "") + (postMrr5 - preMrr5).toFixed(3)}** |`);
-    console.log(`| **MRR@3** | ${avg(answerable.map((r) => r.preRerank.mrrAt3)).toFixed(3)} | **${postMrr3.toFixed(3)}** | ${(postMrr3 - avg(answerable.map((r) => r.preRerank.mrrAt3))).toFixed(3)} |`);
-    console.log(`| **Answer Correctness** | — | **${(ansCorr * 100).toFixed(1)}%** | — |\n`);
+    console.log(`| **Hit Rate@3** | ${pct(preHit3)} | ${pct(postHit3)} | ${fmtDelta(postHit3 - preHit3, 1, true)} |`);
+    console.log(`| **Hit Rate@5** | ${pct(preHit5)} | ${pct(postHit5)} | ${fmtDelta(postHit5 - preHit5, 1, true)} |`);
+    console.log(`| **Recall@3** | ${pct(preRec3)} | ${pct(postRec3)} | ${fmtDelta(postRec3 - preRec3, 1, true)} |`);
+    console.log(`| **Recall@5** | ${pct(preRec5)} | ${pct(postRec5)} | ${fmtDelta(postRec5 - preRec5, 1, true)} |`);
+    console.log(`| **MRR@3** | ${preMrr3.toFixed(3)} | **${postMrr3.toFixed(3)}** | ${fmtDelta(postMrr3 - preMrr3, 3, false)} |`);
+    console.log(`| **MRR@5** | ${preMrr5.toFixed(3)} | **${postMrr5.toFixed(3)}** | **${fmtDelta(postMrr5 - preMrr5, 3, false)}** |`);
+    console.log(`| **Answer Correctness** | — | **${pct(ansCorr)}** | — |\n`);
+
+    const [mrrLo, mrrHi] = bootstrapCI(col((r) => r.postRerank.mrrAt5));
+    const [recLo, recHi] = bootstrapCI(col((r) => r.postRerank.recallAt5));
+    const [ansLo, ansHi] = bootstrapCI(col((r) => r.answerCorrectness));
+    console.log(`95% bootstrap CI (post-rerank): MRR@5 [${mrrLo.toFixed(3)}, ${mrrHi.toFixed(3)}] | Recall@5 [${pct(recLo)}, ${pct(recHi)}] | Answer Correctness [${pct(ansLo)}, ${pct(ansHi)}]\n`);
 
     // Breakdown by query_type
     const types = Array.from(new Set(answerable.map((r) => r.query_type)));
@@ -207,25 +208,53 @@ export function printEvaluationReport() {
     for (const t of types) {
       const subset = answerable.filter((r) => r.query_type === t);
       console.log(
-        `| \`${t}\` | ${subset.length} | ${avg(subset.map((s) => s.preRerank.mrrAt5)).toFixed(3)} | **${avg(subset.map((s) => s.postRerank.mrrAt5)).toFixed(3)}** | ${(avg(subset.map((s) => s.postRerank.recallAt5)) * 100).toFixed(1)}% | ${(avg(subset.map((s) => s.answerCorrectness)) * 100).toFixed(1)}% |`
+        `| \`${t}\` | ${subset.length} | ${mean(subset.map((s) => s.preRerank.mrrAt5)).toFixed(3)} | **${mean(subset.map((s) => s.postRerank.mrrAt5)).toFixed(3)}** | ${pct(mean(subset.map((s) => s.postRerank.recallAt5)))} | ${pct(mean(subset.map((s) => s.answerCorrectness)))} |`
       );
     }
   }
 
   if (unanswerable.length > 0) {
-    const abstentionScore = avg(unanswerable.map((r) => r.answerCorrectness));
+    const abstentionScore = mean(unanswerable.map((r) => r.answerCorrectness));
     console.log(`\n### Unanswerable Adversarial Guardrail (N=${unanswerable.length})`);
     console.log(`- **Abstention Accuracy:** ${(abstentionScore * 100).toFixed(1)}%`);
+  } else {
+    console.log(`\n(No unanswerable questions in the dataset yet, abstention is not being tested.)`);
   }
 }
 
 /**
- * Main Stratified Part Runner (Parts 1 to 5, 10 questions each)
+ * Recomputes ranking metrics from stored ids + judge output. No API calls.
+ * Use after changing metric logic (evalMetrics.ts).
+ */
+function recomputeCheckpoint() {
+  if (!fs.existsSync(CHECKPOINT_PATH)) {
+    console.log("No checkpoint file found yet.");
+    return;
+  }
+  const checkpoint: Record<string, StoredEvalRecord> = JSON.parse(fs.readFileSync(CHECKPOINT_PATH, "utf-8"));
+  let updated = 0;
+  for (const rec of Object.values(checkpoint)) {
+    if (!rec.judge || !rec.preRerankIds || !rec.postRerankIds) continue;
+    rec.preRerank = computeRankingMetrics(rec.preRerankIds, rec.judge, rec.requiredSectionCount, rec.is_unanswerable);
+    rec.postRerank = computeRankingMetrics(rec.postRerankIds, rec.judge, rec.requiredSectionCount, rec.is_unanswerable);
+    updated++;
+  }
+  fs.writeFileSync(CHECKPOINT_PATH, JSON.stringify(checkpoint, null, 2));
+  console.log(`Recomputed metrics for ${updated} stored records.`);
+  printEvaluationReport();
+}
+
+/**
+ * Main Stratified Part Runner (10 questions per part; each part mixes all question types)
  */
 async function main() {
   const args = process.argv.slice(2);
   if (args.includes("--report")) {
     printEvaluationReport();
+    return;
+  }
+  if (args.includes("--recompute")) {
+    recomputeCheckpoint();
     return;
   }
 
@@ -238,20 +267,31 @@ async function main() {
   }
 
   const allQuestions: EvalQuestion[] = JSON.parse(fs.readFileSync(DATASET_PATH, "utf-8"));
+  const totalParts = Math.ceil(allQuestions.length / PAGE_SIZE);
+  if (!Number.isInteger(partNumber) || partNumber < 1 || partNumber > totalParts) {
+    throw new Error(`--part must be an integer between 1 and ${totalParts}`);
+  }
+
   const checkpoint: Record<string, StoredEvalRecord> = fs.existsSync(CHECKPOINT_PATH)
     ? JSON.parse(fs.readFileSync(CHECKPOINT_PATH, "utf-8"))
     : {};
 
-  // Stratified modulo slicing: Part 1 gets indices 0, 5, 10, 15... covering all query_types
-  const batchQuestions = allQuestions.filter((_, idx) => (idx % 5) + 1 === partNumber);
+  // Consecutive slicing: Part 1 gets questions 1-10, Part 2 gets 11-20, etc.
+  const startIndex = (partNumber - 1) * PAGE_SIZE;
+  const batchQuestions = allQuestions.slice(startIndex, startIndex + PAGE_SIZE);
 
-  console.log(`\nStarting Stratified Evaluation — Part ${partNumber}/5 (${batchQuestions.length} queries)`);
+  console.log(
+    `\nStarting Evaluation — Part ${partNumber}/${totalParts} (${batchQuestions.length} queries: questions ${startIndex + 1} to ${startIndex + batchQuestions.length})`
+  );
 
   for (const q of batchQuestions) {
     if (checkpoint[q.query_id]) {
       console.log(`[SKIP] ${q.query_id} (${q.query_type}) already evaluated.`);
       continue;
     }
+
+    const isUnanswerable = isUnanswerableSection(q.ground_truth_section);
+    const requiredSections = parseRequiredSections(q.ground_truth_section);
 
     // 1. Hybrid Retrieval (Top-10 candidates via RRF)
     const retStart = Date.now();
@@ -260,32 +300,37 @@ async function main() {
     const preRerankChunks = await retrieveChunks(orgId, queryEmbedding, keywords, 10);
     const retrievalMs = Date.now() - retStart;
 
- // 2. Jina AI Reranking (Top-10 -> Top-5)
+    // 2. Reranking (Top-10 -> Top-5)
     const {
       chunks: postRerankChunks,
       tokensUsed: jinaTokens,
       latencyMs: rerankMs,
     } = await rerankChunks(q.query, preRerankChunks, 5);
+
     // 3. Groq Answer Generation (openai/gpt-oss-120b)
     const {
       answer,
       tokensUsed: genTokens,
       latencyMs: genMs,
-    } = await withRateLimitRetry(
-      () => generateAnswer(q.query, postRerankChunks),
-      "GeneratorLLM"
-    );
+    } = await withRateLimitRetry(() => generateAnswer(q.query, postRerankChunks), "GeneratorLLM");
 
-    // 4. Judge Evaluation (Hit, MRR, Recall, Answer Correctness)
-    const judgeOut = await evaluateWithJudge(q, preRerankChunks, answer);
-    const preMetrics = judgeOut.computeMetrics(preRerankChunks);
-    const postMetrics = judgeOut.computeMetrics(postRerankChunks);
+    // 4. Judge Evaluation (relevance labels + answer correctness)
+    const judgeOut = await evaluateWithJudge(q, preRerankChunks, answer, requiredSections, isUnanswerable);
+
+    const preRerankIds = preRerankChunks.map((c) => String(c.id));
+    const postRerankIds = postRerankChunks.map((c) => String(c.id));
+    const preMetrics = computeRankingMetrics(preRerankIds, judgeOut.judge, requiredSections.length, isUnanswerable);
+    const postMetrics = computeRankingMetrics(postRerankIds, judgeOut.judge, requiredSections.length, isUnanswerable);
 
     checkpoint[q.query_id] = {
       query_id: q.query_id,
       query_type: q.query_type,
       target_doc: q.target_doc,
-      is_unanswerable: q.ground_truth_section === "NONE",
+      is_unanswerable: isUnanswerable,
+      requiredSectionCount: requiredSections.length,
+      preRerankIds,
+      postRerankIds,
+      judge: judgeOut.judge,
       preRerank: preMetrics,
       postRerank: postMetrics,
       answerCorrectness: judgeOut.answerCorrectness,

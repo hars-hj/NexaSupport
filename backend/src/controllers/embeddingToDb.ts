@@ -25,13 +25,17 @@ export async function storeEmbeddings(chunks: chunks[],org_id:string) {
         embedding: chunk.embedding
     }));
 
-    const { data, error } = await supabaseAdmin
-        .from("document_chunks")
-        .insert(rows);
+    const BATCH_SIZE = 200;
+    for (let i = 0; i < rows.length; i += BATCH_SIZE) {
+        const batch = rows.slice(i, i + BATCH_SIZE);
+        const { error } = await supabaseAdmin
+            .from("document_chunks")
+            .insert(batch);
 
-    if (error) {
-        throw error;
+        if (error) {
+            throw error;
+        }
     }
 
-    return data;
+    return { document_id: doc_id, count: rows.length };
 }

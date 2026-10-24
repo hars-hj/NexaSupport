@@ -147,33 +147,33 @@ export async function chat(orgId: string, sessionId: string, question: string): 
   console.log(`\n[RAG Pipeline] Starting pipeline for query: "${question}" (session: ${sessionId})`);
 
   try {
-    // --- Casual check: synchronous, ~0ms ---
+    // --- Stage 0: casual check ---
     const casual = handleCasualQuery(question);
     if (casual.ok) {
       saveTurnBackground(orgId, sessionId, question, casual.message);
-      console.log(`[RAG Pipeline] Early exit (casual query): total ${Date.now() - start}ms`);
+      console.log(`[RAG Pipeline] Early exit (casual): total ${Date.now() - start}ms`);
       return { reply: casual.message, escalated: false };
     }
 
-    // --- t=0: fire every independent I/O call at once ---
+    const selfContained = isSelfContained(question); // decides cache use and embedding strategy
+
+    // --- Stage 1 (t=0): start only what this path needs ---
     const escalatedP = timed(timings, "escalation", () => isSessionEscalated(orgId, sessionId));
     const historyP = timed(timings, "history", () => getConversationHistory(orgId, sessionId));
-    const embeddingP = timed(timings, "embedding", () => embedQuery(question));
     const contactP = timed(timings, "contact", () => getSupportContact(orgId));
-    const exactCacheP = timed(timings, "exactCache", () => getCachedAnswer(orgId, question));
+    const exactCacheP = selfContained
+      ? timed(timings, "exactCache", () => getCachedAnswer(orgId, question))
+      : Promise.resolve(null);
+    const embeddingP = selfContained
+      ? timed(timings, "embedding", () => embedQuery(question)) // speculative, hidden behind the gate
+      : null;
 
-    // If we exit early, un-awaited promises must not become unhandled rejections.
-    for (const p of [escalatedP, historyP, embeddingP, contactP, exactCacheP]) {
-      p.catch(() => {});
-    }
+    for (const p of [escalatedP, historyP, contactP, exactCacheP, embeddingP]) p?.catch(() => {});
 
-    // --- Guards: escalation + history + exact cache ---
-   
-    const [isEscalated, history, exactHit] = await Promise.all([escalatedP, historyP, exactCacheP]);
-
+    // --- Stage 2: gate on escalation + exact cache only ---
+    const [isEscalated, exactHit] = await Promise.all([escalatedP, exactCacheP]);
     console.log(
-      `[RAG Pipeline] Escalation: ${timings.escalation}ms | History: ${timings.history}ms | ` +
-        `Exact cache: ${timings.exactCache}ms (Hit: ${!!exactHit})`
+      `[RAG Pipeline] Escalation: ${timings.escalation}ms | Exact cache: ${timings.exactCache ?? "skipped"}ms (Hit: ${!!exactHit})`
     );
 
     if (isEscalated) {
@@ -182,67 +182,67 @@ export async function chat(orgId: string, sessionId: string, question: string): 
       return { reply: "", escalated: true };
     }
 
-    // Follow-ups depend on conversation context, so they must never read from or write to the shared caches.
-    const selfContained = isSelfContained(question);
-    const needsContext = history.length > 0 && !selfContained;
-    const cacheable = !needsContext;
-
-    if (cacheable && exactHit) {
+    if (exactHit) {
       saveTurnBackground(orgId, sessionId, question, exactHit);
-      console.log(`[RAG Pipeline] Early exit (exact cache hit): total ${Date.now() - start}ms`);
-      return { reply: exactHit, escalated: false };
+      console.log(`[RAG Pipeline] Early exit (exact hit): total ${Date.now() - start}ms`);
+      return { reply: exactHit, escalated: false, cacheHit: "exact" };
     }
 
-    // --- Build the retrieval query ---
-    // For follow-ups, prepend the last user message so the embedding carries the topic.
-    // (Zero-latency heuristic; swap in an LLM rewrite later if you want better quality.)
+    // --- Stage 3: one embedding per request ---
     let retrievalQuery = question;
     let queryEmbedding: number[];
 
-    if (needsContext) {
+    if (selfContained) {
+      queryEmbedding = await embeddingP!; // already in flight since t=0
+    } else {
+      const history = await historyP; // follow-ups need history before embedding
       const lastUserMsg = [...history].reverse().find((m) => m.role === "user")?.content ?? "";
       retrievalQuery = lastUserMsg ? `${lastUserMsg}\n${question}` : question;
-      // The t=0 embedding was for the raw follow-up; embed the contextualized query instead.
       queryEmbedding = await timed(timings, "embedding", () => embedQuery(retrievalQuery));
-    } else {
-      queryEmbedding = await embeddingP;
     }
 
     const keywords = buildSearchKeywords(retrievalQuery);
 
-    // --- Semantic cache (cacheable questions only) + hybrid retrieval in parallel ---
-    const [semanticHit, rawChunks] = await Promise.all([
-      cacheable
-        ? timed(timings, "semanticCache", () => getSemanticCachedAnswer(orgId, queryEmbedding))
-        : Promise.resolve(null),
-      timed(timings, "retrieval", () => retrieveChunks(orgId, queryEmbedding, keywords, 10)),
-    ]);
-
-    console.log(
-      `[RAG Pipeline] Embedding: ${timings.embedding}ms | Semantic cache: ${timings.semanticCache ?? "skipped"}ms ` +
-        `(Hit: ${!!semanticHit}) | Retrieval: ${timings.retrieval}ms (${rawChunks.length} chunks)`
+    // --- Stage 4: retrieval starts now; semantic lookup runs beside it and can return first ---
+    const retrievalP = timed(timings, "retrieval", () =>
+      retrieveChunks(orgId, queryEmbedding, keywords, 10)
     );
+    retrievalP.catch(() => {}); // abandoned on a semantic hit
 
-    if (semanticHit) {
-      saveTurnBackground(orgId, sessionId, question, semanticHit.answer);
-      console.log(`[RAG Pipeline] Early exit (semantic cache hit): total ${Date.now() - start}ms`);
-      return { reply: semanticHit.answer, escalated: false };
+    if (selfContained) {
+      const semanticHit = await timed(timings, "semanticCache", () =>
+        getSemanticCachedAnswer(orgId, queryEmbedding)
+      );
+      console.log(`[RAG Pipeline] Semantic cache: ${timings.semanticCache}ms (Hit: ${!!semanticHit})`);
+
+      if (semanticHit) {
+        setCachedAnswer(orgId, question, semanticHit.answer).catch(console.error); // backfill exact cache
+        saveTurnBackground(orgId, sessionId, question, semanticHit.answer);
+        console.log(`[RAG Pipeline] Early exit (semantic hit): total ${Date.now() - start}ms`);
+        return { reply: semanticHit.answer, escalated: false, cacheHit: "semantic" };
+      }
     }
+
+    // --- Stage 5: retrieval result, then rerank ---
+    const rawChunks = await retrievalP;
+    console.log(
+      `[RAG Pipeline] Embedding: ${timings.embedding}ms | Retrieval: ${timings.retrieval}ms (${rawChunks.length} chunks)`
+    );
 
     if (!rawChunks.length) {
       saveTurnBackground(orgId, sessionId, question, NO_CONTEXT_ANSWER);
-      console.log(`[RAG Pipeline] Early exit (no chunks retrieved): total ${Date.now() - start}ms`);
+      console.log(`[RAG Pipeline] Early exit (no chunks): total ${Date.now() - start}ms`);
       return { reply: NO_CONTEXT_ANSWER, escalated: false };
     }
 
-    // --- Rerank (using the contextualized query for follow-ups) ---
     const { chunks } = await timed(timings, "rerank", () => rerankChunks(retrievalQuery, rawChunks, 5));
     console.log(`[RAG Pipeline] Reranking: ${timings.rerank}ms (${chunks.length} chunks)`);
 
-    // --- Generate: support contact was fetched at t=0, so this await costs ~0ms ---
-    
-    const supportContact = await contactP;
-     const contextHistory = selectHistory(history, needsContext);
+    // --- Stage 6: history and contact (already resolved), then generate ---
+    const [history, supportContact] = await Promise.all([historyP, contactP]);
+    const needsContext = !selfContained && history.length > 0;
+    const contextHistory = selectHistory(history, needsContext);
+
     const { answer } = await timed(timings, "generation", () =>
       generateAnswer(question, chunks, contextHistory, supportContact)
     );
@@ -250,11 +250,10 @@ export async function chat(orgId: string, sessionId: string, question: string): 
 
     const totalLatency = Date.now() - start;
 
-    // --- Background post-processing (not on the user's critical path) ---
+    // --- Stage 7: background post-processing ---
     const tPostStart = Date.now();
     Promise.allSettled([
-      // Only cache standalone questions: never cache context-dependent answers.
-      ...(cacheable
+      ...(selfContained
         ? [
             setCachedAnswer(orgId, question, answer),
             setSemanticCachedAnswer(orgId, question, queryEmbedding, answer),
@@ -268,8 +267,8 @@ export async function chat(orgId: string, sessionId: string, question: string): 
         orgId,
         sessionId,
         question,
-        chunksRetrieved: rawChunks.length, // pre-rerank count
-        topChunkScore: rawChunks.reduce((max, c) => Math.max(max, c.similarity ?? 0), 0), // retrieval score, not rerank score
+        chunksRetrieved: rawChunks.length,
+        topChunkScore: rawChunks.reduce((max, c) => Math.max(max, c.similarity ?? 0), 0),
         finalAnswer: answer,
         latencyMs: totalLatency,
         escalated: false,
@@ -284,7 +283,7 @@ export async function chat(orgId: string, sessionId: string, question: string): 
     });
 
     console.log(`[RAG Pipeline] Total pipeline latency: ${totalLatency}ms\n`);
-    return { reply: answer, escalated: false };
+    return { reply: answer, escalated: false, cacheHit: "miss" };
   } catch (err) {
     console.error(`[RAG Pipeline] chat pipeline failed after ${Date.now() - start}ms:`, err);
     return { reply: FALLBACK_ANSWER, escalated: false };

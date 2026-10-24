@@ -84,16 +84,18 @@ Cache entries expire on TTL; there's no manual invalidation, so re-uploading a d
 - A Redis instance (e.g. Upstash)
 - API keys for Google GenAI (embeddings) and Groq (chat completion)
 
-### Environment variables (backend)
+### Environment variables
 
-```
-SUPABASE_URL=
-SUPABASE_SERVICE_ROLE_KEY=
-SUPABASE_ANON_KEY=
-EMBEDING_API_KEY=
-GROQ_API_KEY=
-REDIS_URL=          # e.g. rediss://default:<password>@<host>:6379
-```
+Copy `backend/.env.example` to `backend/.env` and
+`frontend/.env.example` to `frontend/.env`. Keep service-role keys and other
+secrets out of frontend variables; only use the Supabase anon key in the
+frontend.
+
+The backend needs Supabase credentials, a Google GenAI embedding key, a Groq
+generation key, Redis, and the parser service URL. The judge Groq key, Jina
+reranker key, and evaluation variables are only needed for their respective
+optional features. `REDIS_URL` should point to your Redis instance (for
+example, `rediss://default:<password>@<host>:6379`).
 
 ### Run locally
 

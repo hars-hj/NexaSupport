@@ -97,3 +97,24 @@ export async function setSemanticCachedAnswer(
 
   await redis.set(key, JSON.stringify(trimmed), { EX: TTL_SECONDS });
 }
+
+export async function clearOrgCache(orgId: string): Promise<void> {
+  try {
+    const keys = await redis.keys(`rag:exact:${orgId}:*`);
+    if (keys.length > 0) {
+      await redis.del(keys);
+    }
+    await redis.del(semanticCacheKey(orgId));
+  } catch (err) {
+    console.warn("[ragCache] clearOrgCache warning:", err);
+  }
+}
+
+export async function closeRedis(): Promise<void> {
+  if (isConnected && redis.isOpen) {
+    await redis.quit();
+    isConnected = false;
+  }
+}
+
+export { redis };

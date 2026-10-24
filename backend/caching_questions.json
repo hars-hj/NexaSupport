@@ -1,0 +1,153 @@
+
+[
+  {
+    "query_id": "q_01_original",
+    "query_type": "original",
+    "query": "In the AWS message-bus pattern, what are the complementary roles of Amazon SNS and Amazon SQS?"
+  },
+  {
+    "query_id": "q_01_exact",
+    "query_type": "exact_hit",
+    "query": "In the AWS message-bus pattern, what are the complementary roles of Amazon SNS and Amazon SQS?"
+  },
+  {
+    "query_id": "q_01_semantic",
+    "query_type": "semantic_hit",
+    "query": "How do Amazon SNS and Amazon SQS work together to distribute messages to multiple destinations?"
+  },
+  {
+    "query_id": "q_02_original",
+    "query_type": "original",
+    "query": "What is the difference between silo and pool resource models in SaaS?"
+  },
+  {
+    "query_id": "q_02_exact",
+    "query_type": "exact_hit",
+    "query": "What is the difference between silo and pool resource models in SaaS?"
+  },
+  {
+    "query_id": "q_02_semantic",
+    "query_type": "semantic_hit",
+    "query": "In SaaS architecture, how does dedicating resources to individual tenants differ from sharing resources among tenants?"
+  },
+  {
+    "query_id": "q_03_original",
+    "query_type": "original",
+    "query": "What does granting least privilege mean, and what should happen to permissions that are no longer needed?"
+  },
+  {
+    "query_id": "q_03_exact",
+    "query_type": "exact_hit",
+    "query": "What does granting least privilege mean, and what should happen to permissions that are no longer needed?"
+  },
+  {
+    "query_id": "q_03_semantic",
+    "query_type": "semantic_hit",
+    "query": "How should access permissions be restricted, reviewed, and removed when they are no longer required?"
+  },
+  {
+    "query_id": "q_04_original",
+    "query_type": "original",
+    "query": "How does a microservices architecture organize functionality differently from a traditional monolithic application?"
+  },
+  {
+    "query_id": "q_04_exact",
+    "query_type": "exact_hit",
+    "query": "How does a microservices architecture organize functionality differently from a traditional monolithic application?"
+  },
+  {
+    "query_id": "q_04_semantic",
+    "query_type": "semantic_hit",
+    "query": "How is functionality structured in microservices compared with a conventional monolithic application?"
+  },
+  {
+    "query_id": "q_05_original",
+    "query_type": "original",
+    "query": "How does tenant identity propagate through a SaaS application, and what does the application use it for?"
+  },
+  {
+    "query_id": "q_05_exact",
+    "query_type": "exact_hit",
+    "query": "How does tenant identity propagate through a SaaS application, and what does the application use it for?"
+  },
+  {
+    "query_id": "q_05_semantic",
+    "query_type": "semantic_hit",
+    "query": "After authentication, how do SaaS services obtain tenant context and use it to enforce isolation and track activity?"
+  },
+  {
+    "query_id": "q_06_original",
+    "query_type": "original",
+    "query": "How does a runbook differ from a playbook in operational work?"
+  },
+  {
+    "query_id": "q_06_exact",
+    "query_type": "exact_hit",
+    "query": "How does a runbook differ from a playbook in operational work?"
+  },
+  {
+    "query_id": "q_06_semantic",
+    "query_type": "semantic_hit",
+    "query": "What is the distinction between a runbook used for operational procedures and a playbook used for investigating issues?"
+  },
+  {
+    "query_id": "q_07_original",
+    "query_type": "original",
+    "query": "Why can AWS Lambda reduce the amount of infrastructure work for a microservices team?"
+  },
+  {
+    "query_id": "q_07_exact",
+    "query_type": "exact_hit",
+    "query": "Why can AWS Lambda reduce the amount of infrastructure work for a microservices team?"
+  },
+  {
+    "query_id": "q_07_semantic",
+    "query_type": "semantic_hit",
+    "query": "How does Lambda's automatic scaling and infrastructure management help developers focus on application logic?"
+  },
+  {
+    "query_id": "q_08_original",
+    "query_type": "original",
+    "query": "Which sign-in protections does the paper recommend to reduce the risk of unintended account access?"
+  },
+  {
+    "query_id": "q_08_exact",
+    "query_type": "exact_hit",
+    "query": "Which sign-in protections does the paper recommend to reduce the risk of unintended account access?"
+  },
+  {
+    "query_id": "q_08_semantic",
+    "query_type": "semantic_hit",
+    "query": "What authentication practices help prevent unauthorized access to accounts according to the Security Pillar?"
+  },
+  {
+    "query_id": "q_09_original",
+    "query_type": "original",
+    "query": "What problem can alert fatigue cause, and how does the paper suggest reducing it?"
+  },
+  {
+    "query_id": "q_09_exact",
+    "query_type": "exact_hit",
+    "query": "What problem can alert fatigue cause, and how does the paper suggest reducing it?"
+  },
+  {
+    "query_id": "q_09_semantic",
+    "query_type": "semantic_hit",
+    "query": "Why can excessive non-critical alerts be harmful, and what practices can make operational alerts more actionable?"
+  },
+  {
+    "query_id": "q_10_original",
+    "query_type": "original",
+    "query": "What makes an at-rest encryption approach secure and operationally manageable according to the paper?"
+  },
+  {
+    "query_id": "q_10_exact",
+    "query_type": "exact_hit",
+    "query": "What makes an at-rest encryption approach secure and operationally manageable according to the paper?"
+  },
+  {
+    "query_id": "q_10_semantic",
+    "query_type": "semantic_hit",
+    "query": "Which key-management and encryption practices help protect stored data while keeping security operations manageable?"
+  }
+]

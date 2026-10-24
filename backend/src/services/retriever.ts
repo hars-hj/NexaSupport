@@ -22,16 +22,36 @@ export function buildSearchKeywords(question: string): string {
 }
 
 export async function embedQuery(question: string): Promise<number[]> {
-  const result = await embeddingsClient.models.embedContent({
-    model: EMBEDDINGS_MODEL,
-    contents: question,
-  });
+  let retries = 0;
+  while (true) {
+    try {
+      const result = await embeddingsClient.models.embedContent({
+        model: EMBEDDINGS_MODEL,
+        contents: question,
+      });
 
-  if (!result.embeddings || result.embeddings.length === 0 || !result.embeddings[0].values) {
-    throw new Error("Embedding generation failed.");
+      if (!result.embeddings || result.embeddings.length === 0 || !result.embeddings[0].values) {
+        throw new Error("Embedding generation failed.");
+      }
+
+      return result.embeddings[0].values;
+    } catch (err: any) {
+      const isRateLimit =
+        err?.status === 429 ||
+        err?.message?.includes("RESOURCE_EXHAUSTED") ||
+        err?.message?.toLowerCase().includes("rate limit") ||
+        err?.message?.includes("429");
+
+      if (isRateLimit && retries < 5) {
+        retries++;
+        const waitSec = 3 * retries;
+        console.warn(`[retriever] Gemini Embedding 429 Rate Limit. Retrying in ${waitSec}s (attempt ${retries}/5)...`);
+        await new Promise((r) => setTimeout(r, waitSec * 1000));
+      } else {
+        throw err;
+      }
+    }
   }
-
-  return result.embeddings[0].values;
 }
 
 export async function retrieveChunks(

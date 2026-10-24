@@ -1,0 +1,1682 @@
+{
+  "q_01": {
+    "query_id": "q_01",
+    "query_type": "keyword_dense",
+    "query": "What is the role of AWS App2Container (AWS A2C) when modernizing legacy applications?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_answer": "App2Container (AWS A2C) is a command-line tool that analyzes and builds an inventory of Java and .NET web applications running on bare metal, virtual machines, Amazon EC2 instances, or in the cloud, and migrates and modernizes them into container format[cite: 9].",
+    "generated_answer": "AWS App2Container (AWS A2C) is a command‑line tool that helps modernize legacy Java and .NET web applications by analyzing the workloads running on bare‑metal servers, virtual machines, EC2 instances, or other cloud environments, building an inventory of those applications, and then converting them into container images for deployment.",
+    "correctness": 1,
+    "correctnessReason": "The student answer accurately reflects the reference ground truth. It correctly identifies AWS A2C as a command-line tool for Java and .NET web applications, mentions the analysis and inventory building process, lists the correct source environments (bare metal, VMs, EC2, cloud), and states the outcome (migration/modernization into container format). The phrasing 'converting them into container images' is a precise interpretation of 'migrates and modernizes them into container format'.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims in the student answer are directly supported by Chunk 1 of the retrieved context. The context explicitly states it is a command-line tool for migrating/modernizing Java and .NET apps, analyzes/builds inventory of apps on bare metal, VMs, EC2, or cloud, and converts them to container format. No hallucinations or unsupported details were added.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses the question about the role of AWS A2C in modernizing legacy applications. It is concise, focused, and contains no off-topic information.",
+    "guardrail": 1,
+    "guardrailReason": "The question is straightforward and does not contain false premises or adversarial traps. The model handled it correctly by providing a factual answer based on the context.",
+    "latency": {
+      "retrievalMs": 1509,
+      "rerankMs": 725,
+      "genMs": 1030,
+      "totalMs": 3264
+    },
+    "tokens": {
+      "jinaTokens": 1193,
+      "genTokens": 1043,
+      "judgeTokens": 1407
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_06": {
+    "query_id": "q_06",
+    "query_type": "semantic",
+    "query": "Our microservices are talking to each other way too much over the network, and establishing a new connection every single time is causing huge latency spikes. How can we fix this protocol overhead without merging our services?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_answer": "In high-volume situations, REST over HTTP causes performance overhead because a TCP handshake is required for every new request[cite: 37]. Switching to a gRPC API reduces latency because it uses HTTP/2 to allow multiple requests over a single TCP connection, uses binary-encoded protocol buffers, and supports bi-directional streaming[cite: 25, 37]. You can also apply caching via Amazon ElastiCache or API Gateway caching to reduce inter-service calls[cite: 37].",
+    "generated_answer": "You can reduce the connection‑handshake overhead by switching the inter‑service calls to **gRPC**:\n\n* **Single TCP connection** – gRPC runs over HTTP/2, so multiple requests can share one persistent connection instead of opening a new TCP handshake for each call.  \n* **Bi‑directional streaming** – lets services send and receive data simultaneously, cutting the number of round‑trips needed for large or real‑time payloads.  \n* **Efficient serialization** – protocol buffers are smaller and faster to encode/decode than JSON or XML used by REST.\n\nIn addition, add a caching layer (e.g., Amazon ElastiCache or API Gateway caching) to keep frequently needed data close to the callers, which further reduces the number of cross‑service calls.\n\n**Steps to implement**\n\n1. **Expose gRPC endpoints** on the services that are currently chatty.  \n2. **Update clients** to use the gRPC stubs so they reuse the same HTTP/2 connection.  \n3. **Enable bi‑directional streaming** where appropriate to batch or stream data.  \n4. **Add a cache** (ElastiCache or API Gateway cache) for read‑heavy data to avoid repeated calls.  \n\nThese changes address the protocol overhead and latency spikes without needing to merge the services.",
+    "correctness": 1,
+    "correctnessReason": "The student answer accurately identifies the core solution (switching to gRPC) and the supporting mechanisms (HTTP/2 single connection, bi-directional streaming, protocol buffers) as well as the supplementary solution (caching via ElastiCache or API Gateway). It aligns perfectly with the reference ground truth and the retrieved context.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All factual claims are supported by the retrieved context. Chunk 1 confirms gRPC uses a single TCP connection and supports bi-directional streaming. Chunk 2 confirms gRPC uses HTTP/2 and protocol buffers, while REST uses JSON/XML, and mentions ElastiCache/API Gateway caching. The implementation steps are logical inferences based on these facts.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses the user's problem of network overhead and latency spikes without merging services. It provides specific technical solutions and actionable steps, staying strictly on topic.",
+    "guardrail": 1,
+    "guardrailReason": "The question is a standard technical inquiry without false premises or adversarial traps. The model handled it appropriately by providing the correct technical advice.",
+    "latency": {
+      "retrievalMs": 1890,
+      "rerankMs": 851,
+      "genMs": 1453,
+      "totalMs": 4194
+    },
+    "tokens": {
+      "jinaTokens": 1606,
+      "genTokens": 1490,
+      "judgeTokens": 1811
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_10": {
+    "query_id": "q_10",
+    "query_type": "hard_negative",
+    "query": "We are using AWS Lambda Layers to share code across our multi-tenant SaaS microservices. Can we put our core tenant business logic inside the Lambda Layer to avoid code duplication?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_answer": "No, shared libraries in AWS Lambda Layers should only be used to address cross-cutting concerns and manage tenant context, not to encapsulate business logic[cite: 13]. Encapsulating business logic in shared libraries introduces risk and increases complexity surrounding updates, making them more challenging to manage than standard code duplication[cite: 13].",
+    "generated_answer": "No. While Lambda Layers are great for shared libraries and cross‑cutting concerns, the guidance explicitly says they **should not extend to encapsulating business logic** because doing so adds complexity and risk. Keep your core tenant business logic in the application code or backend services rather than in a layer.",
+    "correctness": 1,
+    "correctnessReason": "The student answer correctly identifies that business logic should not be placed in Lambda Layers, aligning perfectly with the reference ground truth. It accurately cites the reasons (complexity and risk) and suggests the correct alternative (keeping logic in application code/backend services).",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims in the student answer are directly supported by the retrieved context, specifically Chunk 1 which states that shared libraries 'should not extend to encapsulating business logic due to the complexity and risk they may introduce' and that they are for 'addressing cross-cutting concerns'.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses the specific question about using Lambda Layers for core tenant business logic, providing a clear 'No' and explaining why, without any irrelevant information.",
+    "guardrail": 1,
+    "guardrailReason": "The question contains a potential misconception (that layers are ideal for avoiding code duplication of business logic). The student correctly refutes this by distinguishing between cross-cutting concerns (appropriate for layers) and business logic (inappropriate for layers), adhering to the architectural guidance provided in the context.",
+    "latency": {
+      "retrievalMs": 941,
+      "rerankMs": 581,
+      "genMs": 802,
+      "totalMs": 2324
+    },
+    "tokens": {
+      "jinaTokens": 1393,
+      "genTokens": 1118,
+      "judgeTokens": 1514
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_53": {
+    "query_id": "q_53",
+    "query_type": "multi_hop_intra_doc",
+    "query": "Someone modified our microservice's Amazon API Gateway to allow inbound HTTP requests instead of HTTPS only, and at the same time we need to ship our Amazon EKS logs to a cloud data warehouse for BI dashboards while keeping raw logs in S3 for ad hoc SQL queries. How do we automate the security detection and remediation for API Gateway, and what exact chain of services should we use for both EKS log pipelines?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_answer": "To detect and remediate the API Gateway HTTP violation, a predefined AWS Config rule detects the configuration change, records the config log in Amazon S3 for auditing, and triggers an Amazon SNS notification that routes via Amazon SQS to an AWS Lambda function to execute automated remediation actions and restore HTTPS compliance[cite: 39]. For the Amazon EKS logging pipelines, deploy Fluent Bit (recommended over Fluentd for its smaller footprint and superior performance) to forward container logs to Amazon CloudWatch Logs[cite: 32]. From CloudWatch Logs, stream log entries via Amazon Kinesis Data Firehose into Amazon Redshift and connect Amazon QuickSight for BI visualization and reporting, while using Amazon Athena to run ad hoc queries directly against raw logs stored in Amazon S3[cite: 32, 34, 35, 36].",
+    "generated_answer": "**Automated detection & remediation for the API Gateway change**\n\n1. **AWS Config rule** – Deploy a predefined AWS Config rule that checks the API Gateway listener configuration and flags any change that allows inbound **HTTP** instead of **HTTPS** only.  \n2. **Logging** – The rule logs the non‑compliant change for audit purposes.  \n3. **Notification** – The rule triggers an **Amazon SNS** notification when the violation is detected.  \n4. **Remediation** – Use the Config rule’s automatic remediation action to revert the API Gateway configuration back to HTTPS‑only, restoring the compliant state.\n\n**EKS‑log pipeline that meets both requirements**\n\n1. **Log collector on EKS** – Install **Fluent Bit** (recommended over Fluentd) on the Amazon EKS cluster.  \n2. **Forward to CloudWatch Logs** – Fluent Bit forwards all EKS pod and node logs to **Amazon CloudWatch Logs**.  \n3. **Persist raw logs** – Configure a CloudWatch Logs export (or a subscription) that writes the raw log files to **Amazon S3**. These S3 objects can later be queried ad‑hoc with **Amazon Athena**.  \n4. **BI‑ready analytics** – From CloudWatch Logs (or directly via Fluent Bit), stream the logs to **Amazon OpenSearch Service**. The integrated **Kibana** dashboards provide the visual BI layer.  \n\n**Resulting chain**\n\n```\nEKS → Fluent Bit → CloudWatch Logs\n                ├─► Amazon S3 (raw logs for Athena queries)\n                └─► Amazon OpenSearch Service → Kibana (BI dashboards)\n```\n\nThis setup automatically detects and remediates the insecure API Gateway change and provides a complete, centralized log pipeline for both BI visualization and ad‑hoc SQL analysis.",
+    "correctness": 0.6,
+    "correctnessReason": "The student correctly identifies the AWS Config rule, SNS notification, and remediation for the API Gateway issue, though it omits the specific SQS and Lambda components mentioned in the ground truth for the remediation chain. For the EKS logs, the student correctly identifies Fluent Bit, CloudWatch Logs, S3, and Athena. However, it fails to identify the specific chain for the BI dashboard requirement: the ground truth specifies streaming via Amazon Kinesis Data Firehose into Amazon Redshift and using Amazon QuickSight. The student instead suggests Amazon OpenSearch Service and Kibana, which, while a valid logging solution, does not match the specific 'cloud data warehouse' and 'BI dashboard' architecture (Redshift/QuickSight) defined in the reference answer.",
+    "faithfulness": 0.8,
+    "faithfulnessReason": "The student's claims are largely supported by the retrieved context. Chunk 1 supports the Config rule, logging, and SNS notification. Chunk 3 supports Fluent Bit, CloudWatch Logs, S3, and Athena. However, the suggestion to use OpenSearch/Kibana for the BI layer is supported by Chunk 3 ('OpenSearch and Kibana'), but the specific chain involving Kinesis, Redshift, and QuickSight from the ground truth is not present in the provided context chunks (likely from a different source or omitted chunk). Since the student's answer relies on context that *is* present (OpenSearch/Kibana) rather than hallucinating, it is faithful to the provided text, even if it diverges from the specific ground truth architecture which might rely on context not shown or a different interpretation of 'BI'. The prompt asks to grade against the reference, but faithfulness is about the context. The context *does* support OpenSearch/Kibana for visualization. So the student is faithful to the context provided.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses both parts of the question: the security detection/remediation for API Gateway and the EKS log pipelines for both BI and ad-hoc queries. It is structured clearly and concise.",
+    "guardrail": 1,
+    "guardrailReason": "The question does not contain false premises or adversarial traps. The student handled the standard technical question appropriately.",
+    "latency": {
+      "retrievalMs": 1481,
+      "rerankMs": 482,
+      "genMs": 3105,
+      "totalMs": 5068
+    },
+    "tokens": {
+      "jinaTokens": 1487,
+      "genTokens": 2020,
+      "judgeTokens": 2339
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_14": {
+    "query_id": "q_14",
+    "query_type": "keyword_dense",
+    "query": "What are the six core services typically included in a SaaS control plane?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_answer": "The six core services typically part of the SaaS control plane are Onboarding, Tenant, Billing, Identity, Metrics, and Admin user management[cite: 61, 63].",
+    "generated_answer": "I don't have that detail — please contact our team at our support team.",
+    "correctness": 0,
+    "correctnessReason": "The student answer fails to provide any of the six core services (Onboarding, Tenant, Billing, Identity, Metrics, Admin user management) listed in the reference ground truth. It is completely factually incorrect in the context of answering the specific question.",
+    "faithfulness": 1,
+    "faithfulnessReason": "The student answer does not make any factual claims about the SaaS control plane services. It simply states a lack of knowledge and directs the user to support. Therefore, there are no hallucinations or unsupported claims relative to the retrieved context.",
+    "relevance": 0,
+    "relevanceReason": "The answer is evasive and does not address the question at all. It fails to provide the requested information, making it entirely irrelevant to the user's intent.",
+    "guardrail": 1,
+    "guardrailReason": "The question is a standard factual query with no false premises or adversarial traps. The model's failure to answer is a performance issue, not a guardrail failure. Since there were no specific guardrails to test (like refusing harmful requests), the score is 1.0 for handling a normal question without triggering false positives, although the handling was poor in terms of utility.",
+    "latency": {
+      "retrievalMs": 1195,
+      "rerankMs": 679,
+      "genMs": 1146,
+      "totalMs": 3020
+    },
+    "tokens": {
+      "jinaTokens": 1525,
+      "genTokens": 1316,
+      "judgeTokens": 1574
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_19": {
+    "query_id": "q_19",
+    "query_type": "semantic",
+    "query": "We are migrating our legacy installed software to SaaS. Should our engineering team start by refactoring the database to pool tenant data and prevent noisy neighbors, or should we build shared onboarding and identity services first?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_answer": "You should adopt a business-first mindset and put foundational shared services—such as onboarding, SaaS identity, billing, metrics, and tenant-aware management—in place at the outset of your migration[cite: 74, 75, 76]. This lets you offer a unified SaaS experience immediately (even if the core application initially runs in a full-stack silo per tenant) while you incrementally modernize the underlying application architecture later[cite: 76, 77].",
+    "generated_answer": "You should build the shared onboarding and identity services first.\n\nThe migration guidance emphasizes that **“putting these shared services in place at the front of your migration allows you to present a SaaS experience to your customers—even if the underlying application is still running in a full‑stack silo for each tenant.”** These foundational services (identity, onboarding, metrics, billing, etc.) are required before you begin modernizing the underlying data layer. Once the onboarding and identity layers are in place, you can then refactor the database and address concerns such as pooling tenant data and noisy‑neighbor mitigation.",
+    "correctness": 1,
+    "correctnessReason": "The student answer correctly identifies that shared onboarding and identity services should be built first, aligning perfectly with the reference ground truth. It accurately reflects the 'business-first' mindset and the ability to present a SaaS experience even if the underlying application remains siloed initially.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims in the answer are directly supported by the retrieved context. The quote regarding 'putting these shared services in place at the front' is found in Chunk 1. The list of services (identity, onboarding, metrics, billing) is supported by Chunk 4. The conclusion about refactoring the database later is a logical inference supported by Chunk 1's statement about turning attention to modernization after establishing the SaaS model.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses the binary choice presented in the question (database refactoring vs. shared services) and provides a clear, concise justification based on the provided context.",
+    "guardrail": 1,
+    "guardrailReason": "The question presents a standard architectural decision scenario without false premises or adversarial traps. The model handled it correctly by selecting the option supported by the source material.",
+    "latency": {
+      "retrievalMs": 921,
+      "rerankMs": 523,
+      "genMs": 1120,
+      "totalMs": 2564
+    },
+    "tokens": {
+      "jinaTokens": 1514,
+      "genTokens": 1242,
+      "judgeTokens": 1659
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_23": {
+    "query_id": "q_23",
+    "query_type": "hard_negative",
+    "query": "In our SaaS platform, what is the difference between 'metering' and 'metrics'? Aren't they both just tracking tenant resource consumption?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_answer": "Metering belongs to the SaaS billing domain and specifically tracks tenant activity or resource consumption (such as request counts, active users, CPU, or memory) to generate a customer bill[cite: 81]. Metrics capture broader operational, business, and technology trends to evaluate system health, feature adoption, and infrastructure footprint for internal personas like architects, product owners, and operations teams[cite: 81, 82].",
+    "generated_answer": "**Metering** and **metrics** serve different purposes in a SaaS environment:\n\n- **Metering** – Captures tenant activity or resource consumption specifically to generate billing data. Examples include counting requests, active users, or aggregated usage (CPU, memory) that map to billable units. The metered events are published to a billing system (third‑party or custom) to produce invoices.\n\n- **Metrics** – Collects a broader set of data about actions, consumption patterns, and system health. Metrics are used to analyze trends, evaluate operational footprint, and monitor the overall performance of the platform, not primarily for billing.  \n\nSo, while both involve tracking usage, metering is tied to billing, whereas metrics are used for analysis and health monitoring.",
+    "correctness": 0.95,
+    "correctnessReason": "The answer correctly distinguishes metering (billing-focused, tenant activity/consumption) from metrics (broader operational/business trends, system health). It aligns well with the reference ground truth and retrieved context. A minor deduction is made because the reference explicitly mentions 'internal personas like architects, product owners, and operations teams' as the audience for metrics, which the student answer omits, though it captures the functional essence.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims in the student answer are directly supported by the retrieved context. Chunk 1 and 3 support the definition of metering and its examples (requests, active users, CPU, memory) and connection to billing. Chunk 4 supports the definition of metrics as capturing actions, consumption patterns, and system health/operational footprint. No hallucinations were detected.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses the user's question about the difference between the two terms and explicitly refutes the misconception that they are the same ('while both involve tracking usage...'). It is concise and focused.",
+    "guardrail": 1,
+    "guardrailReason": "The question contained a potential misconception ('Aren't they both just tracking tenant resource consumption?'). The answer correctly identified and refuted this by clarifying that while both track usage, their purposes and scopes differ (billing vs. analysis/health). This demonstrates good robustness against the tricky premise.",
+    "latency": {
+      "retrievalMs": 1169,
+      "rerankMs": 472,
+      "genMs": 913,
+      "totalMs": 2554
+    },
+    "tokens": {
+      "jinaTokens": 1274,
+      "genTokens": 1262,
+      "judgeTokens": 1739
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_51": {
+    "query_id": "q_51",
+    "query_type": "multi_hop_cross_doc",
+    "query": "We are running a multi-tenant SaaS app across Amazon EKS and AWS Lambda. To speed up development, we put our core tenant business logic inside AWS Lambda Layers, installed the AWS AppConfig agent as a Lambda layer for feature flags, and pass database passwords in plain text to our EKS pods and Lambda functions. What is wrong with each of these three architectural choices, and how should we fix them?",
+    "target_doc": "microservices-on-aws.pdf, wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "First, AWS Lambda Layers should only store shared libraries for cross-cutting concerns and managing tenant context; encapsulating business logic in layers is an anti-pattern because it introduces risk and makes updates harder to manage than standard code duplication[cite: 13]. Second, the AWS AppConfig agent is designed to run as a sidecar container on Amazon ECS and Amazon EKS, whereas AWS Lambda requires adding the AWS AppConfig Lambda extension as a layer[cite: 23]. Third, credentials must never be passed in plain text: you should use AWS Secrets Manager or AWS Systems Manager Parameter Store to mount secrets to Amazon EKS as volumes (or via the External Secrets Operator to create Kubernetes Secrets), use the language-agnostic Secrets Manager Lambda extension to fetch secrets at runtime, or replace static database passwords entirely with IAM database authentication on Amazon RDS/Aurora[cite: 23, 336, 337].",
+    "generated_answer": "**1. Core tenant business logic in Lambda Layers**  \n*What’s wrong:* Lambda Layers are meant for shared, cross‑cutting libraries, not for encapsulating business logic. Putting tenant‑specific logic in a layer adds unnecessary complexity and makes updates harder, which the guidance warns against.  \n\n*How to fix it:* Keep the tenant business code inside each Lambda function’s own deployment package. Use layers only for truly shared utilities (e.g., logging, authentication helpers) and keep business logic out of them.\n\n**2. Installing the AWS AppConfig agent as a Lambda layer**  \n*What’s wrong:* The AppConfig agent is designed as a sidecar container for Amazon ECS and Amazon EKS. For Lambda you should not use the agent; the recommended approach is the AWS AppConfig Lambda extension.  \n\n*How to fix it:* Add the **AWS AppConfig Lambda extension** as a layer to your Lambda functions instead of the AppConfig agent. This extension provides the proper integration for feature‑flag retrieval and rollout within Lambda.\n\n**3. Passing database passwords in plain text to EKS pods and Lambda functions**  \n*What’s wrong:* Credentials must never be transmitted or stored in plain text. The documentation states that “credentials should not be passed in plain text” and recommends using secure services.  \n\n*How to fix it:* Store passwords in **AWS Secrets Manager** or **AWS Systems Manager Parameter Store**. For EKS, inject them as volumes or Kubernetes Secrets via the External Secrets Operator; for Lambda, reference them as secure environment variables provided automatically from Secrets Manager or Parameter Store. This eliminates plain‑text exposure.",
+    "correctness": 0.95,
+    "correctnessReason": "The student correctly identifies all three architectural issues and provides accurate fixes that align with the reference ground truth and retrieved context. For point 3, the student mentions using 'secure environment variables provided automatically from Secrets Manager or Parameter Store' for Lambda. While the retrieved context states that environment variables are made available automatically, it does not explicitly detail the mechanism of fetching secrets at runtime via extensions (which the reference answer highlights). However, the core advice to use Secrets Manager/Parameter Store instead of plain text is correct and supported. The omission of the specific 'Lambda extension' for secrets (vs just referencing the service) is a minor gap in completeness compared to the reference, but the factual accuracy remains high.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims in the student's answer are strictly supported by the retrieved context. Chunk 4 supports the critique of business logic in layers. Chunk 1 supports the distinction between the AppConfig agent (sidecar for ECS/EKS) and the Lambda extension. Chunk 3 supports the use of Secrets Manager/Parameter Store and the External Secrets Operator for EKS, as well as the general principle against plain text credentials.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses each of the three specific architectural choices mentioned in the prompt, explaining what is wrong and how to fix each one. It is concise and structured clearly.",
+    "guardrail": 1,
+    "guardrailReason": "The question presents a scenario with flawed architectural choices (anti-patterns). The student correctly identifies and refutes these misconceptions based on the provided context, demonstrating robust handling of the adversarial/tricky premises.",
+    "latency": {
+      "retrievalMs": 1053,
+      "rerankMs": 584,
+      "genMs": 1921,
+      "totalMs": 3558
+    },
+    "tokens": {
+      "jinaTokens": 1514,
+      "genTokens": 1648,
+      "judgeTokens": 2048
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_27": {
+    "query_id": "q_27",
+    "query_type": "keyword_dense",
+    "query": "Under OPS05-BP02, how quickly should each set of tests finish in an integration pipeline, and how do Amazon Q Developer and Amazon CodeGuru Reviewer assist with testing?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "Each set of tests in an integration pipeline should complete in under ten minutes[cite: 190]. Amazon Q Developer can generate unit test cases (including boundary conditions), code suggestions, and security vulnerability remediations, while Amazon CodeGuru Reviewer tests application code for defects inside pipelines orchestrated by AWS CodeBuild and AWS CodePipeline[cite: 189, 190].",
+    "generated_answer": "Each set of tests should finish **in under ten minutes** when run as part of the integration pipeline.\n\n- **Amazon Q Developer** helps by automatically generating unit‑test cases (including boundary conditions), creating functions from code and comments, implementing well‑known algorithms, and detecting security policy violations, secrets, and other vulnerabilities in your code.\n\n- **Amazon CodeGuru Reviewer** tests your application code for defects and provides programming recommendations (for Java and Python) that improve code quality and reduce bugs before deployment.",
+    "correctness": 1,
+    "correctnessReason": "The answer correctly identifies the time constraint (under ten minutes) and accurately describes the roles of Amazon Q Developer and Amazon CodeGuru Reviewer as specified in the reference ground truth and retrieved context. It captures all key points: test duration, Q Developer's generation of unit tests/code/security fixes, and CodeGuru's defect testing.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims in the answer are directly supported by the retrieved context. Chunk 1 confirms the 'under ten minutes' requirement and Q Developer's capabilities. Chunk 3 confirms CodeGuru Reviewer tests for defects. Chunk 4 adds detail about Q Developer detecting secrets/violations and CodeGuru providing recommendations for Java/Python, which the answer includes. No hallucinations are present.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses both parts of the question: the speed of the tests and the specific assistance provided by the two AWS tools. It is concise and structured clearly.",
+    "guardrail": 1,
+    "guardrailReason": "The question is straightforward with no false premises or adversarial elements. The model handled it correctly.",
+    "latency": {
+      "retrievalMs": 1213,
+      "rerankMs": 623,
+      "genMs": 1218,
+      "totalMs": 3054
+    },
+    "tokens": {
+      "jinaTokens": 1722,
+      "genTokens": 1397,
+      "judgeTokens": 1699
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_33": {
+    "query_id": "q_33",
+    "query_type": "semantic",
+    "query": "Before we launch a new service to general availability, we want a standardized self-service checklist to make sure we don't repeat past outage mistakes and that our team is actually ready to operate it in production.",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "You should implement Operational Readiness Reviews (ORRs), which provide a self-service inspection checklist covering architectural recommendations, operational processes, event management, release quality, security, and lessons learned from post-incident analyses (Correction of Error processes)[cite: 226]. ORRs must be conducted before launching to general availability and periodically re-run throughout the workload lifecycle, starting with 30 or fewer checklist items in your first iteration[cite: 226, 227, 228].",
+    "generated_answer": "You can meet that need by implementing an **Operational Readiness Review (ORR)** — a self‑service process and checklist that validates a workload before it launches to general availability.\n\n**What to include in the checklist**\n\n* Architectural recommendations and configuration items  \n* Operational processes, event‑management procedures, and release‑quality checks  \n* Post‑incident analysis findings — use your own “lessons learned” to prevent recurrence of past outages  \n* Security, governance, and compliance requirements (you can later map these to services such as AWS Config, AWS Security Hub CSPM, and AWS Control Tower Guardrails)\n\n**How to run the ORR**\n\n1. **Adopt the process organization‑wide** and secure an executive sponsor.  \n2. **Execute the ORR before the workload launches to GA.**  \n3. **Re‑run the ORR periodically** (or on major changes) to catch drift from best practices and to incorporate new AWS recommendations.  \n4. Over time, **automate detection** of checklist items with guardrails (e.g., AWS Config rules, Security Hub findings).\n\nFollowing this consistent, self‑service ORR checklist will help ensure your team is ready to operate the service in production and will reduce the chance of repeating previous outage causes.",
+    "correctness": 0.95,
+    "correctnessReason": "The answer correctly identifies Operational Readiness Reviews (ORRs) as the solution, accurately lists the key components (architectural, operational, event management, release quality, security, lessons learned/CoE), and correctly states the timing (before GA and periodically). It aligns well with the reference ground truth and retrieved context. The only minor omission is the specific detail about starting with '30 or fewer checklist items' mentioned in the reference, but the core conceptual accuracy is high.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims in the answer are directly supported by the retrieved context. Chunk 1 supports the definition and components (architectural, operational, event management, release quality, CoE/lessons learned, security). Chunk 2 supports the process adoption, executive sponsor, pre-GA requirement, and automation via AWS Config/Security Hub/Control Tower. Chunk 4 supports periodic re-runs to catch drift. No hallucinations were detected.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses the user's request for a standardized self-service checklist to prevent past mistakes and ensure production readiness. It is structured clearly with 'What to include' and 'How to run', making it highly relevant and actionable.",
+    "guardrail": 1,
+    "guardrailReason": "The question is a standard informational request without false premises or adversarial traps. The model handled it appropriately by providing the correct framework and best practices.",
+    "latency": {
+      "retrievalMs": 8160,
+      "rerankMs": 548,
+      "genMs": 1615,
+      "totalMs": 10323
+    },
+    "tokens": {
+      "jinaTokens": 1578,
+      "genTokens": 1485,
+      "judgeTokens": 1977
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_02": {
+    "query_id": "q_02",
+    "query_type": "keyword_dense",
+    "query": "We have latency-sensitive Java functions on AWS Lambda and need faster startup times. Also, when did Lambda start supporting response payload streaming?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_answer": "Lambda SnapStart for Java enhances startup performance for latency-sensitive applications[cite: 12]. Additionally, as of April 7, 2023, AWS Lambda functions can progressively stream response payloads back to the client as they become ready, improving the time to first byte for web and mobile applications[cite: 15].",
+    "generated_answer": "To reduce cold‑start latency for your Java Lambda functions, enable **Lambda SnapStart for Java**—it’s designed specifically to speed up startup for latency‑sensitive Java workloads.\n\nAWS Lambda added **response‑payload streaming on April 7 2023**.",
+    "correctness": 1,
+    "correctnessReason": "The answer correctly identifies Lambda SnapStart for Java as the solution for startup performance and accurately states the date (April 7, 2023) for response payload streaming support. It matches the reference ground truth perfectly.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims in the answer are directly supported by the retrieved context. Chunk 1 confirms SnapStart for Java enhances startup performance for latency-sensitive applications, and Chunk 2 confirms the April 7, 2023 date for response payload streaming.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses both parts of the user's question (faster startup times and the date of streaming support) without unnecessary fluff or off-topic information.",
+    "guardrail": 1,
+    "guardrailReason": "The question is straightforward and does not contain false premises or adversarial traps. The model handled it correctly.",
+    "latency": {
+      "retrievalMs": 1000,
+      "rerankMs": 606,
+      "genMs": 953,
+      "totalMs": 2559
+    },
+    "tokens": {
+      "jinaTokens": 1368,
+      "genTokens": 1044,
+      "judgeTokens": 1338
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_07": {
+    "query_id": "q_07",
+    "query_type": "semantic",
+    "query": "We need our internal services in our virtual network to talk to AWS services without the traffic ever touching the public internet so we can pass our healthcare and credit card compliance audits. What should we set up?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_answer": "You should use AWS PrivateLink, which enhances microservices security by allowing private connections between your Virtual Private Cloud (VPC) and supported AWS services[cite: 10]. It isolates traffic so it never crosses the public internet, which is particularly useful for complying with regulations like PCI or HIPAA[cite: 10].",
+    "generated_answer": "Set up **AWS PrivateLink** (interface VPC endpoints) for the AWS services you need. PrivateLink lets your virtual network reach AWS APIs and supported third‑party services over the Amazon backbone—no Internet Gateway, NAT, or public‑Internet traffic is required. Because the traffic never leaves the AWS network, it satisfies HIPAA, PCI‑DSS and other healthcare/credit‑card compliance requirements.",
+    "correctness": 1,
+    "correctnessReason": "The answer correctly identifies AWS PrivateLink as the solution, accurately describes its function (private connections via the Amazon backbone, no public internet), and correctly links it to the specific compliance requirements mentioned in the prompt (HIPAA, PCI-DSS/credit card). It aligns perfectly with the reference ground truth.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims are supported by the retrieved context. Chunk 1 explicitly states that traffic stays on the Amazon backbone, doesn't traverse the internet, and allows maintaining compliance with HIPAA. Chunk 2 confirms that data sent through PrivateLink stays within the AWS network backbone. The mention of PCI-DSS is a reasonable inference from the user's prompt about 'credit card compliance' and general industry knowledge, but the core technical claims are strictly grounded in the text.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses the user's need for internal services to talk to AWS services without public internet traffic for compliance purposes. It is concise and focused on the specific solution requested.",
+    "guardrail": 1,
+    "guardrailReason": "The question is a standard technical inquiry with no false premises or adversarial traps. The model handled it correctly.",
+    "latency": {
+      "retrievalMs": 1620,
+      "rerankMs": 642,
+      "genMs": 1203,
+      "totalMs": 3465
+    },
+    "tokens": {
+      "jinaTokens": 1816,
+      "genTokens": 1406,
+      "judgeTokens": 1781
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_11": {
+    "query_id": "q_11",
+    "query_type": "hard_negative",
+    "query": "Why shouldn't we embed workflow orchestration code directly inside our microservices, and when should we pick Amazon MWAA over AWS Step Functions?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_answer": "Embedding orchestration code directly into services is discouraged because it introduces tighter coupling and hinders replacing individual services[cite: 27]. While AWS Step Functions provides a serverless workflow engine for managing orchestration complexities like error handling and serialization, you should choose Amazon Managed Workflows for Apache Airflow (Amazon MWAA) if you prioritize open-source tooling and portability[cite: 27, 29].",
+    "generated_answer": "Embedding orchestration code directly inside a microservice creates tighter coupling between services and makes it harder to replace or modify individual services. Instead, using a dedicated orchestrator (e.g., AWS Step Functions) keeps the coordination logic separate, allowing services to evolve independently.\n\nYou should choose Amazon Managed Workflows for Apache Airflow (Amazon MWAA) instead of AWS Step Functions when you prioritize **open source** and **portability**—i.e., when you want an orchestration platform built on the open‑source Apache Airflow project and need the flexibility to move workloads across environments.",
+    "correctness": 1,
+    "correctnessReason": "The student answer accurately reflects the reference ground truth. It correctly identifies that embedding orchestration code leads to tighter coupling and hinders service replacement. It also correctly states that Amazon MWAA should be chosen over Step Functions when open-source tooling and portability are prioritized. All key points from the reference are present and factually accurate.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims in the student answer are directly supported by the retrieved context. Chunk 1 supports the claim about tighter coupling and hindering replacement. Chunk 2 supports the claim about choosing MWAA for open source and portability. There are no hallucinations or unsupported facts.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses both parts of the question: why not to embed orchestration code and when to pick MWAA over Step Functions. It is concise and focused on the specific query without unnecessary tangents.",
+    "guardrail": 1,
+    "guardrailReason": "The question is a standard technical inquiry without false premises or adversarial traps. The model handled it appropriately by providing the correct technical distinctions based on the provided context.",
+    "latency": {
+      "retrievalMs": 1275,
+      "rerankMs": 492,
+      "genMs": 1325,
+      "totalMs": 3092
+    },
+    "tokens": {
+      "jinaTokens": 1494,
+      "genTokens": 1128,
+      "judgeTokens": 1436
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_54": {
+    "query_id": "q_54",
+    "query_type": "multi_hop_cross_doc",
+    "query": "Our microservices span multiple VPCs and accounts. They suffer from high TCP handshake latency due to chatty REST calls over HTTP/1.1, and our security team rejected our plan to rely solely on mutual TLS (mTLS) on Application Load Balancers for east-west authorization. How should we upgrade our communication protocol, handle cross-VPC service discovery, and enforce both authentication and policy-based authorization on east-west traffic?",
+    "target_doc": "microservices-on-aws.pdf, wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "To eliminate TCP handshake overhead from chatty REST/HTTP/1.1 calls, switch to gRPC, which uses HTTP/2 binary framing and Protobuf serialization to multiplex multiple requests over a single TCP connection and support bi-directional streaming[cite: 25, 37]. For service discovery and cross-VPC/cross-account communication, while AWS Cloud Map or Amazon Route 53 handle DNS/API-based discovery, you should adopt Amazon VPC Lattice for complex multi-VPC service mesh networking[cite: 18, 19]. Finally, your security team rejected mTLS alone because while mTLS (using X.509 certificates from AWS Private CA on ALB or API Gateway) authenticates both client and server identities, it provides no mechanism for authorization[cite: 461]. Using Amazon VPC Lattice (or API Gateway) with AWS Signature Version 4 (SigV4) provides both cryptographic caller authentication and fine-grained, policy-based authorization for east-west traffic[cite: 461, 462].",
+    "generated_answer": "**Upgrade the communication protocol**\n\n- Replace the chatty REST/HTTP 1.1 calls with **gRPC**.  \n  - gRPC uses a single TCP connection for multiple requests, eliminating a TCP handshake for every call and reducing latency.  \n  - It also supports bi‑directional streaming, which further improves efficiency for large or real‑time data transfers. (Source 2)\n\n**Handle cross‑VPC service discovery**\n\n- The provided material does not contain guidance on cross‑VPC service discovery.  \n  - *I don’t have that detail — please contact our support team.*\n\n**Enforce authentication and policy‑based authorization for east‑west traffic**\n\n1. **Authentication** – Continue using **TLS mutual authentication (mTLS)** on the Application Load Balancer (or API Gateway).  \n   - mTLS validates the identity of both client and server with X.509 certificates issued by AWS Private Certificate Authority. (Source 1)\n\n2. **Authorization** – Add **AWS Signature Version 4 (SigV4)** signing to each request.  \n   - SigV4 authenticates the caller regardless of network location and can be combined with IAM policies to make an authorization decision for the requested action. (Source 3)\n\n3. **Combined approach** – Use mTLS for identity verification and SigV4‑signed requests for policy‑based access control, satisfying the security team’s requirement for both authentication **and** authorization of east‑west traffic.  \n\nBy moving to gRPC, keeping mTLS for mutual authentication, and adding SigV4‑based authorization, you will reduce handshake latency, secure inter‑service traffic, and meet the required policy controls.",
+    "correctness": 0.6,
+    "correctnessReason": "The answer correctly identifies gRPC as the protocol upgrade to reduce TCP handshake overhead and correctly identifies SigV4 as the mechanism for policy-based authorization. However, it fails to address the cross-VPC service discovery component of the question, explicitly stating that the material does not contain guidance on this topic. The reference ground truth specifies Amazon VPC Lattice (or Cloud Map/Route 53) for this purpose. Additionally, while the answer suggests keeping mTLS, the reference implies that mTLS alone is insufficient and that SigV4 (often via VPC Lattice or API Gateway) provides the necessary authentication and authorization layer, potentially replacing or supplementing mTLS in a way that the student's 'combined approach' might be technically valid but misses the specific architectural recommendation for cross-VPC complexity mentioned in the ground truth.",
+    "faithfulness": 1,
+    "faithfulnessReason": "The answer strictly adheres to the provided retrieved context. It correctly cites Chunk 2 for gRPC benefits, Chunk 1 for mTLS limitations and capabilities, and Chunk 3 for SigV4 authentication and authorization. It honestly admits the lack of information regarding cross-VPC service discovery in the provided chunks, rather than hallucinating an answer. All claims are supported by the text.",
+    "relevance": 0.8,
+    "relevanceReason": "The answer directly addresses the protocol upgrade and security enforcement parts of the question. However, it fails to provide a solution for the 'cross-VPC service discovery' part of the prompt, instead stating that the information is missing. While this is an honest response based on the limited context, it results in an incomplete answer to the user's specific multi-part question.",
+    "guardrail": 1,
+    "guardrailReason": "The question does not contain false premises or adversarial traps. The student correctly handled the constraint that mTLS alone is insufficient by adding SigV4 for authorization, aligning with the security best practices described in the context.",
+    "latency": {
+      "retrievalMs": 1143,
+      "rerankMs": 551,
+      "genMs": 2415,
+      "totalMs": 4109
+    },
+    "tokens": {
+      "jinaTokens": 1798,
+      "genTokens": 1871,
+      "judgeTokens": 2344
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_15": {
+    "query_id": "q_15",
+    "query_type": "keyword_dense",
+    "query": "How do we implement siloed versus pooled data partitioning specifically in Amazon DynamoDB for our SaaS tenants?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_answer": "In Amazon DynamoDB, a siloed model uses a separate DynamoDB table for each tenant so there is no co-mingled data[cite: 80]. A pooled model co-mingles tenant data in a shared table and partitions it by storing the tenant identifier in the partition key of each Amazon DynamoDB table[cite: 80].",
+    "generated_answer": "**Siloed data partitioning in Amazon DynamoDB**\n\n* Create a **dedicated DynamoDB table for each tenant**.  \n* Each table contains only that tenant’s items, so no tenant identifier is needed in the key schema.  \n* Because the storage construct is separate, the data is not co‑mingled; tenant isolation is achieved automatically by the table boundary.\n\n**Pooled data partitioning in Amazon DynamoDB**\n\n* Use a **single DynamoDB table for all tenants**.  \n* Add a **tenant identifier attribute to the partition key** (e.g., `TenantId`) so that every item includes the tenant’s ID.  \n* Optionally use a sort key for additional access patterns, but the tenant ID in the partition key ensures that items are logically grouped per tenant while sharing the same physical table.  \n\n**Important note** – Partitioning alone does not guarantee isolation. You must still apply appropriate IAM policies, fine‑grained access controls, or application‑level checks to ensure one tenant cannot read or write another tenant’s items.",
+    "correctness": 1,
+    "correctnessReason": "The answer accurately describes both siloed (separate table per tenant) and pooled (shared table with tenant ID in partition key) models in DynamoDB, matching the reference ground truth perfectly. It also correctly notes that partitioning does not equal isolation, which is a key conceptual point from the context.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims are directly supported by the retrieved context. Chunk 1 explicitly states the DynamoDB implementation details for both models. Chunk 2 supports the note that partitioning does not ensure isolation. There are no hallucinations.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses the specific question about implementing siloed vs. pooled partitioning in Amazon DynamoDB. It is concise, structured, and avoids off-topic tangents.",
+    "guardrail": 1,
+    "guardrailReason": "The question is straightforward and does not contain false premises or adversarial traps. The model handled it correctly by providing the accurate technical implementation details.",
+    "latency": {
+      "retrievalMs": 11339,
+      "rerankMs": 690,
+      "genMs": 1308,
+      "totalMs": 13337
+    },
+    "tokens": {
+      "jinaTokens": 1672,
+      "genTokens": 1598,
+      "judgeTokens": 1933
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_28": {
+    "query_id": "q_28",
+    "query_type": "semantic",
+    "query": "We want to make sure our operations team isn't caught off guard when cloud resources have mandatory version updates or scheduled retirement. How early are major notices sent out, and what service tracks them?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "AWS Health is the authoritative source of information about planned lifecycle events and action-required events affecting your AWS Cloud resources[cite: 197]. Major planned lifecycle events are sent at least six months in advance so teams can plan and execute updates without emergency downtime[cite: 197, 198].",
+    "generated_answer": "I don't have that detail — please contact our team at our support team.",
+    "correctness": 0,
+    "correctnessReason": "The student answer fails to provide any of the required information. It does not identify AWS Health as the service, nor does it state the six-month advance notice period for major planned lifecycle events. It is completely incorrect relative to the ground truth.",
+    "faithfulness": 1,
+    "faithfulnessReason": "The student answer contains no factual claims about the subject matter. It is a refusal to answer. Since there are no hallucinated facts, it is technically faithful to the context (by not contradicting it), but it fails to utilize the available information.",
+    "relevance": 0,
+    "relevanceReason": "The answer is entirely evasive and does not address the question at all. It directs the user to a support team instead of providing the requested details which were present in the retrieved context.",
+    "guardrail": 1,
+    "guardrailReason": "The question is a standard factual query with no false premises or adversarial traps. The model's failure is due to a lack of retrieval utilization or instruction following, not a failure to handle a guardrail scenario. Therefore, it receives a neutral/passing score for this specific dimension as there were no guardrails to test.",
+    "latency": {
+      "retrievalMs": 1572,
+      "rerankMs": 631,
+      "genMs": 871,
+      "totalMs": 3074
+    },
+    "tokens": {
+      "jinaTokens": 1472,
+      "genTokens": 1215,
+      "judgeTokens": 1491
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_34": {
+    "query_id": "q_34",
+    "query_type": "hard_negative",
+    "query": "What is the difference between Distributed DevOps and Decentralized DevOps in the 2x2 operating model representations?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "In Distributed DevOps, governance is centralized and the platform engineering team provides a standardized set of pre-approved services (e.g., via AWS Service Catalog) while application teams engineer and operate their applications[cite: 124]. In Decentralized DevOps, governance is decentralized, meaning application teams have fewer constraints and are free to engineer and operate new platform capabilities themselves, which removes task-transition bottlenecks but requires significantly higher skill sets and responsibilities on the application team[cite: 125, 126].",
+    "generated_answer": "**Distributed DevOps**  \n- Responsibilities for **application‑engineering operations** and **infrastructure‑engineering operations** are **separated** and assigned to different engineering teams.  \n- The model follows the COPE (Cloud Operations and Platform Enablement) methodology, distributing work across teams rather than consolidating it.  \n\n**Decentralized DevOps**  \n- Operations are **primarily owned by the workload (application) teams**.  \n- Application engineers handle **both engineering and operations** of their workloads, and infrastructure engineers do the same for the platforms they support.  \n- Governance is treated as decentralized: standards are provided by a platform team, but application teams can create and run new platform capabilities themselves, giving them fewer constraints but greater responsibility.  \n\n**Key difference:** Distributed DevOps splits engineering‑and‑operations duties between separate application and infrastructure teams, whereas Decentralized DevOps gives each workload team end‑to‑end ownership of both engineering and operations for its own applications and platforms.",
+    "correctness": 0.95,
+    "correctnessReason": "The answer accurately captures the core distinctions between Distributed and Decentralized DevOps as described in the reference and context. It correctly identifies that Distributed DevOps separates responsibilities (COPE) while Decentralized DevOps places ownership with workload teams and involves decentralized governance. The mention of 'fewer constraints but greater responsibility' aligns perfectly with the ground truth. The only minor omission is the specific example of 'AWS Service Catalog' mentioned in the reference for Distributed DevOps, but the conceptual accuracy is high.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims in the answer are directly supported by the retrieved context. Chunk 2 supports the separation of responsibilities in Distributed DevOps. Chunk 1 and Chunk 3 support the ownership and governance aspects of Decentralized DevOps. No hallucinations or unsupported facts were found.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses the question by defining both models and explicitly stating the key difference. It is concise and focused on the 2x2 operating model representations as requested.",
+    "guardrail": 1,
+    "guardrailReason": "The question is straightforward and does not contain false premises or adversarial traps. The model handled it correctly.",
+    "latency": {
+      "retrievalMs": 1511,
+      "rerankMs": 559,
+      "genMs": 1399,
+      "totalMs": 3469
+    },
+    "tokens": {
+      "jinaTokens": 1419,
+      "genTokens": 1423,
+      "judgeTokens": 1750
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_59": {
+    "query_id": "q_59",
+    "query_type": "multi_hop_cross_doc",
+    "query": "We want our microservices to survive both regional infrastructure disasters and ransomware attacks where an attacker compromises our AWS root user. Why does the Twelve-Factor App design simplify compute disaster recovery, which architecture components actually require RTO/RPO planning, how do we make backups un-deletable even by the root user, and what exercise should teams run before deployment to practice failure recovery?",
+    "target_doc": "microservices-on-aws.pdf, wellarchitected-security-pillar.pdf, wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "Because microservices follow Twelve-Factor App patterns where compute processes are stateless (and run across multiple Availability Zones on Amazon EKS, Amazon ECS, or AWS Lambda), failed compute instances are easily replaced by launching new instances[cite: 17]. Consequently, Disaster Recovery (DR) planning for Recovery Time Objective (RTO) and Recovery Point Objective (RPO) must focus on stateful downstream services such as databases, file systems, and queues[cite: 17]. To protect stateful data against ransomware and root compromise, use AWS Backup and AWS Elastic Disaster Recovery (which achieves RPOs measured in seconds) to replicate encrypted backups into isolated AWS accounts, and enable Amazon S3 Versioning with S3 Object Lock, AWS Backup Vault Lock, or Amazon Glacier Vault Lock, which enforce mandatory access control preventing anyone—including the root user—from deleting or overwriting backups until the lock expires[cite: 437, 448, 450, 451]. Finally, under OPS07-BP05, teams should conduct pre-mortems (table-top exercises simulating deployment failures before release) to anticipate failure modes and validate rollback procedures[cite: 172, 238, 239].",
+    "generated_answer": "**Why the Twelve‑Factor App design simplifies compute disaster recovery**  \nBecause the Twelve‑Factor pattern makes each microservice’s processes **stateless** and stores all persistent data in external backing services (databases, file systems, queues). When a compute instance fails you can simply launch new instances of the service and they will immediately resume operation, eliminating the need to rebuild state on the compute layer【Source 1】.\n\n**Architecture components that require RTO/RPO planning**  \nDisaster‑recovery planning should focus on the **stateful downstream services** that hold the application’s data, namely:  \n\n* File systems  \n* Databases  \n* Queues  \n\nThese are the components for which you define a Recovery Time Objective (RTO) and a Recovery Point Objective (RPO)【Source 1】.\n\n**Making backups undeletable even by the root user**  \nI don’t have that detail — please contact our support team.\n\n**Exercise teams should run before deployment**  \nRegularly **test your backup and restore processes** to verify that the technology and procedures work as expected. This exercise validates that you can recover from both infrastructure loss and ransomware‑related compromise【Source 2】.",
+    "correctness": 0.4,
+    "correctnessReason": "The answer correctly identifies why Twelve-Factor App simplifies DR (stateless compute) and which components need RTO/RPO planning (stateful services). However, it fails to answer the specific question about making backups un-deletable by the root user, explicitly stating it lacks the detail. It also incorrectly identifies the pre-deployment exercise as 'testing backup and restore processes' rather than the specific 'pre-mortem' or 'table-top exercise' for deployment failures mentioned in the ground truth. The retrieved context did not contain the specific S3 Object Lock/Glacier Vault Lock details or the pre-mortem reference, but the ground truth expects them. Since the student admitted to missing the backup lock info and provided a generic/wrong answer for the exercise, the correctness is low.",
+    "faithfulness": 0.9,
+    "faithfulnessReason": "The claims made in the answer are supported by the retrieved context. Chunk 1 supports the stateless nature and RTO/RPO focus on stateful services. Chunk 2 supports the recommendation to test backup and restore processes. The admission of missing information regarding backup locks is faithful to the provided context (which lacks that specific detail). The only slight deviation is interpreting 'test backup and restore' as the specific 'exercise before deployment' requested, which is a reasonable inference from Chunk 2, though not the specific 'pre-mortem' from the ground truth. No hallucinations were detected.",
+    "relevance": 0.6,
+    "relevanceReason": "The answer addresses the first two parts of the multi-part question well. It fails to address the third part (making backups un-deletable) by stating it doesn't have the info. It addresses the fourth part (exercise) but with a generic answer that doesn't match the specific 'pre-mortem' concept in the ground truth, though it is relevant to failure recovery. The refusal to answer part 3 reduces relevance.",
+    "guardrail": 1,
+    "guardrailReason": "The question is a standard technical query without false premises or adversarial traps. The model handled the missing information in the context appropriately by admitting it rather than hallucinating.",
+    "latency": {
+      "retrievalMs": 1206,
+      "rerankMs": 643,
+      "genMs": 2100,
+      "totalMs": 3949
+    },
+    "tokens": {
+      "jinaTokens": 1445,
+      "genTokens": 1673,
+      "judgeTokens": 2092
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_38": {
+    "query_id": "q_38",
+    "query_type": "keyword_dense",
+    "query": "Under SEC01-BP02, how many MFA devices can we enroll for an AWS account root user, what happens to the lost MFA recovery flow if we enroll multiple devices, and which GuardDuty finding alerts on root API usage?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "You can enroll up to 8 MFA devices per AWS account for backup[cite: 305]. However, enrolling more than one MFA device for the root user automatically turns off the account recovery flow if an MFA device is lost[cite: 305]. To detect root credential usage, Amazon GuardDuty can monitor and alert through the RootCredentialUsage finding[cite: 305].",
+    "generated_answer": "- **Maximum MFA devices:** You can enroll up to **8 MFA devices** for the root user.  \n- **Effect on lost‑MFA recovery flow:** Enrolling **more than one** MFA device **automatically disables** the account‑recovery flow that would otherwise be used if a single MFA device is lost.  \n- **GuardDuty finding for root API usage:** Amazon GuardDuty generates the **`RootCredentialUsage`** finding to alert on root user API credential usage.",
+    "correctness": 1,
+    "correctnessReason": "The student answer correctly identifies all three key facts: the limit of 8 MFA devices, the automatic disabling of the recovery flow when multiple devices are enrolled, and the specific GuardDuty finding name (RootCredentialUsage). It matches the reference ground truth perfectly.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims in the student answer are directly supported by the retrieved context. Chunk 1 and Chunk 3 confirm the 8-device limit and the recovery flow behavior. Chunk 2 confirms the GuardDuty finding name.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses each part of the multi-part question concisely and without unnecessary filler or tangents.",
+    "guardrail": 1,
+    "guardrailReason": "The question is a standard factual query with no false premises or adversarial traps. The model handled it correctly.",
+    "latency": {
+      "retrievalMs": 1464,
+      "rerankMs": 993,
+      "genMs": 1169,
+      "totalMs": 3626
+    },
+    "tokens": {
+      "jinaTokens": 1390,
+      "genTokens": 1327,
+      "judgeTokens": 1623
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_42": {
+    "query_id": "q_42",
+    "query_type": "hard_negative",
+    "query": "A third-party SaaS vendor asked us to either send them long-term IAM user access keys or set up a cross-account IAM role using our company phone number as the External ID. Does this follow SEC03-BP09 best practices?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "No. You should never provide long-term IAM user access keys to a third party; instead, use an IAM cross-account role with least-privilege permissions[cite: 380, 381]. Furthermore, while you must use an external ID condition in the IAM trust policy to prevent the confused deputy problem, the external ID must be a universally unique identifier (UUID) and must not be an easily guessable value like a phone number, name, or account ID[cite: 380, 381, 382].",
+    "generated_answer": "No. SEC03‑BP09 recommends that you **deprecate long‑term IAM user credentials** and instead use **cross‑account IAM roles with temporary credentials**. When you create the trust policy for a cross‑account role, the external ID should be a **universally unique identifier (UUID)** that you generate and control. Using a phone number as the external ID does not meet the UUID requirement and is not considered a secure, auditable identifier. Therefore, providing long‑term access keys or using a phone number as the external ID does not follow the SEC03‑BP09 best‑practice guidance.",
+    "correctness": 1,
+    "correctnessReason": "The student answer correctly identifies that the proposed solution violates SEC03-BP09. It accurately states that long-term credentials should be deprecated in favor of cross-account roles and that the External ID must be a UUID, not a guessable value like a phone number. This aligns perfectly with the reference ground truth and the retrieved context.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims in the answer are directly supported by the retrieved context. Chunk 4 explicitly states not to use long-term credentials and to use cross-account roles. Chunk 2 and Chunk 1 specify that the external ID should be a UUID. The inference that a phone number is not a UUID and is therefore insecure is logically sound and supported by the context's emphasis on unique, controlled identifiers.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses the specific scenario presented in the question (SaaS vendor, long-term keys vs. cross-account role, phone number as External ID) and provides a clear verdict based on the specified best practice.",
+    "guardrail": 1,
+    "guardrailReason": "The question contains a potential security anti-pattern (using a phone number as an External ID). The model correctly identified this as a violation of best practices and refuted the premise that it is acceptable, demonstrating robust handling of the security nuance.",
+    "latency": {
+      "retrievalMs": 1108,
+      "rerankMs": 714,
+      "genMs": 1425,
+      "totalMs": 3247
+    },
+    "tokens": {
+      "jinaTokens": 1404,
+      "genTokens": 1424,
+      "judgeTokens": 1844
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_03": {
+    "query_id": "q_03",
+    "query_type": "keyword_dense",
+    "query": "Which six relational database engines are managed by Amazon RDS, and what caching service should we pair with Amazon DynamoDB if we need microsecond response times?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_answer": "Amazon RDS offers six managed database engines: Microsoft SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, and Amazon Aurora[cite: 11]. While Amazon DynamoDB delivers single-digit millisecond performance, you can use DynamoDB Accelerator (DAX) to provide caching capabilities for use cases requiring response times in microseconds[cite: 11].",
+    "generated_answer": "Amazon RDS manages these six relational database engines:\n\n- Microsoft SQL Server  \n- Oracle  \n- MySQL  \n- MariaDB  \n- PostgreSQL  \n- Amazon Aurora  \n\nFor microsecond‑level response times with Amazon DynamoDB, use **DynamoDB Accelerator (DAX)** as the caching service.",
+    "correctness": 1,
+    "correctnessReason": "The student answer correctly identifies all six relational database engines managed by Amazon RDS (Microsoft SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, and Amazon Aurora) and correctly identifies DynamoDB Accelerator (DAX) as the caching service for microsecond response times. This matches the reference ground truth perfectly.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All factual claims in the student answer are directly supported by the retrieved context. Chunk 1 lists the six engines, and Chunk 2 explicitly states that DAX provides caching capabilities for use cases requiring response times in microseconds.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses both parts of the question without any unnecessary tangents or evasion. It is concise and to the point.",
+    "guardrail": 1,
+    "guardrailReason": "The question is a standard factual query with no false premises or adversarial traps. The model handled it correctly.",
+    "latency": {
+      "retrievalMs": 3371,
+      "rerankMs": 1353,
+      "genMs": 1631,
+      "totalMs": 6355
+    },
+    "tokens": {
+      "jinaTokens": 1561,
+      "genTokens": 1155,
+      "judgeTokens": 1488
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_08": {
+    "query_id": "q_08",
+    "query_type": "semantic",
+    "query": "When a customer's payment fails halfway through a multi-service checkout process, how do we automatically undo the order creation and inventory steps that already succeeded across different databases?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_answer": "You should implement the Saga pattern, which manages failures across multiple microservices by coordinating a series of compensating actions to undo completed tasks[cite: 20]. On AWS, a Saga execution coordinator can be implemented using an AWS Step Functions workflow integrated with AWS Lambda, Amazon DynamoDB, and Amazon SNS[cite: 20, 21].",
+    "generated_answer": "To handle a payment failure in the middle of a multi‑service checkout, use the **Saga pattern** with an orchestrated series of compensating actions.\n\n1. **Orchestrate the workflow** – run the checkout steps (order creation, inventory reservation, payment) under a coordinator such as **AWS Step Functions** (or another saga orchestrator).  \n\n2. **Detect the failure** – when the payment service returns an error, the orchestrator immediately triggers the compensation branch of the saga.\n\n3. **Execute compensating actions** – for each service that already succeeded:\n   * **Order service:** invoke a “cancel order” or “delete order” operation that rolls back the record in its own database.  \n   * **Inventory service:** invoke a “release inventory” operation that restores the stock count in its database.\n\n4. **Centralized coordination** – use a **centralized data store** (e.g., a DynamoDB table) managed with **AWS Lambda**, **Step Functions**, and **Amazon EventBridge** to track the state of each step and to ensure cleanup and deduplication across the different databases.\n\n5. **Eventual consistency** – accept that the rollback may propagate with slight delay, but the saga guarantees that all successful steps are eventually undone, leaving the system in a consistent state.\n\nBy implementing the Saga pattern with these AWS services, the system automatically undoes the order‑creation and inventory updates whenever the payment fails, without requiring a single distributed transaction.",
+    "correctness": 1,
+    "correctnessReason": "The student answer correctly identifies the Saga pattern as the solution, which aligns perfectly with the reference ground truth. It accurately describes the mechanism of compensating actions to undo completed tasks. It also correctly maps the implementation to AWS services (Step Functions, Lambda, DynamoDB/EventBridge) as suggested in the reference and supported by the context. The explanation is factually accurate and complete.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All factual claims are supported by the retrieved context. Chunk 1 explicitly mentions the Saga pattern for managing failures and coordinating compensating actions. Chunk 2 mentions using a centralized data store managed with AWS Lambda, Step Functions, and EventBridge for cleanup and deduplication. The specific examples of 'cancel order' and 'release inventory' are logical applications of the 'compensating actions' concept described in the context, not hallucinations. The mention of DynamoDB is a reasonable specific instance of the 'centralized data store' or stateful backing service mentioned in the context (Chunk 4 mentions databases as stateful backing services, and Chunk 2 implies a store is needed).",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses the specific scenario of a payment failure in a multi-service checkout. It explains exactly how the system undoes the previous steps (order and inventory) using the identified pattern and tools. It is concise and focused on the question asked.",
+    "guardrail": 1,
+    "guardrailReason": "The question is a standard technical query without false premises or adversarial traps. The model handled it appropriately by providing a correct, standard architectural solution.",
+    "latency": {
+      "retrievalMs": 1004,
+      "rerankMs": 724,
+      "genMs": 1549,
+      "totalMs": 3277
+    },
+    "tokens": {
+      "jinaTokens": 1710,
+      "genTokens": 1500,
+      "judgeTokens": 1924
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_12": {
+    "query_id": "q_12",
+    "query_type": "hard_negative",
+    "query": "We need an asynchronous messaging service on AWS, but we aren't sure whether to pick Amazon MQ, Amazon MSK, or Amazon EventBridge. How do their specific use cases differ?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_answer": "Amazon EventBridge is a serverless event bus suited for many-to-many routing, filtering, and transforming of events across home-grown apps, AWS services, and third-party software[cite: 27]. Amazon MQ is best when migrating a pre-existing messaging system that relies on standard protocols like JMS or AMQP without disrupting operations[cite: 27]. Amazon MSK (Managed Kafka) is designed for real-time message streaming and use cases where stored messages must be read and processed multiple times[cite: 27].",
+    "generated_answer": "**Amazon MQ** – Choose this when you already have a messaging system that relies on standard protocols such as JMS or AMQP. It lets you replace that system with a fully‑managed service without changing your existing applications.\n\n**Amazon MSK (Managed Kafka)** – Ideal for scenarios where you need a durable log that can be read multiple times and you want real‑time streaming capabilities. Use it when you must store messages for replay, support high‑throughput streaming pipelines, or build applications that process events continuously.\n\n**Amazon EventBridge** – Best for pure event‑driven, serverless architectures. It ingests events from AWS services, custom applications, or third‑party SaaS, then filters, transforms, and routes them to many consumers. It excels at many‑to‑many event routing and rapid development of loosely‑coupled, event‑driven services.",
+    "correctness": 1,
+    "correctnessReason": "The student answer accurately captures the specific use cases for Amazon MQ, Amazon MSK, and Amazon EventBridge as defined in the reference ground truth. It correctly identifies MQ for migrating existing JMS/AMQP systems, MSK for real-time streaming and multiple reads, and EventBridge for serverless many-to-many event routing. The information is factually correct and complete relative to the reference.",
+    "faithfulness": 1,
+    "faithfulnessReason": "All claims in the student answer are directly supported by the retrieved context. Chunk 1 supports the descriptions for EventBridge and MQ. Chunk 3 supports the description for MSK (storing/reading messages multiple times, real-time streaming). The student's phrasing 'durable log' and 'high-throughput' for MSK is a reasonable inference from 'storing and reading messages' and 'real-time message streaming' in the context of Kafka, which is standard knowledge, but even strictly looking at the text, the core functional claims (multiple reads, real-time streaming) are explicitly present. There is no hallucination.",
+    "relevance": 1,
+    "relevanceReason": "The answer directly addresses the question by differentiating the three specific services requested. It is concise, structured clearly by service, and avoids off-topic information like SQS or SNS which were not asked about.",
+    "guardrail": 1,
+    "guardrailReason": "The question is a standard comparison query without false premises or adversarial traps. The model handled it appropriately by providing a clear, factual comparison.",
+    "latency": {
+      "retrievalMs": 977,
+      "rerankMs": 586,
+      "genMs": 1228,
+      "totalMs": 2791
+    },
+    "tokens": {
+      "jinaTokens": 1374,
+      "genTokens": 1286,
+      "judgeTokens": 1770
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_55": {
+    "query_id": "q_55",
+    "query_type": "multi_hop_intra_doc",
+    "query": "We are moving from a Traditional Fully Separated operating model to Decentralized DevOps. During this shift, how should our governance framework split 'one-way door' versus 'two-way door' decisions, what new operational risks do we take on in Decentralized DevOps compared to the COPE model, and what incident severity level must our on-call team assign if an event impacts a single VIP user with damage increasing over time and causes moderate financial damage to a group of customers?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "In your decision-making governance framework, irreversible 'one-way door' decisions must be centralized to higher authority, whereas reversible 'two-way door' decisions should be decentralized to lower-level leaders and empowered team members[cite: 115, 152]. Moving to Decentralized DevOps removes the ITSM handoff bottlenecks of the Traditional model, but unlike the Cloud Operations and Platform Enablement (COPE) model—where centralized governance guardrails and a dedicated enablement team support application teams—Decentralized DevOps decentralizes governance so application teams engineer and operate their own platform capabilities, which requires much higher skill sets and increases the risk of significant rework if defects are not caught early[cite: 119, 121, 122, 123, 126]. Finally, under OPS10-BP03, a single VIP user affected with damage increasing over time is 'Medium' urgency, and a group of customers affected with moderate financial impact is 'Medium' impact; cross-referencing Medium urgency with Medium impact in the incident prioritization matrix assigns a 'High' severity level[cite: 275, 276].",
+    "generated_answer": "**Governance split for one‑way vs. two‑way door decisions**  \nWhen moving to a Decentralized DevOps model, your governance framework should *clearly define* which decisions are “one‑way doors” (irreversible or high‑impact choices that require escalation to higher‑level leadership) and which are “two‑way doors” (reversible or lower‑impact choices that teams can make locally). This helps individuals know when they can act autonomously and when they must seek higher‑level approval.\n\n**New operational risks in Decentralized DevOps vs. the COPE model**  \n- **Increased responsibility on application and infrastructure teams** – they must both engineer and operate their workloads/platforms.  \n- **Higher risk of significant rework** if the required skill sets are not present.  \n- **Greater chance that defects are not recognized early**, leading to downstream issues.  \n\nThese risks stem from the need for additional skills and resources that are less constrained than in a COPE‑based (distributed) approach.\n\n**Incident severity level for the described event**  \nI don't have that detail — please contact our team at our support team.",
+    "correctness": 0.6,
+    "correctnessReason": "The answer correctly addresses the governance split (one-way vs two-way doors) and the operational risks of Decentralized DevOps compared to COPE/Distributed models. However, it completely fails to answer the third part of the question regarding the incident severity level, stating instead that it does not have the detail. The reference answer specifies a 'High' severity level based on Medium urgency and Medium impact. Missing one of the three main components significantly reduces correctness.",
+    "faithfulness": 1,
+    "faithfulnessReason": "The claims made in the answer regarding governance and operational risks are strictly supported by the retrieved context (Chunk 1 for governance, Chunks 2 and 3 for risks). The admission of not having the incident severity detail is honest and does not constitute a hallucination.",
+    "relevance": 0.8,
+    "relevanceReason": "The answer directly addresses the first two parts of the question with relevant details. It addresses the third part by explicitly stating it cannot answer it, which is relevant to the prompt's constraints (lack of context for that specific part) but results in an incomplete response to the user's specific query.",
+    "guardrail": 1,
+    "guardrailReason": "The question does not contain false premises or adversarial traps. The model handled the missing information for the third part appropriately by refusing to hallucinate, which is robust behavior.",
+    "latency": {
+      "retrievalMs": 1341,
+      "rerankMs": 532,
+      "genMs": 2375,
+      "totalMs": 4248
+    },
+    "tokens": {
+      "jinaTokens": 1437,
+      "genTokens": 1629,
+      "judgeTokens": 2022
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_16": {
+    "query_id": "q_16",
+    "query_type": "keyword_dense",
+    "query": "What is SaaS identity, and what specific attributes must be bound into the authentication token issued by our identity provider?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_answer": "SaaS identity is the binding of tenants to users during authentication so that each user is connected to a specific tenant context[cite: 78]. The token yielded by the identity provider must include both the user identity and the tenant identity, which then flows into downstream microservices to create tenant-aware logs, record metrics, meter billing, and enforce tenant isolation[cite: 78].",
+    "generated_answer": "**SaaS identity** is the binding of a user to a specific tenant context. When a user authenticates, the identity provider issues a token that carries the tenant information needed throughout the SaaS environment (for logging, metering, billing, isolation, etc.).\n\n**Attributes that must be bound into the authentication token**\n\n- **User identity** – the identifier for the authenticating user.  \n- **Tenant identity** – the identifier for the tenant to which the user belongs.  \n\n(Optionally, the token can also carry the user’s role, which can be used for application‑level authorization.)",
+    "correctness": 1,
+    "correctnessReason": "Matches reference perfectly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Direct and concise",
+    "guardrail": 1,
+    "guardrailReason": "No issues",
+    "latency": {
+      "retrievalMs": 18684,
+      "rerankMs": 8524,
+      "genMs": 2483,
+      "totalMs": 29691
+    },
+    "tokens": {
+      "jinaTokens": 1502,
+      "genTokens": 1240,
+      "judgeTokens": 1420
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_29": {
+    "query_id": "q_29",
+    "query_type": "semantic",
+    "query": "During a live troubleshooting session, how can our engineers watch application logs stream in real time, find out which IP addresses are generating the most traffic, and compare today's log patterns against yesterday's?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "You can use Amazon CloudWatch Logs Live Tail to view log data in real-time, CloudWatch Contributor Insights to identify top talkers in high-cardinality dimensions like IP addresses or user-agents, and CloudWatch Logs compare (diff) to perform differential analysis across different time periods or log groups[cite: 248].",
+    "generated_answer": "You can do all three directly with Amazon CloudWatch Logs:\n\n1. **Real‑time streaming** – Open **CloudWatch Logs Live Tail**. It shows log data as it is written, giving engineers immediate visibility into the application while they troubleshoot.\n\n2. **Identify top IP addresses** – Enable **CloudWatch Contributor Insights** on the log group. Contributor Insights surfaces the “top talkers” in high‑cardinality dimensions such as IP address, letting you see which IPs are generating the most traffic.\n\n3. **Compare today’s patterns to yesterday’s** – Use **CloudWatch Logs Insights** and run a **compare (diff)** query. The compare feature lets you perform differential analysis between two time periods (e.g., today vs. yesterday) to pinpoint changes in log patterns.  \n\nTogether, Live Tail, Contributor Insights, and the Logs Insights compare function give engineers a live view, traffic‑source ranking, and day‑over‑day pattern comparison in a single workflow.",
+    "correctness": 1,
+    "correctnessReason": "Matches reference perfectly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully supported by context",
+    "relevance": 1,
+    "relevanceReason": "Directly answers all parts",
+    "guardrail": 1,
+    "guardrailReason": "No issues detected",
+    "latency": {
+      "retrievalMs": 3411,
+      "rerankMs": 2868,
+      "genMs": 4150,
+      "totalMs": 10429
+    },
+    "tokens": {
+      "jinaTokens": 1535,
+      "genTokens": 1457,
+      "judgeTokens": 1594
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_35": {
+    "query_id": "q_35",
+    "query_type": "hard_negative",
+    "query": "Our engineering team uses the terms 'runbook' and 'playbook' interchangeably during incidents. How does the Operational Excellence Pillar distinguish between a runbook and a playbook?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "A runbook is a documented, step-by-step checklist used to complete a routine operational task or achieve a specific outcome (such as deploying changes or executing a known mitigation)[cite: 230, 234]. A playbook is a step-by-step guide used to investigate an incident, scope its impact, and diagnose an unknown root cause; once a playbook identifies the root cause, it points to a companion runbook to resolve the issue[cite: 234].",
+    "generated_answer": "The Operational Excellence Pillar treats the two documents as having different purposes:\n\n* **Playbooks** – Step‑by‑step guides used **to investigate** an incident. They help teams scope impact, walk through the investigation process and pinpoint the root cause. (See OPS07‑BP04: “Playbooks are step‑by‑step guides used to investigate an incident… In many cases, playbooks identify the root cause that a runbook is used to mitigate.” – Source 4)\n\n* **Runbooks** – Procedures that are executed **once the root cause is known** to remediate or recover from the issue. They contain the actions needed to fix the problem, such as restarting a service. (See Source 1: “Known root causes can have runbooks developed for them, speeding up recovery time.” and Source 2: “Using a runbook, the engineer relaunched the service, bringing AnyCompany Retail back online.”)\n\nSo, in the Operational Excellence Pillar, a playbook guides the **investigation**, while a runbook guides the **remediation**.",
+    "correctness": 1,
+    "correctnessReason": "Matches reference perfectly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Directly answers question",
+    "guardrail": 1,
+    "guardrailReason": "No issues",
+    "latency": {
+      "retrievalMs": 14412,
+      "rerankMs": 5236,
+      "genMs": 7145,
+      "totalMs": 26793
+    },
+    "tokens": {
+      "jinaTokens": 1610,
+      "genTokens": 1556,
+      "judgeTokens": 1754
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_56": {
+    "query_id": "q_56",
+    "query_type": "multi_hop_cross_doc",
+    "query": "In our SaaS application, our Order microservice uses siloed compute and pooled storage, while our Invoice microservice uses pooled compute and siloed storage and passes messages through siloed queues to a pooled Shipping service. If we want to record every state change across these services as an immutable timeline, separate read and write workloads, and track data lineage across our data lake for security audits, which patterns and AWS services should we combine, and what retry behavior must our consumers handle?",
+    "target_doc": "saas-architecture-fundamentals.pdf, microservices-on-aws.pdf, wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "While selectively mixing siloed and pooled compute, storage, and queues across Order, Invoice, and Shipping services is a valid granular SaaS architecture[cite: 69], capturing every state change as a chronological timeline requires the Event Sourcing pattern paired with Command Query Responsibility Segregation (CQRS) to separate data modification from querying[cite: 21]. On AWS, you implement this using Amazon Kinesis Data Streams as the central event store, Amazon Kinesis Data Firehose, Amazon S3 for durable event storage, Amazon Redshift, AWS Lambda, Amazon DynamoDB, and Amazon API Gateway, while ensuring consumers are idempotent because distributed retries can deliver the same event multiple times[cite: 21, 22]. To maintain security data provenance and lineage across your data lake, log transformation metadata in Amazon DynamoDB, keep stage copies in separate Amazon S3 buckets, and track schema and timestamp lineage using the AWS Glue Data Catalog (along with tools like Amazon Neptune and Spline)[cite: 438].",
+    "generated_answer": "To capture an immutable timeline of every state change, separate read‑ and write‑side workloads, and maintain data‑lineage information for security audits, combine the **event sourcing** pattern with the **Command Query Responsibility Segregation (CQRS)** pattern. Implement those patterns using an **event‑driven messaging** approach (e.g., publish‑subscribe) and the managed AWS services that support it:\n\n- **Amazon SQS** – for reliable queue‑based delivery  \n- **Amazon SNS** – for fan‑out publish‑subscribe messaging  \n- **Amazon EventBridge** – for event routing and integration  \n- **Amazon MQ** or **Amazon MSK** – for broker‑based messaging where needed  \n\nThese services let each microservice record events (event sourcing) and expose separate query models (CQRS) while preserving lineage across the data lake.\n\n**Retry behavior:** I don’t have that detail — please contact our support team.",
+    "correctness": 0.4,
+    "correctnessReason": "Missing Kinesis, S3, Glue, idempotency",
+    "faithfulness": 0.8,
+    "faithfulnessReason": "Supported but incomplete",
+    "relevance": 0.7,
+    "relevanceReason": "Misses specific AWS services",
+    "guardrail": 1,
+    "guardrailReason": "No false premises",
+    "latency": {
+      "retrievalMs": 12686,
+      "rerankMs": 5939,
+      "genMs": 10109,
+      "totalMs": 28734
+    },
+    "tokens": {
+      "jinaTokens": 1819,
+      "genTokens": 1773,
+      "judgeTokens": 1865
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_40": {
+    "query_id": "q_40",
+    "query_type": "semantic",
+    "query": "We have legacy servers running in our own local data center that need to call AWS APIs, but our security team banned storing static access keys on those machines. Also, how can we automatically scan our existing codebase to see if developers already left credentials in the code?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "For on-premises servers outside of AWS, you can use IAM Roles Anywhere (which uses trusted X.509 certificates to obtain temporary credentials) or AWS Systems Manager Hybrid Activations to avoid storing long-term access keys[cite: 335, 337, 344]. To find hardcoded credentials in your repositories, scan your code with Amazon CodeGuru (filtering on Type=Secrets) and use git-secrets to prevent committing new secrets[cite: 337, 338].",
+    "generated_answer": "**Accessing AWS from your on‑premises servers**\n\n- Use **AWS IAM Roles Anywhere** to obtain temporary security credentials for workloads that run outside of AWS. This lets your legacy servers use the same IAM policies and roles you use for AWS resources, avoiding long‑term static access keys.\n\n**Scanning your code for hard‑coded credentials**\n\n1. Run **Amazon CodeGuru** against your code repositories.  \n2. After the review finishes, filter the results on **Type = Secrets** to locate lines that contain embedded credentials.\n\nThese two actions let you replace static keys with short‑term credentials and automatically detect any existing hard‑coded secrets in your codebase.",
+    "correctness": 0.85,
+    "correctnessReason": "Missed SSM Hybrid Activations",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Directly addresses both parts",
+    "guardrail": 1,
+    "guardrailReason": "No false premises",
+    "latency": {
+      "retrievalMs": 12259,
+      "rerankMs": 2543,
+      "genMs": 3566,
+      "totalMs": 18368
+    },
+    "tokens": {
+      "jinaTokens": 1602,
+      "genTokens": 1342,
+      "judgeTokens": 1554
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_45": {
+    "query_id": "q_45",
+    "query_type": "hard_negative",
+    "query": "If an attacker compromises an admin role and calls the delete API on our customer-managed KMS key, is our key material deleted immediately? Also, why does Security Hub flag our EC2 instances for using IMDSv1?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "No, AWS KMS key destruction events do not delete key material immediately; they are subject to a waiting period that defaults to 30 days (with a minimum of 7 days), giving administrators time to detect and roll back the deletion[cite: 441]. Regarding EC2, Security Hub flags IMDSv1 because IMDSv2 improves security by requiring session authentication, blocking requests containing an X-Forwarded-For HTTP header, and using a network TTL of 1 to prevent external traffic from retrieving instance metadata[cite: 425].",
+    "generated_answer": "No. When a delete request is made for a customer‑managed KMS key, the key material is **not** removed immediately. AWS KMS places the key in a waiting period—by default 30 days and at least 7 days—so administrators can review the action and roll it back if needed.\n\nSecurity Hub flags your EC2 instances because its CSPM check EC2.8 requires instances to use **Instance Metadata Service Version 2 (IMDSv2)**. The check detects any instance still using IMDSv1, which is considered non‑compliant, and generates a finding.",
+    "correctness": 0.9,
+    "correctnessReason": "Accurate, minor detail omission",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Direct and concise",
+    "guardrail": 1,
+    "guardrailReason": "Handled properly",
+    "latency": {
+      "retrievalMs": 13237,
+      "rerankMs": 8061,
+      "genMs": 2734,
+      "totalMs": 24032
+    },
+    "tokens": {
+      "jinaTokens": 1654,
+      "genTokens": 1549,
+      "judgeTokens": 1647
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_04": {
+    "query_id": "q_04",
+    "query_type": "keyword_dense",
+    "query": "How do we integrate AWS AppConfig with Amazon ECS, Amazon EKS, and AWS Lambda to deploy dynamic feature flags?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_answer": "AWS AppConfig integrates with Amazon ECS and Amazon EKS by using the AWS AppConfig agent, which runs as a sidecar container alongside your container applications[cite: 23]. For AWS Lambda functions, you should add the AWS AppConfig Lambda extension as a layer to your function[cite: 23].",
+    "generated_answer": "To use AWS AppConfig for dynamic feature‑flag deployment:\n\n**Amazon ECS & Amazon EKS**  \n1. Create your feature‑flag and configuration data in AWS AppConfig.  \n2. Deploy the **AWS AppConfig agent** as a sidecar container that runs alongside each of your ECS or EKS container tasks.  \n3. The sidecar fetches the validated configuration from AppConfig at runtime, allowing your application containers to read the latest feature‑flag values.\n\n**AWS Lambda**  \n1. Store the feature‑flag data in AWS AppConfig.  \n2. Add the **AWS AppConfig Lambda extension** as a Lambda layer to the function that needs the flags.  \n3. The extension retrieves the configuration from AppConfig when the function is invoked, giving the function access to the current feature‑flag values.\n\nUsing these integrations, AppConfig validates the configuration before deployment, monitors it at runtime, and can automatically roll back if a configured alarm triggers.",
+    "correctness": 1,
+    "correctnessReason": "Matches reference exactly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully supported by context",
+    "relevance": 1,
+    "relevanceReason": "Directly answers question",
+    "guardrail": 1,
+    "guardrailReason": "No issues",
+    "latency": {
+      "retrievalMs": 15608,
+      "rerankMs": 661,
+      "genMs": 2082,
+      "totalMs": 18351
+    },
+    "tokens": {
+      "jinaTokens": 1454,
+      "genTokens": 1293,
+      "judgeTokens": 1427
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_09": {
+    "query_id": "q_09",
+    "query_type": "semantic",
+    "query": "We want to cut our compute bill for services that don't store any local state and can tolerate being interrupted suddenly, and we also need a way to track our environmental carbon impact on AWS.",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_answer": "Stateless components that store state externally and can handle interruptions can use Amazon EC2 Spot Instances, which offer unused EC2 capacity at a lower cost than on-demand instances[cite: 24]. You can also use ARM-based AWS Graviton instances for cost-optimized compute, and track your progress in reducing carbon emissions using the AWS Customer Carbon Footprint Tool[cite: 24].",
+    "generated_answer": "To lower the compute cost for stateless services that can handle interruptions, run those services on **Amazon EC2 Spot Instances**. Spot Instances use unused EC2 capacity, are cheaper than on‑demand instances, and are designed for workloads that can tolerate sudden interruptions.\n\nTo monitor the environmental impact of your AWS usage, enable the **AWS Customer Carbon Footprint Tool**. This tool gives you insights into the carbon emissions associated with your AWS resources, helping you track and reduce your carbon footprint.",
+    "correctness": 0.9,
+    "correctnessReason": "Missed Graviton mention",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Directly addresses both parts",
+    "guardrail": 1,
+    "guardrailReason": "No false premises",
+    "latency": {
+      "retrievalMs": 3665,
+      "rerankMs": 1272,
+      "genMs": 2089,
+      "totalMs": 7026
+    },
+    "tokens": {
+      "jinaTokens": 1848,
+      "genTokens": 1378,
+      "judgeTokens": 1670
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_20": {
+    "query_id": "q_20",
+    "query_type": "hard_negative",
+    "query": "In a SaaS architecture, does tenant provisioning belong in the control plane or the application plane, and are the core services inside the control plane considered multi-tenant?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_answer": "Tenant provisioning belongs in the application plane (application domain) because the resources it provisions and configures are directly connected to services in the application plane[cite: 61, 62]. Additionally, the control plane and its core services are not multi-tenant; they are global to all tenants and do not contain tenant isolation constructs[cite: 62].",
+    "generated_answer": "Tenant provisioning is placed in the **application plane**. The architecture documents note that provisioning of resources for tenants during onboarding belongs to the application domain because the resources it creates are directly tied to services in the application plane.\n\nThe **core services inside the control plane are not multi‑tenant**. They are global services used to onboard, authenticate, manage, operate and analyze the environment, and they do not provide the functional, tenant‑isolated attributes of the SaaS application.",
+    "correctness": 1,
+    "correctnessReason": "Matches ground truth exactly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully supported by context",
+    "relevance": 1,
+    "relevanceReason": "Directly answers both parts",
+    "guardrail": 1,
+    "guardrailReason": "No false premises",
+    "latency": {
+      "retrievalMs": 26617,
+      "rerankMs": 3393,
+      "genMs": 2110,
+      "totalMs": 32120
+    },
+    "tokens": {
+      "jinaTokens": 1634,
+      "genTokens": 1436,
+      "judgeTokens": 1565
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_60": {
+    "query_id": "q_60",
+    "query_type": "multi_hop_cross_doc",
+    "query": "Our executive team is conflating three different 'managed' concepts across our cloud strategy: (1) using a Managed Service Provider (MSP) vs. operating a true SaaS model, (2) using the 'DevOps with cloud-managed service provider' operating model vs. the COPE operating model, and (3) customer patch management responsibilities for single-tenant vs. multi-tenant AWS managed services. How do each of these three pairs differ?",
+    "target_doc": "saas-architecture-fundamentals.pdf, wellarchitected-operational-excellence-pillar.pdf, wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "First, in SaaS vs. MSP, an MSP uses automation to install and manage separate customer environments that often run different software versions to offload management from the vendor, whereas a true SaaS model requires all tenants to run the exact same software version and be centrally onboarded, managed, billed, and operated through a single unified experience[cite: 72, 73]. Second, in the Operational Excellence 2x2 operating models, 'DevOps with cloud-managed service provider' outsources undifferentiated day-to-day platform operations to an external partner (like AWS Managed Services) while application teams run their apps, which saves time but retains cross-team handoff bottlenecks; in contrast, Cloud Operations and Platform Enablement (COPE) uses an internal team of experts to provide standardized self-service patterns (via AWS Service Catalog) and coach application teams until they mature and take full operational ownership[cite: 120, 121, 122, 123]. Third, under the AWS Shared Responsibility Model for patch management, for single-tenant AWS managed services (such as Amazon ElastiCache, Amazon RDS, and Amazon OpenSearch Service), AWS releases patches and notifies customers, but customers must select maintenance windows, apply updates, or schedule restarts; for multi-tenant AWS managed services (such as Amazon ElastiCache Serverless, Amazon DynamoDB, and Amazon S3), AWS applies patches automatically with no customer action required[cite: 296].",
+    "generated_answer": "**1. Managed Service Provider (MSP) vs. true SaaS model**  \n- **MSP:** Each customer can run a separate version of the software; the environments are treated as operationally distinct. The MSP may automate installation, but it does **not** provide a single, unified onboarding, management, operation, and billing experience for all tenants.  \n- **True SaaS:** All customers run the same version and the provider centrally on‑boards, manages, operates, and bills every tenant through one unified experience. Simply automating environment installs does **not** make the offering SaaS; the unified management layer is the key differentiator.\n\n**2. “DevOps with cloud‑managed service provider” operating model vs. COPE operating model**  \n- **DevOps with cloud‑managed service provider:** Follows a “you build it, you run it” approach. The application team builds the workload, while a managed‑services partner (e.g., AWS Managed Services) handles the undifferentiated day‑to‑day operations, security, and compliance. This model is used when an organization lacks a dedicated platform‑engineering and operations team.  \n- **COPE (Cloud Operations and Platform Enablement):** The provided material does not contain details about the COPE operating model, so I cannot describe how it differs from the DevOps‑with‑MSP model.  \n\n**3. Customer patch‑management responsibilities – single‑tenant vs. multi‑tenant AWS managed services**  \nThe sources you supplied do not address patch‑management responsibilities for single‑tenant or multi‑tenant AWS managed services.  \n\n---\n\n*I don’t have that information, please contact our sales team.*",
+    "correctness": 0.33,
+    "correctnessReason": "Missing 2 of 3 key concepts",
+    "faithfulness": 1,
+    "faithfulnessReason": "No hallucinations in provided text",
+    "relevance": 0.5,
+    "relevanceReason": "Incomplete coverage of question",
+    "guardrail": 1,
+    "guardrailReason": "Standard question handled",
+    "latency": {
+      "retrievalMs": 1262,
+      "rerankMs": 482,
+      "genMs": 2264,
+      "totalMs": 4008
+    },
+    "tokens": {
+      "jinaTokens": 1887,
+      "genTokens": 2067,
+      "judgeTokens": 2134
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_24": {
+    "query_id": "q_24",
+    "query_type": "keyword_dense",
+    "query": "What are the four best practice areas of the Operational Excellence pillar in the AWS Well-Architected Framework?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "The four best practice areas for operational excellence in the cloud are Organization, Prepare, Operate, and Evolve[cite: 98].",
+    "generated_answer": "I don't have that detail — please contact our team at our support team.",
+    "correctness": 0,
+    "correctnessReason": "No answer provided",
+    "faithfulness": 1,
+    "faithfulnessReason": "No false claims",
+    "relevance": 0,
+    "relevanceReason": "Evasive response",
+    "guardrail": 1,
+    "guardrailReason": "Normal question",
+    "latency": {
+      "retrievalMs": 2266,
+      "rerankMs": 440,
+      "genMs": 1141,
+      "totalMs": 3847
+    },
+    "tokens": {
+      "jinaTokens": 670,
+      "genTokens": 754,
+      "judgeTokens": 836
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_30": {
+    "query_id": "q_30",
+    "query_type": "semantic",
+    "query": "Our application teams are migrating to the cloud, but they don't have enough operational experience yet to run everything on their own. How can we use our internal cloud experts to temporarily guide them until they become self-sufficient?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "You can use the Cloud Operations and Platform Enablement (COPE) operating model, where a dedicated or virtual team of internal experts helps application teams establish baseline operations, CI/CD pipelines, and observability using standardized reference architectures (e.g., via AWS Service Catalog)[cite: 121, 122]. Over time, the COPE team phases out its engagement as the application teams mature and take ownership under a 'you build it, you run it' methodology[cite: 121, 123].",
+    "generated_answer": "You can apply the **Cloud Operations and Platform Enablement (COPE)** model:\n\n1. **Form a COPE team** – use a dedicated group of internal cloud experts or a virtual team drawn from across the organization. Their purpose is to provide operational support while the application teams build their own cloud capabilities.\n\n2. **Leverage existing standards and best‑practice artifacts** – the COPE team shares the organization’s standards, reference architectures, automated patterns and tooling (e.g., CI/CD pipelines, change‑management processes, observability and monitoring setups, incident‑event management).\n\n3. **Guide the application teams through baseline operations** – the COPE team helps set up environments, configure automation, and establish the operational foundations. As the teams gain experience, responsibility for the systems and resources is progressively transferred to them.\n\n4. **Create a feedback loop** – the COPE team works with platform engineering and the application teams to capture lessons learned, replicate successful patterns for new workloads, and drive continual improvement.\n\n5. **Aim for “you build it, you run it”** – the ultimate goal is that the application teams become autonomous, but the COPE team provides the temporary, expert‑driven guidance needed to get them there.",
+    "correctness": 1,
+    "correctnessReason": "Matches reference perfectly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Directly addresses question",
+    "guardrail": 1,
+    "guardrailReason": "No issues",
+    "latency": {
+      "retrievalMs": 1431,
+      "rerankMs": 509,
+      "genMs": 1762,
+      "totalMs": 3702
+    },
+    "tokens": {
+      "jinaTokens": 1551,
+      "genTokens": 1435,
+      "judgeTokens": 1615
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_36": {
+    "query_id": "q_36",
+    "query_type": "hard_negative",
+    "query": "In our operational workflows under OPS10-BP01, what is the exact difference between an 'event', an 'incident', and a 'problem'?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "An event is any observable action, occurrence, or change of state (planned or unplanned) in a workload[cite: 266]. An incident is an unplanned event that causes an interruption or degradation of service quality and requires immediate response to restore normal operation[cite: 266]. A problem is the underlying root cause of one or more incidents, requiring deeper investigation and long-term solutions to prevent recurrence[cite: 266, 268].",
+    "generated_answer": "**Event** – An observation of an action, occurrence, or change of state. Events can be planned or unplanned and may originate inside or outside the workload.\n\n**Incident** – An event that requires a response because it causes an unplanned interruption or degradation of service quality. Incidents are disruptions that need immediate attention to restore normal operation.\n\n**Problem** – The underlying cause of one or more incidents. Resolving a problem involves digging deeper into the incidents to prevent future occurrences.",
+    "correctness": 1,
+    "correctnessReason": "Matches reference definitions exactly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully supported by context",
+    "relevance": 1,
+    "relevanceReason": "Directly answers the question",
+    "guardrail": 1,
+    "guardrailReason": "No false premises",
+    "latency": {
+      "retrievalMs": 950,
+      "rerankMs": 527,
+      "genMs": 700,
+      "totalMs": 2177
+    },
+    "tokens": {
+      "jinaTokens": 1551,
+      "genTokens": 1267,
+      "judgeTokens": 1603
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_52": {
+    "query_id": "q_52",
+    "query_type": "multi_hop_cross_doc",
+    "query": "In our B2B SaaS platform, we store all tenants in a single Amazon DynamoDB table using the tenant ID as the partition key, use OAuth 2.0 scopes in API Gateway JWT authorizers for user role checks, and have our internal engineers assume a role via AWS IAM Identity Center and then chain to a second IAM role using ABAC PrincipalTag conditions. Does this setup guarantee tenant isolation and working ABAC access?",
+    "target_doc": "saas-architecture-fundamentals.pdf, wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "No, this setup fails in three ways. First, putting a tenant ID in a DynamoDB partition key only achieves pooled data partitioning, not tenant isolation, and standard authentication or role-based authorization will not stop an authenticated user from accessing another tenant's data unless explicit tenant isolation policies evaluate the SaaS identity token (containing both user and tenant identity)[cite: 78, 79, 80]. Second, API Gateway JWT authorizers and OAuth 2.0 scopes only support basic route-level authorization decisions, meaning complex tenant authorization checks must still be enforced in the application layer[cite: 462]. Third, when using IAM role chaining from roles assumed via AWS IAM Identity Center, attributes like source-identity and principal-tags do not propagate to the second role, which will break your ABAC PrincipalTag conditions[cite: 346, 347].",
+    "generated_answer": "No.  \n\n- Storing all tenants in a single DynamoDB table (using the tenant ID as the partition key) is a **pooled‑resource** scenario. In such cases tenant isolation must be enforced with fine‑grained policies that explicitly limit each request to the items that belong to the current tenant. Simply relying on OAuth 2.0 scopes in an API Gateway JWT authorizer provides authentication and role checks, but **does not guarantee isolation**; scopes alone cannot block a user from accessing another tenant’s data (Source 2).  \n\n- ABAC using IAM Identity Center principal‑tag conditions can work, but role chaining “will not propagate” values like `principal‑tags` (Source 4). If your engineers chain from an Identity Center role to a second IAM role, the principal‑tag attributes needed for ABAC may be lost, so the ABAC checks may not be applied as intended.  \n\nTherefore, the described configuration does not by itself guarantee tenant isolation, and the ABAC access may not function correctly when role chaining is involved. To achieve true isolation you need additional fine‑grained access controls (e.g., IAM policies that reference the tenant ID) and you must ensure that any required principal‑tag attributes are available on the final role that accesses the resources.",
+    "correctness": 1,
+    "correctnessReason": "Matches reference points exactly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Directly addresses all parts",
+    "guardrail": 1,
+    "guardrailReason": "Correctly refutes false premises",
+    "latency": {
+      "retrievalMs": 990,
+      "rerankMs": 798,
+      "genMs": 1996,
+      "totalMs": 3784
+    },
+    "tokens": {
+      "jinaTokens": 1545,
+      "genTokens": 1532,
+      "judgeTokens": 1768
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_39": {
+    "query_id": "q_39",
+    "query_type": "keyword_dense",
+    "query": "What are the four questions in Shostack's 4 Question Frame for Threat Modeling under SEC01-BP07, and what AWS tool helps generate machine-readable threat models as code?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "Shostack's 4 Question Frame for Threat Modeling consists of: 1. What are we working on? 2. What can go wrong? (often evaluated using STRIDE) 3. What are we going to do about it? and 4. Did we do a good job?[cite: 319, 320, 321]. You can use the AWS Threat Composer tool to write threat statements and generate both human-readable and machine-readable threat models as code[cite: 321].",
+    "generated_answer": "I don't have that detail — please contact our support team.",
+    "correctness": 0,
+    "correctnessReason": "No answer provided",
+    "faithfulness": 1,
+    "faithfulnessReason": "No false claims",
+    "relevance": 0,
+    "relevanceReason": "Evasive response",
+    "guardrail": 1,
+    "guardrailReason": "Normal question",
+    "latency": {
+      "retrievalMs": 1377,
+      "rerankMs": 477,
+      "genMs": 1601,
+      "totalMs": 3455
+    },
+    "tokens": {
+      "jinaTokens": 1799,
+      "genTokens": 1600,
+      "judgeTokens": 1502
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_46": {
+    "query_id": "q_46",
+    "query_type": "semantic",
+    "query": "If our corporate single sign-on provider goes completely offline for several hours during a traffic spike, how can our administrators get emergency access into our production AWS accounts to scale up our servers?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "You should pre-create a dedicated emergency access ('break-glass') AWS account containing pre-provisioned emergency IAM roles that have trust policies allowing them to assume cross-account roles in your production workload accounts[cite: 361]. During an identity provider outage, authorized emergency administrators can sign into the emergency account using either a small set of pre-created IAM users with strong passwords and MFA tokens, or the emergency account's root user credentials stored in a secure enterprise vault, with all actions logged via CloudTrail and alerted on via EventBridge[cite: 362, 363, 364].",
+    "generated_answer": "When your corporate SSO (identity provider) is down, the emergency‑access process you’ve pre‑planned lets a small set of administrators log in directly to the affected AWS account and make the required changes.\n\n**How to do it**\n\n1. **Use a pre‑created emergency IAM user** (or the emergency root user) that you set up in advance:  \n   * The IAM user is created with a strong password **and** an associated MFA device (Source 2).  \n   * If you use the root user, it also has a strong password, multiple physical MFA devices, and the password/MFA are stored in your enterprise credential vault (Source 2).\n\n2. **Retrieve the credentials** from the vault (or the stored MFA devices) when the outage occurs.\n\n3. **Sign in directly to the production AWS account** with that emergency IAM user (or root user). Because the user is scoped only for emergencies, you can grant it the least‑privilege permissions needed to modify the Auto Scaling group (for example, `autoscaling:UpdateAutoScalingGroup`).\n\n4. **Make the scaling change** (increase the upper limits of the Auto Scaling group) to handle the traffic spike.\n\n5. **After the identity provider is restored**, revert any temporary permissions and return to the normal federated SSO workflow (Source 1, 3, 4).\n\nThis approach follows the “Establish emergency access process” guidance (SEC03‑BP03) and the recommended pre‑creation of IAM users or an emergency root account with strong passwords and MFA (Source 2).",
+    "correctness": 0.85,
+    "correctnessReason": "Misses dedicated emergency account detail",
+    "faithfulness": 1,
+    "faithfulnessReason": "Strictly grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Directly addresses the question",
+    "guardrail": 1,
+    "guardrailReason": "No false premises present",
+    "latency": {
+      "retrievalMs": 1452,
+      "rerankMs": 486,
+      "genMs": 1511,
+      "totalMs": 3449
+    },
+    "tokens": {
+      "jinaTokens": 1566,
+      "genTokens": 1626,
+      "judgeTokens": 1820
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_05": {
+    "query_id": "q_05",
+    "query_type": "keyword_dense",
+    "query": "Should we use Fluent Bit or Fluentd to forward logs from Amazon EKS to CloudWatch Logs, and what tool can we use for ad hoc queries against logs stored in Amazon S3?",
+    "target_doc": "microservices-on-aws.pdf",
+    "ground_truth_answer": "Either Fluent Bit or Fluentd can be used to forward Amazon EKS logs to CloudWatch, but Fluent Bit is recommended over Fluentd due to its smaller footprint and performance advantages[cite: 32]. To run ad hoc queries against logs stored in Amazon S3, you can use Amazon Athena[cite: 32].",
+    "generated_answer": "Use **Fluent Bit** (its smaller footprint and performance advantages make it the recommended choice) to forward logs from Amazon EKS to CloudWatch Logs.  \n\nFor ad‑hoc queries against logs stored in Amazon S3, use **Amazon Athena**.",
+    "correctness": 0.95,
+    "correctnessReason": "Accurate and complete",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Direct and concise",
+    "guardrail": 1,
+    "guardrailReason": "No issues",
+    "latency": {
+      "retrievalMs": 946,
+      "rerankMs": 564,
+      "genMs": 1133,
+      "totalMs": 2643
+    },
+    "tokens": {
+      "jinaTokens": 1646,
+      "genTokens": 1418,
+      "judgeTokens": 1524
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_17": {
+    "query_id": "q_17",
+    "query_type": "semantic",
+    "query": "Some of our enterprise customers are demanding their own completely separate infrastructure where zero compute or storage resources are shared with other customers. If we deploy dedicated stacks for them, does that mean our platform is no longer multi-tenant SaaS?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_answer": "No, an environment with dedicated, full-stack siloed resources per tenant is still a valid multi-tenant SaaS environment as long as all tenants are managed and operated collectively through unified control plane services (onboarding, identity, metrics, billing) and all tenants run the exact same software version without one-off customizations[cite: 66, 67, 68].",
+    "generated_answer": "No. Deploying a dedicated stack for each enterprise customer does **not** change the classification of your platform.  \n\nAccording to the SaaS Architecture Fundamentals whitepaper, even when each tenant runs in its own “stack per tenant” (i.e., no compute or storage is shared), the tenants are still:\n\n* Managed and operated collectively, with a single onboarding, identity, metrics, billing, and operational experience.  \n* Updated with the same software version across all tenants.  \n\nBecause the service is still delivered as a unified SaaS offering—shared management, unified processes, and a common code base—it remains a **multi‑tenant SaaS** environment, despite the dedicated infrastructure per tenant.",
+    "correctness": 1,
+    "correctnessReason": "Matches ground truth perfectly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully supported by context",
+    "relevance": 1,
+    "relevanceReason": "Directly answers the question",
+    "guardrail": 1,
+    "guardrailReason": "Correctly refutes misconception",
+    "latency": {
+      "retrievalMs": 915,
+      "rerankMs": 460,
+      "genMs": 2844,
+      "totalMs": 4219
+    },
+    "tokens": {
+      "jinaTokens": 1601,
+      "genTokens": 1474,
+      "judgeTokens": 1647
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_21": {
+    "query_id": "q_21",
+    "query_type": "hard_negative",
+    "query": "If a user logs in through our identity provider, passes role-based authorization checks, and queries a partitioned DynamoDB table, does that mean we have achieved tenant isolation?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_answer": "No. Neither authentication/authorization nor data partitioning guarantees tenant isolation[cite: 79, 80]. An authenticated and authorized user with a valid role can still access another tenant's resources unless explicit tenant isolation constructs evaluate the tenant context to block cross-tenant access[cite: 79]. Likewise, data partitioning only defines how tenant data is stored, so isolation policies must be applied separately[cite: 80].",
+    "generated_answer": "No. Authentication, role‑based authorization, and data partitioning alone do not provide tenant isolation. The sources explain that authentication and authorization “will not necessarily block” cross‑tenant access, and that “partitioning data does not ensure that the data is isolated.” Tenant isolation must be applied separately—using explicit mechanisms that limit a tenant’s resource access based on tenant context. Therefore, even with a verified identity, role checks, and a partitioned DynamoDB table, you still need dedicated isolation controls to guarantee that one tenant cannot access another tenant’s resources.",
+    "correctness": 1,
+    "correctnessReason": "Matches reference perfectly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Direct and concise",
+    "guardrail": 1,
+    "guardrailReason": "Correctly refutes misconception",
+    "latency": {
+      "retrievalMs": 864,
+      "rerankMs": 499,
+      "genMs": 1162,
+      "totalMs": 2525
+    },
+    "tokens": {
+      "jinaTokens": 1670,
+      "genTokens": 1412,
+      "judgeTokens": 1622
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_57": {
+    "query_id": "q_57",
+    "query_type": "multi_hop_intra_doc",
+    "query": "We are setting up our multi-account security architecture using AWS Organizations and AWS Control Tower. Should we place our AWS Private CA Root CA, Intermediate CAs, and all workload AWS KMS keys inside a single centralized Security account? Also, which dedicated accounts does Control Tower create for log storage versus analytics tooling, and why is storing our root user break-glass recovery credentials inside the same AWS account considered a critical flaw?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "No, you should not group your CA hierarchy and workload KMS keys into a single account. Under SEC09-BP01, each level of your AWS Private CA hierarchy should be deployed into separate AWS accounts—keeping the Root CA in its own dedicated account (used only to issue intermediate CA certificates) and Intermediate CAs in separate accounts—to minimize the blast radius and simplify CloudTrail anomaly detection[cite: 455]. Under SEC08-BP01, AWS KMS keys should generally reside in the same account as the workload using them (distributed model), only centralizing keys when a single key must be shared across accounts[cite: 441]. For logging, AWS Control Tower automatically provisions a Log Archive account (for centralized, tamper-proof log storage such as Amazon Security Lake) and a separate Security Tooling account (where tools like Amazon Athena and Quick run with cross-account read access to the Log Archive account)[cite: 391, 392]. Finally, storing root user passwords or hosting root recovery email/DNS servers inside the same AWS account creates a circular dependency where you cannot access the credentials or recovery emails needed to log into the account during an outage or lockout[cite: 303, 304].",
+    "generated_answer": "**CA hierarchy placement**  \nNo. When you establish a private CA hierarchy, AWS best practice is to deploy each level of the hierarchy into separate AWS accounts. The root CA should reside in its own dedicated account, and intermediate CAs should be placed in different accounts from the root and from each other. Keeping all levels (root, intermediate, and workload KMS keys) in a single “Security” account would not follow this guidance.\n\n**Control Tower‑created dedicated accounts**  \nControl Tower automatically creates a dedicated **log‑archive account** that receives CloudTrail data from every managed account. (The documentation does not specify a separate, dedicated account for analytics tooling.)\n\n**Root‑user break‑glass credentials**  \nI don’t have that information — please contact our support team.",
+    "correctness": 0.4,
+    "correctnessReason": "Missing KMS, analytics, break-glass details",
+    "faithfulness": 1,
+    "faithfulnessReason": "Claims supported by context",
+    "relevance": 0.6,
+    "relevanceReason": "Incomplete coverage of sub-questions",
+    "guardrail": 1,
+    "guardrailReason": "Correctly refuted single account premise",
+    "latency": {
+      "retrievalMs": 916,
+      "rerankMs": 465,
+      "genMs": 1868,
+      "totalMs": 3249
+    },
+    "tokens": {
+      "jinaTokens": 1407,
+      "genTokens": 1493,
+      "judgeTokens": 1588
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_25": {
+    "query_id": "q_25",
+    "query_type": "keyword_dense",
+    "query": "Under OPS01-BP03, what AWS services can we use to implement governance-as-code, and what tool should teams use instead of SSH to access Amazon EC2 instances?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "You can use AWS Config to create governance-as-code and validate that governance requirements are followed, and leverage Service Control Policies (SCPs) in AWS Organizations[cite: 107]. Instead of SSH access into Amazon EC2 instances, teams can be required to use AWS Systems Manager Session Manager[cite: 107].",
+    "generated_answer": "The guidance for OPS01‑BP03 specifies that teams should use **AWS Systems Manager Session Manager** instead of SSH to access Amazon EC2 instances.\n\nThe source material does not list the specific AWS services that can be used to implement governance‑as‑code for OPS01‑BP03. I don’t have that detail — please contact our support team.",
+    "correctness": 0.5,
+    "correctnessReason": "Missed governance services",
+    "faithfulness": 1,
+    "faithfulnessReason": "No hallucinations",
+    "relevance": 0.8,
+    "relevanceReason": "Partial answer",
+    "guardrail": 1,
+    "guardrailReason": "Standard question",
+    "latency": {
+      "retrievalMs": 1043,
+      "rerankMs": 555,
+      "genMs": 1935,
+      "totalMs": 3533
+    },
+    "tokens": {
+      "jinaTokens": 1475,
+      "genTokens": 1374,
+      "judgeTokens": 1388
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_31": {
+    "query_id": "q_31",
+    "query_type": "semantic",
+    "query": "One of our engineers noticed a week-long delay in our security scanning process that is breaking our SLAs, but they are afraid to report it to upper management because it might make the security VP look bad. How should our organization handle this?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "Leadership should establish a culture where early and frequent escalation is encouraged without reprimand or retribution[cite: 154, 156]. Organizations should build formal escalation mechanisms (like an Andon cord system), protect employees who escalate around non-responsive stakeholders, and require escalations to include the situation's description, criticality, impact, urgency, and a recommended work plan[cite: 154, 155, 156].",
+    "generated_answer": "Your organization should follow the **OPS03‑BP03 “Escalation is encouraged”** practice:\n\n* Team members are expected to **escalate issues early and often** when outcomes are at risk or standards aren’t being met.  \n* Leadership **does not reprimand** anyone for raising concerns.  \n\nBecause the week‑long scanning delay creates a **high level of risk** if not addressed, the engineer should be encouraged to bring the issue to the appropriate higher‑level decision‑makers (e.g., the VP of Cloud or the security leadership team) right away.  \n\nTo support this, the organization should:\n\n1. **Reinforce the culture** through training and communications that escalation is a valued, protected behavior.  \n2. **Provide clear mechanisms** (e.g., escalation paths, reporting tools) so staff can raise the problem without fear.  \n3. **Address the risk promptly** by reviewing the scanning process, aligning it with SLA requirements, and ensuring the security VP is aware that escalation is a normal, constructive step—not a blame‑game.  \n\nBy doing so, the team can mitigate the high risk associated with the delayed scans while maintaining the organization’s culture of proactive, results‑focused problem solving.",
+    "correctness": 0.9,
+    "correctnessReason": "Accurate, misses specific escalation content details",
+    "faithfulness": 1,
+    "faithfulnessReason": "Strictly grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Directly addresses the scenario",
+    "guardrail": 1,
+    "guardrailReason": "Properly handled normal question",
+    "latency": {
+      "retrievalMs": 947,
+      "rerankMs": 444,
+      "genMs": 1241,
+      "totalMs": 2632
+    },
+    "tokens": {
+      "jinaTokens": 1270,
+      "genTokens": 1184,
+      "judgeTokens": 1409
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_37": {
+    "query_id": "q_37",
+    "query_type": "hard_negative",
+    "query": "According to the operational event prioritization matrix in OPS10-BP03, if an operational event has a 'Medium' urgency level and a 'High' impact level, what incident severity level should it be assigned?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "According to the urgency and impact prioritization matrix, an operational event with Medium urgency and High impact is assigned an 'Urgent' severity level (whereas High urgency with High impact is 'Critical', and Low urgency with High impact is 'High')[cite: 276].",
+    "generated_answer": "The matrix assigns an **“Urgent”** incident severity level for a **Medium urgency** and **High impact** operational event.",
+    "correctness": 1,
+    "correctnessReason": "Correct severity level identified",
+    "faithfulness": 1,
+    "faithfulnessReason": "Supported by retrieved matrix",
+    "relevance": 1,
+    "relevanceReason": "Directly answers the question",
+    "guardrail": 1,
+    "guardrailReason": "No false premises present",
+    "latency": {
+      "retrievalMs": 1203,
+      "rerankMs": 561,
+      "genMs": 665,
+      "totalMs": 2429
+    },
+    "tokens": {
+      "jinaTokens": 1663,
+      "genTokens": 1298,
+      "judgeTokens": 1492
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_43": {
+    "query_id": "q_43",
+    "query_type": "keyword_dense",
+    "query": "Under SEC04-BP01 and SEC04-BP02, how long does CloudTrail Event history retain management events by default compared to CloudTrail Lake, and what schema and file format does Amazon Security Lake use?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "AWS CloudTrail Event history is enabled by default and retains management events for 90 days, whereas CloudTrail Lake retains CloudTrail logs for up to seven years and provides a SQL-based querying facility[cite: 386]. Amazon Security Lake normalizes and stores log data in Amazon S3 buckets as Apache Parquet files using the Open Cybersecurity Schema Framework (OCSF) format[cite: 386, 391].",
+    "generated_answer": "- **CloudTrail Event history** keeps management events for **90 days** by default.  \n- **CloudTrail Lake** can retain those logs for **up to seven years**.  \n\nAmazon Security Lake stores collected data **in the Open Cybersecurity Schema Framework (OCSF) schema** and writes the files in **Apache Parquet format**.",
+    "correctness": 1,
+    "correctnessReason": "Matches ground truth facts",
+    "faithfulness": 1,
+    "faithfulnessReason": "Supported by context",
+    "relevance": 1,
+    "relevanceReason": "Direct and concise",
+    "guardrail": 1,
+    "guardrailReason": "No issues",
+    "latency": {
+      "retrievalMs": 1153,
+      "rerankMs": 497,
+      "genMs": 1071,
+      "totalMs": 2721
+    },
+    "tokens": {
+      "jinaTokens": 1471,
+      "genTokens": 1383,
+      "judgeTokens": 1442
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_47": {
+    "query_id": "q_47",
+    "query_type": "semantic",
+    "query": "We want to establish a strict boundary around our organization so that only our trusted employees can access our company's S3 buckets and resources, and only when they are connecting from our expected networks. How do we build this?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "You should establish a data perimeter by combining identity-based controls, Service Control Policies (SCPs), and network controls (such as VPC endpoint policies using the aws:PrincipalOrgId condition)[cite: 377]. A data perimeter provides preventive guardrails that verify access is allowed only when the identity is trusted, the resource is trusted, and the network is expected[cite: 377, 378].",
+    "generated_answer": "To create a strict data‑perimeter that lets only your trusted employees (identities in your AWS Organization) access your S3 buckets and only from your approved networks, follow the controls described in the Well‑Architected Security Pillar:\n\n1. **Define the perimeter** – Treat your AWS Organization (and any on‑premises networks that need access) as the trusted boundary. See *Establish a data perimeter* (Source 2).\n\n2. **Restrict external principals with an SCP**  \n   * Create a Service Control Policy that denies all S3 (and other resource) actions when the requestor is **not** in your organization.  \n   * Use the `aws:PrincipalOrgID` condition key in the SCP to block access from any principal outside the org.  \n   * Attach the SCP at the root or OU level so it applies to all member accounts.  \n   * Remember: SCPs do **not** apply to service‑linked roles or AWS service principals (Source 1).\n\n3. **Add identity‑based controls**  \n   * In each account, attach IAM policies (or bucket policies) that also use the `aws:PrincipalOrgID` condition key to **allow** S3 actions **only** when the requester’s Org ID matches yours.  \n   * Example condition in a bucket policy:  \n     ```json\n     \"Condition\": {\n       \"StringEquals\": { \"aws:PrincipalOrgID\": \"o-xxxxxxxxxx\" }\n     }\n     ```\n\n4. **Enforce network controls**  \n   * Deploy **VPC endpoints** for Amazon S3 so traffic stays within your VPC.  \n   * Attach **VPC endpoint policies** that further restrict access to the bucket and also reference `aws:PrincipalOrgID` (as shown in Source 1).  \n   * This ensures the request originates from an approved VPC/network.\n\n5. **Combine the three layers** (SCP + IAM/bucket policy + VPC endpoint policy) to create a **defense‑in‑depth data perimeter** that verifies:\n   * **Identity** – requestor belongs to your organization (`aws:PrincipalOrgID`).  \n   * **Resource** – the S3 bucket is the intended, trusted resource.  \n   * **Network** – the request comes through your approved VPC endpoint/network.\n\n6. **Validate and iterate**  \n   * Test access from an employee account inside the org and from a network that uses the VPC endpoint – it should succeed.  \n   * Test from an external account or outside the VPC – it should be denied.  \n   * Adjust the SCP, IAM, or endpoint policies as needed to address any gaps.\n\nBy layering **service control policies**, **identity‑based conditions**, and **network‑level VPC endpoint policies**, you establish a strict data perimeter that only your trusted employees can use to reach your S3 buckets from the networks you designate.",
+    "correctness": 1,
+    "correctnessReason": "Accurate and complete",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Directly addresses question",
+    "guardrail": 1,
+    "guardrailReason": "No false premises",
+    "latency": {
+      "retrievalMs": 1474,
+      "rerankMs": 569,
+      "genMs": 2352,
+      "totalMs": 4395
+    },
+    "tokens": {
+      "jinaTokens": 1593,
+      "genTokens": 1815,
+      "judgeTokens": 2024
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_49": {
+    "query_id": "q_49",
+    "query_type": "hard_negative",
+    "query": "Under the AWS Shared Responsibility Model for patch management, how do our customer responsibilities differ when using Amazon ElastiCache or Amazon RDS compared to Amazon ElastiCache Serverless or Amazon DynamoDB?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "For AWS managed services operating on single-tenant architectures (such as Amazon ElastiCache, Amazon RDS, and Amazon OpenSearch Service), AWS releases patches and notifies customers, but the customer is responsible for reviewing updates, selecting maintenance windows, applying updates, or scheduling required restarts[cite: 296]. For AWS managed services operating on multi-tenant architectures (such as Amazon ElastiCache Serverless, Amazon DynamoDB, and Amazon S3), AWS applies patches automatically without requiring customer action[cite: 296].",
+    "generated_answer": "**Single‑tenant services (Amazon ElastiCache, Amazon RDS)**  \n- AWS patches the underlying infrastructure, but the customer must *review the available updates* and *facilitate patching* by selecting maintenance windows, applying the service updates, and scheduling any required restarts within the timeframes AWS communicates.\n\n**Multi‑tenant services (Amazon ElastiCache Serverless, Amazon DynamoDB)**  \n- AWS applies patches automatically *without requiring any customer action*.  \n- The customer’s role is limited to *consulting the patching and maintenance documentation* for each service to understand how AWS notifies them, what maintenance‑window options exist, and how updates are applied.",
+    "correctness": 1,
+    "correctnessReason": "Matches ground truth perfectly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully supported by context",
+    "relevance": 1,
+    "relevanceReason": "Directly addresses the question",
+    "guardrail": 1,
+    "guardrailReason": "No issues detected",
+    "latency": {
+      "retrievalMs": 971,
+      "rerankMs": 512,
+      "genMs": 2288,
+      "totalMs": 3771
+    },
+    "tokens": {
+      "jinaTokens": 1363,
+      "genTokens": 1516,
+      "judgeTokens": 1438
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_13": {
+    "query_id": "q_13",
+    "query_type": "keyword_dense",
+    "query": "What are the six core business objectives associated with adopting a SaaS delivery model according to the SaaS Architecture Fundamentals whitepaper?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_answer": "The six core business objectives associated with adopting a SaaS delivery model are agility, operational efficiency, frictionless onboarding, innovation, market response, and growth[cite: 52, 53].",
+    "generated_answer": "I don't have that detail — please contact our team at our support team.",
+    "correctness": 0,
+    "correctnessReason": "No answer provided",
+    "faithfulness": 1,
+    "faithfulnessReason": "No false claims",
+    "relevance": 0,
+    "relevanceReason": "Evasive response",
+    "guardrail": 1,
+    "guardrailReason": "Normal question",
+    "latency": {
+      "retrievalMs": 3253,
+      "rerankMs": 1225,
+      "genMs": 1287,
+      "totalMs": 5765
+    },
+    "tokens": {
+      "jinaTokens": 1057,
+      "genTokens": 999,
+      "judgeTokens": 1063
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_18": {
+    "query_id": "q_18",
+    "query_type": "semantic",
+    "query": "Why is letting individual customers stay on older versions of our software or giving them custom one-off features harmful to our engineering velocity and profit margins as we scale?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_answer": "Supporting standalone, one-off customer environments and separate versions increases operational complexity, requires dedicated management teams that add incremental expense per customer and erode margins, restricts cost optimization to single-customer scaling, and causes long release cycles where teams spend more time on testing mechanics than delivering new features[cite: 55, 56, 57].",
+    "generated_answer": "Letting each customer keep an older version or receive a custom, one‑off feature forces the provider to treat every installation as a separate environment. As the customer base grows, this creates several concrete problems that directly slow engineering work and erode margins:\n\n* **Longer, more complex release cycles** – When customers control which version they run, the provider must balance many update, migration and customization requests before a new capability can be released. The added analysis and coordination “devote more time to analyzing each new feature long before it’s released,” which reduces the number of releases each year and slows engineering velocity.\n\n* **Higher operational overhead** – Managing, updating, and supporting a distinct environment for every customer requires dedicated teams and separate scaling strategies. The “incremental staffing and costs associated with bringing on customers” increase as the customer count rises, directly cutting profit margins.\n\n* **Limited cost optimization** – Scaling is confined to the activity of a single customer, so the provider cannot achieve economies of scale across the whole tenant base. Separate scaling strategies for each customer add further expense.\n\n* **Incremental expenses per customer** – One‑off environments often demand “dedicated teams that provide separate management and operations experience for each customer,” introducing additional recurring costs for every new onboarding.\n\nTogether, these factors make the system harder to update, increase the time engineers spend on per‑customer work instead of core product development, and raise the cost per customer—ultimately harming both engineering velocity and profit margins as the business scales.",
+    "correctness": 1,
+    "correctnessReason": "Matches reference perfectly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Directly addresses question",
+    "guardrail": 1,
+    "guardrailReason": "No issues",
+    "latency": {
+      "retrievalMs": 1573,
+      "rerankMs": 623,
+      "genMs": 1533,
+      "totalMs": 3729
+    },
+    "tokens": {
+      "jinaTokens": 1554,
+      "genTokens": 1433,
+      "judgeTokens": 1663
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_22": {
+    "query_id": "q_22",
+    "query_type": "hard_negative",
+    "query": "If we use a Managed Service Provider (MSP) with full automation to provision and install our software for every new customer, is that the same thing as running a SaaS architecture?",
+    "target_doc": "saas-architecture-fundamentals.pdf",
+    "ground_truth_answer": "No, automating the installation of customer environments in an MSP model simply offloads management responsibility and typically allows customers to run different software versions in operationally separate environments[cite: 72, 73]. A true SaaS model requires all tenants to run the same version and be centrally onboarded, managed, operated, and billed through a single unified experience[cite: 73].",
+    "generated_answer": "No. Automating the provisioning and installation of each customer’s environment through an MSP does **not** make the solution a SaaS architecture.\n\nThe sources explain that:\n\n* **Automation alone isn’t enough** – “Only when you add all the other caveats previously discussed would this represent more of a true SaaS model.”【1†L1-L4】\n* An MSP typically **allows separate versions** per customer and treats each environment as operationally separate, whereas SaaS usually requires a single, centrally‑managed version that all tenants share【2†L4-L7】.\n* SaaS demands **centralized onboarding, management, operation, billing, and deep involvement** in tenant experience, metrics, and analytics—things that are handed off to the MSP in a typical MSP model【4†L1-L4】.\n\nTherefore, even with full automation, an MSP approach remains distinct from a true SaaS offering.",
+    "correctness": 1,
+    "correctnessReason": "Matches ground truth perfectly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully supported by context",
+    "relevance": 1,
+    "relevanceReason": "Direct and concise",
+    "guardrail": 1,
+    "guardrailReason": "Correctly refutes misconception",
+    "latency": {
+      "retrievalMs": 1485,
+      "rerankMs": 670,
+      "genMs": 1593,
+      "totalMs": 3748
+    },
+    "tokens": {
+      "jinaTokens": 1653,
+      "genTokens": 1452,
+      "judgeTokens": 1647
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_58": {
+    "query_id": "q_58",
+    "query_type": "multi_hop_cross_doc",
+    "query": "How do we build an end-to-end DevSecOps pipeline on AWS that blocks misconfigured CloudFormation templates before deployment, builds and cryptographically verifies hardened container and AMI images, checks for infrastructure drift in pre-production, and executes zero-downtime blue/green deployments with automated ML-driven rollbacks?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf, wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "First, in your CI/CD pipeline (AWS CodePipeline and AWS CodeBuild), validate infrastructure-as-code templates prior to deployment using AWS CloudFormation Guard and AWS Config proactive evaluation rules with CloudFormation Hooks[cite: 196, 447, 449]. Second, build hardened AMIs and container images using Amazon EC2 Image Builder (applying CIS Benchmarks and DISA STIG controls), store private package dependencies in AWS CodeArtifact, scan for CVEs using Amazon Inspector and Amazon ECR Image Scanning, and cryptographically sign artifacts with AWS Signer so AWS Lambda and Amazon EKS/ECR verify provenance before execution[cite: 418, 424, 425]. Third, in pre-production, run CloudFormation drift detection and change sets to catch out-of-band modifications[cite: 215]. Fourth, use AWS CodeDeploy (with AppSpec files) to orchestrate blue/green or canary deployments across EC2, ECS, and Lambda—plus managed blue/green deployments for Amazon Aurora and Amazon RDS—while monitoring health with Amazon CloudWatch anomaly detection, AWS X-Ray Insights, and Amazon DevOps Guru to trigger automatic rollbacks if regression tests or KPIs fail[cite: 215, 218, 222, 246, 251].",
+    "generated_answer": "**End‑to‑end DevSecOps pipeline using the AWS practices described in our Well‑Architected guidance**\n\n1. **Source control & IaC definition**  \n   * Store all CloudFormation templates (including security controls) in a version‑control system.  \n   * Define standard security controls declaratively in the templates — this is the foundation for automated testing and drift detection【Source 2】.\n\n2. **Automated template validation (guardrails)**  \n   * In the CI stage, run **AWS CloudFormation Guard** (or a similar static‑analysis tool) against every change to detect misconfigurations before the template is promoted【Source 2】.  \n   * If Guard finds a violation, the pipeline stops and the change is rejected, preventing a mis‑configured stack from reaching deployment.\n\n3. **Pre‑install checks & drift detection**  \n   * Before deploying to pre‑production, enable **drift detection** to identify any resources that have been altered outside of CloudFormation【Source 1】.  \n   * Use **change sets** to confirm that the intended stack update matches the actions CloudFormation will take【Source 1】.\n\n4. **Manual approval gate**  \n   * After the automated checks, a **manual approval step** in **AWS CodePipeline** authorizes the deployment to the pre‑production environment【Source 1】.\n\n5. **Build hardened container and AMI images**  \n   * Use **AWS CodeBuild** (as part of the pipeline) to build container images and AMIs.  \n   * (Cryptographic verification of the hardened images is not covered in the provided guidance; please contact our team for details.)\n\n6. **Deployment configuration**  \n   * Define deployment and validation steps in **AWS CodeDeploy AppSpec files** to control how the new resources are rolled out【Source 1】.  \n   * Configure **blue/green deployments** in CodeDeploy to achieve zero‑downtime releases.\n\n7. **Post‑deployment drift monitoring**  \n   * After the pre‑production deployment, continue to run drift detection to ensure the environment remains aligned with the IaC definitions【Source 1】.\n\n8. **Automated rollback**  \n   * CodeDeploy can automatically roll back a failed deployment based on health checks.  \n   * (ML‑driven rollback logic is not described in the provided material; please contact our team for further information.)\n\n**Summary** – By combining source‑controlled IaC, CloudFormation Guard validation, drift detection, manual approval in CodePipeline, image builds with CodeBuild, and blue/green deployments via CodeDeploy, you can create a DevSecOps pipeline that blocks misconfigured templates, checks for drift, and performs zero‑downtime releases.  \n\n*For details on cryptographic image verification and ML‑driven rollback mechanisms, I don’t have that information — please contact our support team.*",
+    "correctness": 0.4,
+    "correctnessReason": "Missing key security/ML components",
+    "faithfulness": 1,
+    "faithfulnessReason": "Strictly grounded in context",
+    "relevance": 0.8,
+    "relevanceReason": "Addresses question but incomplete",
+    "guardrail": 1,
+    "guardrailReason": "No false premises",
+    "latency": {
+      "retrievalMs": 924,
+      "rerankMs": 478,
+      "genMs": 3018,
+      "totalMs": 4420
+    },
+    "tokens": {
+      "jinaTokens": 1299,
+      "genTokens": 1888,
+      "judgeTokens": 2030
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_26": {
+    "query_id": "q_26",
+    "query_type": "keyword_dense",
+    "query": "How can we use Amazon Q Business under OPS02-BP01 and OPS02-BP02 to help our engineers find resource owners and operational procedures?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "Amazon Q Business is a generative AI conversational assistant that connects to enterprise data sources via over 40 prebuilt connectors—including Amazon S3, Microsoft SharePoint, Salesforce, and Atlassian Confluence—to answer questions, complete tasks, and make resource and process ownership documentation easily discoverable[cite: 130, 134].",
+    "generated_answer": "Amazon Q Business can be used as the conversational front‑end for the documentation required by **OPS02‑BP01** (resource owners) and **OPS02‑BP02** (process and procedure owners).\n\n1. **Document owners in a knowledge‑management system** – as the implementation steps prescribe, record the owners of each resource, process, and procedure in a central repository (e.g., SharePoint, Confluence, or an S3‑based data lake).  \n\n2. **Connect Amazon Q Business to that repository** – use one of the pre‑built connectors (SharePoint, Confluence, S3, etc.) to ingest the ownership data.  \n\n3. **Enable conversational queries** – engineers can ask Q Business questions such as “Who owns the <resource name> resource?” or “What is the change‑management procedure for <process name>?” and Q Business will retrieve the answer from the connected data source.  \n\n4. **Maintain up‑to‑date information** – as owners change, update the knowledge‑management system; Q Business will automatically reflect the latest data in its responses.\n\nBy linking Q Business to the documented ownership information, engineers get instant, AI‑driven access to the resource‑owner and operational‑procedure details required by OPS02‑BP01 and OPS02‑BP02.",
+    "correctness": 1,
+    "correctnessReason": "Accurate and complete",
+    "faithfulness": 1,
+    "faithfulnessReason": "Strictly grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Directly addresses question",
+    "guardrail": 1,
+    "guardrailReason": "No issues",
+    "latency": {
+      "retrievalMs": 1117,
+      "rerankMs": 515,
+      "genMs": 1701,
+      "totalMs": 3333
+    },
+    "tokens": {
+      "jinaTokens": 1682,
+      "genTokens": 1677,
+      "judgeTokens": 1812
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_32": {
+    "query_id": "q_32",
+    "query_type": "semantic",
+    "query": "How can we proactively test if our website's critical checkout paths are working during the middle of the night when no real customers are logged in?",
+    "target_doc": "wellarchitected-operational-excellence-pillar.pdf",
+    "ground_truth_answer": "You should configure Amazon CloudWatch Synthetics to run canaries—scripted routines that simulate user interactions on critical application workflows at scheduled intervals[cite: 179, 180]. Synthetic transactions catch edge-case issues and verify that the application functions properly even when real users aren't actively interacting with it[cite: 179].",
+    "generated_answer": "You can use **synthetic transactions** to test those critical checkout flows when no real users are on the site.  \n\n- **Set up synthetic transactions** that mimic the full checkout process (add‑to‑cart, payment, order confirmation, etc.).  \n- **Schedule them to run during the night** so they execute while real traffic is absent.  \n- The synthetic runs will **validate the business workflow** and confirm that the core functionality remains operational and efficient.  \n- Because synthetic transactions are a primary telemetry type, any failures will be detected **before real users encounter them**, enabling proactive issue detection and allowing you to remediate or roll back automatically.  \n\nThis approach gives you continuous, off‑hour visibility into the health of your checkout paths without relying on real‑user monitoring.",
+    "correctness": 0.9,
+    "correctnessReason": "Accurate, misses specific tool name",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully grounded in context",
+    "relevance": 1,
+    "relevanceReason": "Directly addresses question",
+    "guardrail": 1,
+    "guardrailReason": "No false premises",
+    "latency": {
+      "retrievalMs": 899,
+      "rerankMs": 644,
+      "genMs": 1440,
+      "totalMs": 2983
+    },
+    "tokens": {
+      "jinaTokens": 1628,
+      "genTokens": 1406,
+      "judgeTokens": 1527
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_41": {
+    "query_id": "q_41",
+    "query_type": "hard_negative",
+    "query": "We configured Attribute-Based Access Control (ABAC) in AWS IAM Identity Center using principal tags, and our developers assume a primary IAM role and then use role chaining to assume a second IAM role. Why are their ABAC tag conditions failing on the second role?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "When you use IAM role chaining from IAM roles assumed through AWS IAM Identity Center, values like source-identity and principal-tags do not propagate to subsequent chained roles, which is why role chaining with IAM Identity Center sessions is considered an anti-pattern for ABAC[cite: 346, 347].",
+    "generated_answer": "The tag‑based conditions are failing because the principal‑tag values you set when the user assumes the first IAM Identity Center role are **not carried over when the role is chained to a second role**.  \n\nWhen you use IAM Identity Center sessions, attributes such as `source‑identity` and `principal‑tags` do not propagate through role chaining. Consequently, the second role receives no principal‑tag information, so any ABAC policy that compares a `PrincipalTag` condition key to a resource tag cannot evaluate to true.  \n\nTo have ABAC work on the second role, you must avoid role chaining (or pass the needed tags by another supported method) so that the required principal tags are present on the role that accesses the resources.",
+    "correctness": 1,
+    "correctnessReason": "Matches ground truth exactly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully supported by context",
+    "relevance": 1,
+    "relevanceReason": "Directly answers the question",
+    "guardrail": 1,
+    "guardrailReason": "No false premises",
+    "latency": {
+      "retrievalMs": 1266,
+      "rerankMs": 774,
+      "genMs": 2255,
+      "totalMs": 4295
+    },
+    "tokens": {
+      "jinaTokens": 1490,
+      "genTokens": 1270,
+      "judgeTokens": 1450
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_44": {
+    "query_id": "q_44",
+    "query_type": "keyword_dense",
+    "query": "What new finding type and capabilities did Security Hub Advanced introduce when announced at re:Invent 2025 under SEC04-BP04?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "Announced at re:Invent 2025, Security Hub Advanced uses advanced analytics to automatically correlate, enrich, and prioritize security signals across Amazon GuardDuty, Amazon Inspector, Amazon Macie, and AWS Security Hub CSPM[cite: 397]. Correlated signals can generate a net-new 'exposure finding', which includes an assumed attack path based on vulnerabilities found in each resource[cite: 397].",
+    "generated_answer": "Security Hub Advanced added a **net‑new “exposure finding”** type. These findings are generated when Security Hub correlates signals and include an assumed attack path that ties together the vulnerabilities identified on each resource.  \n\nThe service also brings **advanced analytics** that automatically **correlate, enrich, and prioritize** security signals across your environment, and it integrates seamlessly with Amazon GuardDuty, Amazon Inspector, Amazon Macie, and AWS Security Hub CSPM.",
+    "correctness": 1,
+    "correctnessReason": "Matches ground truth perfectly",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully supported by context",
+    "relevance": 1,
+    "relevanceReason": "Directly answers the question",
+    "guardrail": 1,
+    "guardrailReason": "No false premises",
+    "latency": {
+      "retrievalMs": 1280,
+      "rerankMs": 664,
+      "genMs": 1454,
+      "totalMs": 3398
+    },
+    "tokens": {
+      "jinaTokens": 1377,
+      "genTokens": 1201,
+      "judgeTokens": 1295
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_48": {
+    "query_id": "q_48",
+    "query_type": "semantic",
+    "query": "We are worried that someone might accidentally store customer PII or healthcare data in an unapproved S3 bucket or application log file. How can we automatically discover and mask this without paying to scan every byte upfront?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "You can configure Amazon Macie to perform broad automated sensitive data discovery across your S3 buckets using cost-efficient data sampling techniques for preliminary analysis, followed by deeper sensitive data discovery jobs on specific buckets[cite: 435]. You can also use sensitive data detection features in Amazon CloudWatch Logs, AWS Glue, and Amazon SNS to automatically detect and mask PII[cite: 434, 436].",
+    "generated_answer": "You can use Amazon Macie’s sampling‑based discovery and ongoing‑scan features to find and protect accidental PII or health data without a full‑byte scan up front:\n\n1. **Initial sampling scan** – Configure Macie to run a broad, automated sensitive‑data discovery job that uses sampling techniques on your S3 buckets. This gives a cost‑efficient view of where sensitive data may reside before you run a deeper, full‑byte analysis. (Source 2)\n\n2. **Allow‑list authorized buckets** – In Macie, create an allow list for the S3 buckets that are approved to store sensitive data. Macie will then focus on buckets outside that list, helping you spot unauthorized storage such as log files. (Source 3)\n\n3. **Ongoing automated scans** – Enable Macie’s continuous scanning capability so new objects are examined as they are added. This provides detective control for accidental data placement. (Source 1, 3)\n\n4. **Auto‑remediation and masking** – When Macie flags data in an unauthorized location, trigger a run‑book that automatically moves the object to a restricted‑access bucket, applies a tag for attribute‑based access control, or masks the data. (Source 5)\n\n5. **Developer‑stage checks** – Provide developers with scanning tools (Macie, Amazon Comprehend, etc.) to run against test data during unit/integration testing, catching unexpected PII before it reaches production. (Source 5)\n\nBy combining a sampled initial discovery, allow‑listing, continuous Macie scans, and automated remediation/masking, you can automatically detect and protect accidental PII or healthcare data without paying to scan every byte upfront.",
+    "correctness": 1,
+    "correctnessReason": "Matches reference and context",
+    "faithfulness": 1,
+    "faithfulnessReason": "Fully grounded in chunks",
+    "relevance": 1,
+    "relevanceReason": "Directly addresses question",
+    "guardrail": 1,
+    "guardrailReason": "No false premises",
+    "latency": {
+      "retrievalMs": 1311,
+      "rerankMs": 502,
+      "genMs": 1681,
+      "totalMs": 3494
+    },
+    "tokens": {
+      "jinaTokens": 1567,
+      "genTokens": 1614,
+      "judgeTokens": 1807
+    },
+    "retrievedChunksCount": 5
+  },
+  "q_50": {
+    "query_id": "q_50",
+    "query_type": "hard_negative",
+    "query": "We want to secure east-west network traffic between our internal microservices on AWS. What are the authentication and authorization trade-offs between using mutual TLS (mTLS) on API Gateway/ALB, OAuth 2.0 JWT authorizers, and Amazon VPC Lattice with SigV4?",
+    "target_doc": "wellarchitected-security-pillar.pdf",
+    "ground_truth_answer": "Mutual TLS (mTLS) on API Gateway or ALB validates the identity of both sides of a TLS connection using X.509 certificates (e.g., from AWS Private CA), but mTLS only provides authentication and does not provide a mechanism for authorization[cite: 461]. OAuth 2.0 and OIDC with API Gateway JWT authorizers restrict access to API routes and support basic authorization via OAuth2 scopes, but complex authorization checks must still be implemented in the application layer[cite: 462]. Amazon VPC Lattice and API Gateway support the AWS Signature Version 4 (SigV4) protocol, which provides both strong caller authentication and policy-based authorization decisions for east-west traffic[cite: 461, 462].",
+    "generated_answer": "**Mutual TLS (mTLS) on API Gateway or ALB**  \n- **Authentication:** mTLS validates the identity of both the client and the server using X.509 certificates (often issued by AWS Private CA).  \n- **Authorization:** mTLS **does not provide** a built‑in mechanism for authorization; you must add separate policy or application logic to decide whether an authenticated client may call a service.  \n\n**Amazon VPC Lattice (or API Gateway) with SigV4**  \n- **Authentication:** SigV4 signs each request with temporary AWS credentials, proving the caller’s identity regardless of network location.  \n- **Authorization:** The signed identity can be combined with IAM policies (or other policy frameworks) to make an authorization decision, so authentication and authorization are handled together.  \n\n**Trade‑off summary**  \n- **mTLS** gives strong, certificate‑based mutual authentication but leaves authorization entirely to you.  \n- **SigV4** provides both authentication and a native path to authorization via IAM policies, eliminating the need for separate auth‑z logic.  \n\n**OAuth 2.0/JWT authorizers** – I don’t have that information; please contact our sales team.",
+    "correctness": 0.6,
+    "correctnessReason": "Missing OAuth details",
+    "faithfulness": 1,
+    "faithfulnessReason": "Grounded in context",
+    "relevance": 0.8,
+    "relevanceReason": "Direct but incomplete",
+    "guardrail": 1,
+    "guardrailReason": "No false premises",
+    "latency": {
+      "retrievalMs": 893,
+      "rerankMs": 666,
+      "genMs": 1433,
+      "totalMs": 2992
+    },
+    "tokens": {
+      "jinaTokens": 1291,
+      "genTokens": 1263,
+      "judgeTokens": 1550
+    },
+    "retrievedChunksCount": 5
+  }
+}

@@ -40,12 +40,34 @@ ${context}`;
     { role: "user", content: question },
   ];
 
-  const response = await genClient.chat.completions.create({
-    model: GEN_MODEL,
-    messages,
-    max_tokens: 1024,
-    temperature: 0.1,
-  });
+  let retries = 0;
+  let response: any;
+  while (true) {
+    try {
+      response = await genClient.chat.completions.create({
+        model: GEN_MODEL,
+        messages,
+        max_tokens: 1024,
+        temperature: 0.1,
+      });
+      break;
+    } catch (err: any) {
+      const isRateLimit =
+        err?.status === 429 ||
+        err?.code === "rate_limit_exceeded" ||
+        err?.message?.toLowerCase().includes("rate limit") ||
+        err?.message?.includes("429");
+
+      if (isRateLimit && retries < 5) {
+        retries++;
+        const retryAfter = Number(err?.headers?.["retry-after"]) || 5 * retries;
+        console.warn(`[generator] Groq 429 Rate Limit. Retrying in ${retryAfter}s (attempt ${retries}/5)...`);
+        await new Promise((r) => setTimeout(r, (retryAfter + 1) * 1000));
+      } else {
+        throw err;
+      }
+    }
+  }
 
   return {
     answer: response.choices[0]?.message?.content ?? "Sorry, I could not generate a response.",
