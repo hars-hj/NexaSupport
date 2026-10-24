@@ -60,6 +60,7 @@ NexaSupport combines:
 | Database / Auth | Supabase (Postgres + pgvector + Auth) |
 | Cache | Redis (Upstash-compatible) |
 | Embeddings | Google GenAI (`gemini-embedding-001`) |
+| Reranking | Jina AI reranker (`jina-reranker-v3.5`) |
 | LLM | Groq chat completion |
 
 ## Retrieval pipeline
@@ -68,7 +69,7 @@ NexaSupport combines:
 2. **Embed** the query (Google GenAI).
 3. **Semantic cache check** — cosine similarity against recently cached `{question, embedding, answer}` triples for the org; a close-enough hit skips retrieval, reranking, and generation entirely.
 4. **Hybrid retrieval** — Supabase `match_chunks` RPC (pgvector, org-scoped) + Postgres full-text search, fused via Reciprocal Rank Fusion.
-5. **Rerank** retrieved chunks with a lightweight LLM relevance pass.
+5. **Rerank** retrieved chunks with the Jina reranker model `jina-reranker-v3.5`, reordering the candidate chunks before final generation; if the Jina API key is missing, the app falls back to the original RRF order.
 6. **Generate** — system prompt built from retrieved context + session conversation history, sent to Groq for chat completion.
 7. **Write-back** — the answer is cached (both tiers) for future identical/near-duplicate questions, then saved to conversation history and logged to `query_logs` (latency, chunks retrieved, top score).
 
@@ -82,7 +83,7 @@ Cache entries expire on TTL; there's no manual invalidation, so re-uploading a d
 - Python 3.10+
 - A Supabase project (Postgres with `pgvector` enabled)
 - A Redis instance (e.g. Upstash)
-- API keys for Google GenAI (embeddings) and Groq (chat completion)
+- API keys for Google GenAI (embeddings), Jina reranking, and Groq (chat completion)
 
 ### Environment variables
 
@@ -91,11 +92,13 @@ Copy `backend/.env.example` to `backend/.env` and
 secrets out of frontend variables; only use the Supabase anon key in the
 frontend.
 
-The backend needs Supabase credentials, a Google GenAI embedding key, a Groq
-generation key, Redis, and the parser service URL. The judge Groq key, Jina
-reranker key, and evaluation variables are only needed for their respective
-optional features. `REDIS_URL` should point to your Redis instance (for
-example, `rediss://default:<password>@<host>:6379`).
+The backend needs Supabase credentials, a Google GenAI embedding key, a Jina
+reranker API key, a Groq generation key, Redis, and the parser service URL.
+The project defaults the reranker model to `jina-reranker-v3.5`, which is set
+via `JINA_RERANK_MODEL` (you can override it in `backend/.env` if needed). The
+judge Groq key and evaluation variables are optional and only needed for
+benchmarking/evaluation flows. `REDIS_URL` should point to your Redis instance
+(for example, `rediss://default:<password>@<host>:6379`).
 
 ### Run locally
 
@@ -116,7 +119,7 @@ npm install
 npm run dev
 
 # Widget app (separate Vite port)
-served by backends public folder.
+served by the backend's public folder.
 
 Install the widget on any page with:
 

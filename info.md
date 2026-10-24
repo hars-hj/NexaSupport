@@ -7,7 +7,7 @@ It combines:
 - a React frontend for authentication, chat sessions, and admin document upload
 - an Express backend for auth, chat, and file ingestion
 - a Python parser service to extract text from uploaded PDFs
-- a RAG (Retrieval-Augmented Generation) pipeline using embeddings and LLM chat completion, with a Redis-backed response cache to cut latency and LLM/embedding costs on repeated or near-duplicate questions
+- a RAG (Retrieval-Augmented Generation) pipeline using embeddings and LLM chat completion, with a Redis-backed response cache to cut latency and LLM/embedding costs on repeated or near-duplicate questions, and a parallelized request path that overlaps all independent work to keep cache-miss latency low
 - a multi-tenant organization model, where each admin account creates and owns an organization with its own widget key, widget configuration, and agents
 - an embeddable chat widget (separate React app, served in an iframe) that anonymous end-users interact with on a client's website, with session-based identity and optional email capture
 - a human-in-the-loop support ticket system, with a live WebSocket handoff between the widget and dedicated agent/admin dashboards
@@ -104,28 +104,64 @@ It combines:
   - `GET /api/chat/analytics` — query analytics for admins
 - Widget chat endpoint (public, `widget_key`-scoped):
   - `POST /api/chat` — accepts `{ widget_key, session_id, message }`. Resolves `org_id` from `widget_key`, then branches:
-    1. **If the session has an open ticket** (`status` = `waiting` or `in_progress`) — the message is saved to `ticket_messages` and broadcast to the agent via WebSocket; the RAG pipeline is skipped entirely.
-    2. **Else if it matches a casual-query pattern** (greetings, thanks, etc.) — a canned reply is returned without invoking retrieval, caching, or the LLM.
-    3. **Else** — the full RAG flow runs (cache check → embed → semantic cache check → hybrid retrieve → rerank → generate), scoped to the resolved `org_id`.
+    1. **If it matches a casual-query pattern** (greetings, thanks, etc.) — a canned reply is returned without invoking retrieval, caching, or the LLM.
+    2. **Else** all independent work is started at once (see the RAG chat flow below). The **open-ticket check** is one of those parallel tasks: if the session has an open ticket (`status` = `waiting` or `in_progress`), the message is saved to `ticket_messages` and broadcast to the agent via WebSocket, and the RAG pipeline exits early (any in-flight embedding/cache work is discarded).
+    3. **Else** — the full RAG flow completes (exact cache → semantic cache → hybrid retrieve → rerank → generate), scoped to the resolved `org_id`.
   - Returns `{ reply, sessionId, mode: 'ticket' | 'bot', ticketId?, escalated? }`
-- RAG chat flow, org-scoped:
-  1. **Exact-match cache check** — the incoming question is normalized and hashed; if an identical question was answered for this org within the cache TTL, the cached answer is returned immediately and steps 2–7 below are skipped entirely.
-  2. Backend embeds the user query using Google GenAI (`gemini-embedding-001`)
-  3. **Semantic cache check** — the query embedding is compared (cosine similarity) against recently cached question embeddings for this org; a close-enough match (above a tuned similarity threshold) returns the cached answer, skipping retrieval, reranking, and generation
-  4. Supabase vector search RPC `match_chunks` (takes a `p_org_id` parameter) retrieves top matching document chunks **for that org only**, combined with keyword full-text search via Reciprocal Rank Fusion
-  5. Chunks are reranked using a lightweight LLM relevance scoring pass
-  6. Conversation history for the session is loaded from `conversations`, scoped by `org_id` + `session_id`
-  7. A system prompt is built with retrieved context (referencing the org's configured `support_email` for the "I don't have that detail" fallback line) and sent to Groq LLM chat completion
-  8. The generated answer is written to both the exact-match and semantic caches (keyed to this org) before being returned, so future identical or near-duplicate questions from any user of this org can be served from cache
-  9. Answer is returned and both question and response are saved to `conversations`
-  10. Query metrics are logged to `query_logs` (`org_id`, latency, chunks retrieved, top score)
+- RAG chat flow, org-scoped (`ragService.ts`). The pipeline is **parallelized**: instead of running in sequential waves, everything that does not depend on something else starts at t=0 and the critical path is set by the slowest dependent chain.
+  1. **Casual check** — greetings/thanks short-circuit with a canned reply (no retrieval, cache, or LLM).
+  2. **Parallel start (t=0)** — these all begin at the same time:
+     - open-ticket (escalation) check
+     - conversation history fetch (capped at 8 messages, scoped by `org_id` + `session_id`)
+     - query embedding via Google GenAI (`gemini-embedding-001`)
+     - support-contact lookup (the org's configured `support_email`)
+     - exact-match cache lookup
+     Each promise started at t=0 has a no-op `.catch` attached, so an early exit (e.g. open ticket, cache hit) cannot cause an unhandled promise rejection. A small `timed()` helper replaces the repeated timer boilerplate used for stage logging.
+  3. **Guards resolve while the embedding is in flight** — on a cache miss the ticket check, history fetch, and exact-cache lookup normally finish before the embedding returns, so they add almost no latency to the critical path. An open ticket or an exact-cache hit returns immediately.
+  4. **Semantic cache check + hybrid retrieval** — once the embedding is ready, the query embedding is compared (cosine similarity) against recently cached question embeddings for this org; a close-enough match (above a tuned threshold) returns the cached answer. Otherwise Supabase vector search RPC `match_chunks` (takes a `p_org_id` parameter) retrieves top chunks **for that org only**, combined with keyword full-text search via Reciprocal Rank Fusion. Retrieval is already parallel internally.
+  5. **Rerank** — chunks are reranked using a lightweight LLM relevance scoring pass.
+  6. **Generate** — the support-contact promise is awaited only here (effectively 0ms, as it resolved long before). A system prompt is built from the retrieved context (referencing the org's `support_email` for the "I don't have that detail" fallback line) plus trimmed conversation history (see **History strategy**) and sent to Groq LLM chat completion.
+  7. **Background caching and logging** — the answer is returned to the user first; cache writes, saving the question/response to `conversations`, and `query_logs` writes happen in the background. Cache writes happen **only for self-contained questions** (see **Follow-up handling**).
+  8. **Query metrics** are logged to `query_logs` (`org_id`, latency, chunks retrieved, top score). `chunksRetrieved` is the raw retrieval count (`rawChunks.length`, before rerank trimming) and `topChunkScore` is the maximum retrieval similarity from `rawChunks`, never a rerank score.
+- Baseline trace for a cache-miss query ("what is amazon EKS") before optimization, for reference:
+
+  | Stage | Latency |
+  |---|---|
+  | Escalation + exact cache | 495ms |
+  | Embedding + contact + history | 697ms |
+  | Semantic cache + retrieval | 958ms |
+  | Rerank | 799ms |
+  | Generation | 963ms |
+  | **Total** | **3,915ms** |
+
+  After parallelization the estimated critical path is about **3.4s** (down from 3.9s), because the escalation check, history, contact lookup, and exact cache no longer run as separate waves in front of the embedding.
 - If no relevant chunks are found, the bot returns a fallback answer directing the user to contact support, and this event is treated as a signal that escalation (via the "Talk to a human" flow) may be appropriate — though escalation itself remains **user-initiated**, not automatically triggered (see below).
+
+#### Follow-up handling
+- `isSelfContained(question)` is a zero-latency heuristic (no LLM call). A question is treated as a **follow-up** if it has fewer than 3 words, starts with a follow-up opener (e.g. "and", "what about"), or contains a referring pronoun (e.g. "it", "that").
+- Follow-ups are handled differently from standalone questions:
+  - **Retrieval query** — the last user message is prepended to the follow-up to build a `retrievalQuery`, which is used for the embedding, keyword search, and reranking. This avoids embedding raw fragments like "what about pricing?". Because the retrieval query differs from the raw message, a follow-up costs one extra embedding call (about 700ms) compared with a cache-served standalone question.
+  - **Cache reads skipped** — follow-ups skip both the exact and semantic cache lookups, since the same words can mean different things in different conversations.
+  - **Cache writes skipped** — follow-up answers are never written to either cache, which prevents one user's conversation-dependent answer from being served to everyone in the org.
+- The heuristic errs on the safe side: false positives (a standalone question classified as a follow-up) only cause a cache skip, never a wrong cached answer.
+
+#### History strategy
+- The history fetch is already capped, so the DB query does not grow with session length. What grows is the prompt payload, because assistant answers are long.
+- History is **trimmed, not removed**:
+  - `selectHistory(history, needsContext)` keeps 1–2 turns for standalone questions and 3–4 turns for follow-ups.
+  - `trimMessage()` truncates assistant messages to 500 characters.
+  - The trimmed `contextHistory` is what is passed to `generateAnswer`. `retrievalQuery` still reads the full fetched history.
+  - The fetch limit was lowered from 10 to 8 messages, since 4 turns is the most that is ever used.
+- Why history was not removed entirely: the fetch is hidden behind the embedding call, so removing it saves almost no latency, and it would break follow-ups, clarification answers, and corrections.
+- **No session cache:** an in-memory session cache (30-minute TTL, 8 messages) was designed and then deliberately dropped. The consequence is a rare race where a follow-up sent within a few hundred ms of the previous turn may not yet see that turn in the DB read.
+- Alternatives if the history read ever becomes a bottleneck: have the client send the last 1–2 turns (treated as untrusted input), or embed/retrieve past turns or keep rolling summaries. The latter two were judged unnecessary for typical support sessions.
 
 #### Response caching
 - Implemented in `backend/src/controllers/ragCache.ts`, backed by Redis (Upstash in production/dev, or any Redis-compatible instance via `REDIS_URL`).
-- **Exact-match cache**: keyed on `org_id` + a SHA-256 hash of the normalized question. Cheapest possible check — no embedding call required — so it's checked first, before any embedding or retrieval work happens.
+- **Exact-match cache**: keyed on `org_id` + a SHA-256 hash of the normalized question. Cheapest possible check — no embedding call required. It is started at t=0 in parallel with the embedding, history fetch, and other work, so a hit returns immediately and a miss adds essentially no latency.
 - **Semantic cache**: keyed per `org_id`, storing recent `{ question, embedding, answer }` triples. A new query's embedding (already computed for retrieval, so this adds no extra embedding calls beyond the one retrieval needs) is compared via cosine similarity against cached entries; a hit above the similarity threshold returns the cached answer without running retrieval, reranking, or LLM generation.
 - Both caches are scoped per organization — an org's cached answers are never visible to or reused by another org, matching the multi-tenant isolation used everywhere else in the backend.
+- **Only self-contained questions are cached.** Follow-ups (per `isSelfContained()`, see **Follow-up handling**) skip both cache reads and cache writes, so conversation-dependent answers can never be served to other users.
 - Cache entries expire automatically (TTL-based); there is no manual cache invalidation. Re-uploading or changing an org's knowledge base does not currently purge its existing cache entries, so stale answers can persist until TTL expiry — worth keeping in mind when testing changes to uploaded documents.
 - Purpose: reduce latency and cost on repeated or near-duplicate questions, which are common in a support-chatbot setting (e.g. "how do I cancel a trip" vs. "how can I cancel my trip").
 
@@ -265,7 +301,7 @@ A separate, standalone React + Vite app, deployed independently and rendered ins
 4. The admin visits Settings to copy the install script tag (containing their `widget_key`) onto their site, and optionally customizes widget behavior (bot name, colors, welcome message, quick questions, support email, etc.) via widget configuration.
 5. The admin creates agent accounts from the admin panel (email + password chosen by the admin); agents are added to the organization with an `agent` role for handling tickets. **Agents log in at the same `/login` page using the credentials the admin created for them** — there is no separate agent signup flow.
 6. A visitor on the customer's website opens the embedded widget; a `session_id` is generated and stored locally, and the widget loads any existing bot/ticket history for that session.
-7. The visitor asks questions; each question first checks the org-scoped Redis cache (exact match, then semantic match) — a hit returns instantly with no embedding, retrieval, or LLM call. On a miss, the question is answered by the RAG pipeline, scoped to the organization's own documents, unless a support ticket is already open for that session (in which case messages route to the live agent conversation instead). Generated answers are written back to the cache for future reuse.
+7. The visitor asks questions; casual messages get a canned reply; otherwise the ticket check, history fetch, embedding, support-contact lookup, and exact-cache lookup all start in parallel. A support ticket already open for that session routes the message to the live agent conversation instead. An exact or semantic cache hit (org-scoped Redis) returns with no retrieval, rerank, or LLM call. On a miss, the question is answered by the RAG pipeline, scoped to the organization's own documents, with follow-ups getting a context-aware retrieval query and trimmed history. Generated answers to self-contained questions are written back to the cache in the background for future reuse.
 8. If the bot can't help, the visitor can click "Talk to a human," optionally providing an email, which creates a `support_tickets` row and notifies all connected agents/admins live via WebSocket.
 9. An agent or admin claims the ticket from their dashboard (claim is atomic at the DB level, preventing double-claims); the ticket moves to their Active tab, and they see the full pre-escalation bot conversation plus the live ticket thread.
 10. The agent and the widget user exchange messages in real time over the `ticket_<id>` WebSocket room.
@@ -279,5 +315,6 @@ A separate, standalone React + Vite app, deployed independently and rendered ins
 - The backend enforces admin-only access for uploading and listing files, managing settings/widget configuration, regenerating the widget key, and creating agent accounts. Agent accounts, once created by an admin, have their own authenticated access to the ticket dashboards and endpoints, scoped to their org.
 - Every admin/agent-scoped backend endpoint resolves the organization from the authenticated caller's `organization_members` row rather than trusting a client-supplied org id; every widget-facing endpoint resolves the organization from the request's `widget_key` rather than trusting a client-supplied org id. Neither ever trusts an `org_id` sent directly by the client.
 - Escalation to a human agent is user-initiated only (a "Talk to a human" action in the widget) — there is no automated escalation-intent detection model in the chat pipeline, keeping the RAG response path free of extra latency.
-- The RAG response cache (exact-match + semantic, Redis-backed, per-org) reduces latency and LLM/embedding cost on repeated or near-duplicate questions; it has no manual invalidation, so cache entries persist until TTL expiry even after the underlying knowledge base changes.
+- The RAG response cache (exact-match + semantic, Redis-backed, per-org) reduces latency and LLM/embedding cost on repeated or near-duplicate questions; it has no manual invalidation, so cache entries persist until TTL expiry even after the underlying knowledge base changes. Follow-up questions bypass the cache entirely (reads and writes) to avoid cross-user cache poisoning.
+- The RAG request path is parallelized: all independent work (ticket check, history, embedding, support contact, exact cache) starts at t=0, bringing the estimated cache-miss critical path from about 3.9s to about 3.4s. History sent to the LLM is trimmed (1–2 turns standalone, 3–4 turns for follow-ups, assistant messages capped at 500 chars) rather than removed.
 - The core value is a document-powered chatbot that can answer questions from uploaded PDF knowledge bases, deployed per-organization via an embeddable widget, with a live human-agent fallback when the bot can't help.
